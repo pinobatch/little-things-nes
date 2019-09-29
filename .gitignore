@@ -2,5 +2,7 @@
 obj/nes/*.chr
 obj/nes/*.s
 *.zip
+map.txt
+zip.in
 tellinglys/tellinglys.nes
 
