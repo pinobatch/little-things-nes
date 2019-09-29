@@ -1,0 +1,6 @@
+*.o
+obj/nes/*.chr
+obj/nes/*.s
+*.zip
+tellinglys/tellinglys.nes
+
