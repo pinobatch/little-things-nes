@@ -1,0 +1,6 @@
+0.02 (2017-03-11)
+* Complete rewrite to make test result clearer to novices now that
+  the cause is understood
+
+0.01 (2017-02-27)
+* initial release with blinking square
