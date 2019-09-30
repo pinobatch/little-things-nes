@@ -12,13 +12,6 @@
 from __future__ import with_statement, print_function, unicode_literals
 from PIL import Image
 from time import sleep
-import array
-
-def blank_byte_array():
-    try:
-        return array.array('B')
-    except TypeError:
-        return array.array(b'B')
 
 def formatTilePlanar(tile, planemap, hflip=False, little=False):
     """Turn a tile into bitplanes.
@@ -38,7 +31,7 @@ Planemap opcodes:
     if hflip:
         for row in pixelrows:
             row.reverse()
-    out = blank_byte_array()
+    out = bytearray()
 
     planemap = [[[int(c) for c in row]
                  for row in plane.split(',')]
@@ -55,16 +48,15 @@ Planemap opcodes:
         for pxrow in pixelrows:
             for rowplane in plane:
                 rowbits = 1
-                thisrow = blank_byte_array()
+                thisrow = bytearray()
                 for px in pxrow:
                     for bitnum in rowplane:
                         rowbits = (rowbits << 1) | ((px >> bitnum) & 1)
                         if rowbits >= 0x100:
                             thisrow.append(rowbits & 0xFF)
                             rowbits = 1
-                if little: thisrow.reverse()
-                out.extend(thisrow)
-    return out.tobytes()
+                out.extend(thisrow[::-1] if little else thisrow)
+    return bytes(out)
 
 def pilbmp2chr(im, tileWidth=8, tileHeight=8,
                formatTile=lambda im: formatTilePlanar(im, "0;1")):
@@ -111,6 +103,12 @@ def parse_argv(argv):
     parser.add_option("--little", dest="little",
                       help="reverse the bytes within each row-plane (needed for GBA and a few others)",
                       action="store_true", default=False)
+    parser.add_option("--add", dest="addamt",
+                      help="value to add to each pixel",
+                      type="int", default=0)
+    parser.add_option("--add0", dest="addamt0",
+                      help="value to add to pixels of color 0 (if different)",
+                      type="int", default=None)
     (options, args) = parser.parse_args(argv[1:])
 
     tileWidth = int(options.tileWidth)
@@ -141,8 +139,12 @@ def parse_argv(argv):
         if sys.stdout.isatty():
             raise ValueError("cannot write CHR to terminal")
 
+    addamt, addamt0 = options.addamt, options.addamt0
+    if addamt0 is None: addamt0 = addamt
+
     return (infilename, outfilename, tileWidth, tileHeight,
-            options.packbits, options.planes, options.hflip, options.little)
+            options.packbits, options.planes, options.hflip, options.little,
+            addamt, addamt0)
 
 argvTestingMode = True
 
@@ -165,12 +167,21 @@ def main(argv=None):
             argv.extend(input('args:').split())
     try:
         (infilename, outfilename, tileWidth, tileHeight,
-         usePackBits, planes, hflip, little) = parse_argv(argv)
+         usePackBits, planes, hflip, little,
+         addamt, addamt0) = parse_argv(argv)
     except Exception as e:
         sys.stderr.write("%s: %s\n" % (argv[0], str(e)))
         sys.exit(1)
 
     im = Image.open(infilename)
+
+    # Subpalette shift
+    if addamt or addamt0:
+        px = bytearray(im.getdata())
+        for i in range(len(px)):
+            thispixel = px[i]
+            px[i] = thispixel + (addamt if thispixel else addamt0)
+        im.putdata(px)
 
     outdata = pilbmp2chr(im, tileWidth, tileHeight,
                          lambda im: formatTilePlanar(im, planes, hflip, little))
@@ -181,7 +192,7 @@ def main(argv=None):
         outdata = PackBits(outdata).flush().tostring()
         outdata = b''.join([chr(sz >> 8), chr(sz & 0xFF), outdata])
 
-    # Read input file
+    # Write output file
     outfp = None
     try:
         if outfilename != '-':
