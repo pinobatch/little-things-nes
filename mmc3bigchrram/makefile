@@ -50,7 +50,7 @@ else
 DOTEXE=
 endif
 
-.PHONY: run dist zip clean
+.PHONY: run all dist zip clean
 
 run: $(title).nes
 	$(EMU) $<
@@ -69,6 +69,8 @@ $(title)-$(version).zip: zip.in $(title).nes README.md CHANGES.txt $(objdir)/ind
 
 $(objdir)/index.txt: makefile
 	echo Files produced by build tools go here, but caulk goes where? > $@
+
+all: $(title).nes
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr

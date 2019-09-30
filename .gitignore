@@ -1,4 +1,5 @@
 *.o
+*/obj/nes/*.1bpp
 */obj/nes/*.chr
 */obj/nes/*.ch1
 */obj/nes/*.s
@@ -9,6 +10,7 @@
 *.sav
 *.zip
 map.txt
+nsfmap.txt
 zip.in
 tellinglys/tellinglys.nes
 __pycache__

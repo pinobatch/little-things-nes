@@ -38,12 +38,14 @@ else
   PY:=python3
 endif
 
-.PHONY: run debug dist zip clean dep
+.PHONY: all run debug dist zip clean dep
 
 run: $(title).nes
 	$(EMU) $<
 debug: $(title).nes
 	$(DEBUGEMU) $<
+
+all: $(title).nes
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.ch1 $(objdir)/*.chr $(objdir)/*.s

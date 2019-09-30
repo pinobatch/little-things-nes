@@ -57,6 +57,8 @@ $(title)-$(version).zip: zip.in $(title).nes $(title).nsf \
   $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
+all: $(title).nes
+
 # Build zip.in from the list of files in the Git tree
 zip.in:
 	git ls-files | grep -e "^[^.]" > $@

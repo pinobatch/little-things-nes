@@ -746,3 +746,8 @@ charloop:
 done:
   rts
 .endproc
+
+
+.segment "CHR"
+.incbin "obj/nes/bggfx.chr"
+.incbin "obj/nes/spritegfx.chr"

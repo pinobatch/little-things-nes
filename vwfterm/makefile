@@ -55,13 +55,15 @@ else
 DOTEXE=
 endif
 
-.PHONY: run dist zip clean
+.PHONY: run dist zip clean all
 
 run: $(title).nes
 	$(EMU) $<
 
+all: $(title).nes
+
 clean:
-	-rm $(objdir)/*.o $(objdir)/*.chr $(objdir)/*.ov53 $(objdir)/*.sav $(objdir)/*.pb53 $(objdir)/*.s
+	-rm $(objdir)/*.o $(objdir)/*.1bpp $(objdir)/*.s
 
 # Rule to create or update the distribution zipfile by adding all
 # files listed in zip.in.  Actually the zipfile depends on every

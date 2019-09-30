@@ -77,6 +77,7 @@ $(objdir)/index.txt: makefile
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr $(objdir)/*.nam
+	-rm $(objdir)/*.sav
 
 # Rules for PRG ROM
 

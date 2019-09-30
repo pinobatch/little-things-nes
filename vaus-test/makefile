@@ -30,7 +30,7 @@ imgdir = tilesets
 EMU := "$(HOME)/.wine/drive_c/Program Files/FCEUX/fceux.exe"
 # other options for EMU are start (Windows) or gnome-open (GNOME)
 
-.PHONY: run dist zip
+.PHONY: run dist zip all clean 
 
 run: $(title).nes
 	$(EMU) $<
@@ -47,18 +47,20 @@ zip: $(title)-$(version).zip
 $(title)-$(version).zip: zip.in $(title).nes README.txt $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
-%.nes: %.prg %.chr
-	cat $^ > $@
-
 $(objdir)/index.txt: makefile
-	echo Files produced by build tools go here, but caulk goes where? > $@
+	echo Files produced by build tools go here > $@
+
+all: $(title).nes
+
+clean:
+	-rm $(objdir)/*.chr $(objdir)/*.o
 
 # Rules for PRG ROM
 
 objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
 
-map.txt $(title).prg: nes.ini $(objlistntsc)
-	$(LD65) -o $(title).prg -m map.txt -C $^
+map.txt $(title).nes: nes.ini $(objlistntsc)
+	$(LD65) -o $(title).nes -m map.txt -C $^
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.h $(srcdir)/ram.h
 	$(AS65) $(CFLAGS65) $< -o $@
@@ -68,11 +70,10 @@ $(objdir)/%.o: $(objdir)/%.s
 
 # Files that depend on .incbin'd files
 $(objdir)/title.o: todo.txt src/title.pkb
+$(objdir)/main.o: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
 
 # Rules for CHR ROM
 
-$(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
-	cat $^ > $@
-
 $(objdir)/%.chr: $(imgdir)/%.png
 	tools/pilbmp2nes.py $< $@
+
