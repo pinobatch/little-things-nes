@@ -1,4 +1,4 @@
-# little-things-nes
+# little things
 One-off tech demos and test ROMs for NES
 
 This repository will contain several tech demos for Nintendo
@@ -12,6 +12,7 @@ prior to 2019.
 - [Eighty](https://forums.nesdev.com/viewtopic.php?p=95153#p95153)
 - [Mapper 78 submappers](https://forums.nesdev.com/viewtopic.php?p=208395#p208395)
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
+- [Password save](https://forums.nesdev.com/viewtopic.php?p=64656#p64656)
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419)
 - [Telling LYs?](https://forums.nesdev.com/viewtopic.php?f=22&t=18998)
 - Text to spectrogram

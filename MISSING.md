@@ -1,16 +1,17 @@
 NES projects left to include:
 
-- Eighty
-- EQ (pink noise and sine sweep)
-- FME-7 RAM test
-- FME-7 IRQ test
-- Sprite Cans 2011 (music must be replaced)
+- [DPCM Split](https://forums.nesdev.com/viewtopic.php?p=65871#p65871)
+- [EQ (pink noise and sine sweep)](https://forums.nesdev.com/viewtopic.php?p=208506#p208506)
+- [FME-7 RAM test](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
+- [FME-7 IRQ test](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
 - Math library
-- "Old projects" folders of 1012 and X61
+- "Old projects" folder of 1012
 - porttest
-- [BNTest](http://forums.nesdev.com/viewtopic.php?p=79826#p79826)
+- Sprite Cans 2011 (music must be replaced)
+
+NES projects left to complete build system:
+- [BNTest](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
   (`_aorom`, `_h`, and `_v`) versions
-- Revised test for 28 CNROM behavior (part of vol4?)
 
 NES projects left to put in their own repos:
 
