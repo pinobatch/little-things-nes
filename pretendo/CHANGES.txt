@@ -1,0 +1,8 @@
+0.02 (2013-08-12)
+* added Nine Inch Nails-tendo (thanks nitro2k01)
+* added Mildendo, the capital of Lilliput (thanks Stilton J)
+* explained Game Boy's TMSS in more detail
+* explained all jokes in src/patterns.s
+
+0.01 (2013-02-11)
+* initial release

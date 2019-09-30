@@ -8,9 +8,11 @@ binaries := \
   dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
   eq/eq.nes \
+  meece/meece.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \
+  pretendo/pretendo.nes \
   spectralencode/spectral.nes \
   tellinglys/tellinglys.nes \
   test28/test28.nes \
