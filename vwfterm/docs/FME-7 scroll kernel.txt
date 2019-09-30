@@ -1,0 +1,78 @@
+Without IRQs, I can get 18 lines of text. With DMC IRQ, I can get a full screen (25-30 lines) of non-scrolling text. To scroll, I have to use a raster effect to cut off the top and bottom of the screen.
+
+FME-7 contains a CPU cycle counter, not a scanline counter, and must be adjusted for PAL. Are we going to want to support PAL NES in addition to NTSC NES?
+
+
+The FME-7 is the only ASIC mapper that we know can reach 128K of SRAM. But it isn't easy to get multiple split points.
+
+IRQ control ($0D)
+$00=pause, $80=count down and ack, $81=count down and enable
+IRQ time low ($0E)
+IRQ time high ($0F)
+
+Each frame has three split points: one at the bottom of the status bar, one at 12 lines into the scroll area, and one at 24 lines in.
+
+NTSC has 3 border lines above status and 2 border lines below it.
+NMI to end of line 0: (20+32)*341/3 = 5910 cycles
+  Set scroll to top of body area
+End of line 0 to end of line 12: (12*8)*341/3 = 10912 cycles
+  Switch in next 3 banks
+End of line 12 to end of line 24: (12*8)*341/3 = 10912 cycles
+  Set scroll to top of body area
+
+Dendy is similar but underscanned.
+NMI to end of line 0: (20+8)*341/3 = 3182 cycles
+  Set scroll to top of body area
+End of line 0 to end of line 24: (12*8)*341/3 = 10912 cycles
+  Switch in next 3 banks
+End of line 12 to end of line 24: (12*8)*341/3 = 10912 cycles
+  Switch in next 2 banks
+
+PAL NES has a slower CPU ratio and more of the vblank within NMI.
+NMI to end of line 0: (70+8)*341/3.2 = 8312 cycles
+  Set scroll to top of body area
+End of line 0 to end of line 24: (12*8)*341/3.2 = 10230 cycles 
+  Switch in next 3 banks
+End of line 12 to end of line 24: (12*8)*341/3.2 = 10230 cycles
+  Switch in next 2 banks
+
+The FME-7 CPU cycle's reload value is always $FFFF, not configurable like on MMC3. Writes to the low byte of the counter produce up to +/- 3px of jitter after the first write.  But we can avoid writing the counter's low byte if all IRQs are rounded to a multiple of 256 cycles.  Switching the CHR bank can be done at any time within the target line of text, for an 8*341/3.2 = 852 to 8*341/3 = 909 cycle window.  A scroll split requires precise timing, but a busy waiting loop can handle this.
+
+NMI:
+  Save A and X
+  Set IRQ to bottom of status bar
+  If a VRAM update is prepared:
+    Set CHR bank at PPU $0000
+    Run the update
+  Set scroll to the status bar
+  Reenable display
+  Set CHR bank 7 to the status bar
+  Restore $8000, X, and A
+
+IRQ 1:
+  Save A and X
+  Set scroll position
+  Acknowledge IRQ
+  Write high byte of counter to land within line 12
+  Write next 3 banks
+  Restore $8000, X, and A
+
+IRQ 2:
+  Save A and X
+  Acknowledge IRQ
+  Write high byte of counter to land near end of line 24
+  Write next 3 banks
+  Restore $8000, X, and A
+
+IRQ 3 (50 Hz)
+  Save A and X
+  Disable IRQ
+  Write next 2 banks
+  Restore $8000, X, and A
+
+IRQ 3 (60 Hz)
+  Save A and X
+  Disable IRQ
+  Set scroll position to blank area
+  Restore $8000, X, and A
+
