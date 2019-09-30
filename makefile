@@ -5,6 +5,7 @@ binaries := \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \
+  dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   parallax/parallax.nes \

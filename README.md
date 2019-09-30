@@ -9,6 +9,7 @@ prior to 2019.
 - [Action 53 (mapper 28) comprehensive test](http://forums.nesdev.com/viewtopic.php?p=102693#p102693)
 - [Convergence](https://forums.nesdev.com/viewtopic.php?p=215229#p215229)
 - [DAC nonlinear volume](https://forums.nesdev.com/viewtopic.php?f=6&t=16726)
+- [DPCM Split](https://forums.nesdev.com/viewtopic.php?p=65871#p65871)
 - [Eighty](https://forums.nesdev.com/viewtopic.php?p=95153#p95153)
 - [Mapper 78 submappers](https://forums.nesdev.com/viewtopic.php?p=208395#p208395)
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
