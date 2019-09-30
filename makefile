@@ -1,14 +1,15 @@
 zipfilename := "little-things-nes.zip"
 binaries := \
-  tellinglys/tellinglys.nes \
-  parallax/parallax.nes \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
+  parallax/parallax.nes \
+  spectralencode/spectral.nes \
+  tellinglys/tellinglys.nes \
   test78/test78-submapper3.nes
 
-# dacnonlinear and test78 have additional binaries to include,
-# but I have yet to figure out how to serialize their multiple makes.
-# Maybe by appending all to $(sort) results?
+# dacnonlinear, spectral, and test78 have additional binaries to
+# include, but I have yet to figure out how to serialize their
+# multiple make targets.  Maybe by appending all to $(sort) results?
 
 .PHONY: all clean dist zip zip.in $(binaries)
 
