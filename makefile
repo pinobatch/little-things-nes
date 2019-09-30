@@ -5,6 +5,7 @@ binaries := \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \
+  eighty/eighty.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   parallax/parallax.nes \
   spectralencode/spectral.nes \

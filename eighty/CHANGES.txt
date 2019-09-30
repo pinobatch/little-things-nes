@@ -1,0 +1,6 @@
+0.02 ()
+* pads.s uses variable names, not raw addresses
+* Missing RTS at end of draw_fourscore restored
+
+0.01 (2012-06-06)
+* initial release
