@@ -7,6 +7,7 @@ binaries := \
   dacnonlinear/dacnonlinear.nsf \
   dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
+  eq/eq.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \

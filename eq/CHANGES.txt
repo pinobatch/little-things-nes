@@ -1,0 +1,8 @@
+0.02 (2017-11-22)
+* sinusweep: Compensate for DAC nonlinearity (reported by ap9)
+* sinusweep: Turn off rendering to minimize PPU crosstalk
+* Correctly turn off NMI handler during playback (reported by ap9)
+* pinklfsr: Check for B button press more often
+
+0.01 (2017-03-27)
+* initial release
