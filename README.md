@@ -19,6 +19,7 @@ prior to 2019.
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419)
 - [Telling LYs?](https://forums.nesdev.com/viewtopic.php?f=22&t=18998)
 - Text to spectrogram
+- Tuning table generator for NSD.Lib
 - [Vaus Test](https://forums.nesdev.com/viewtopic.php?f=22&t=10662)
 - [VWF terminal](https://forums.nesdev.com/viewtopic.php?f=2&t=12436)
 
