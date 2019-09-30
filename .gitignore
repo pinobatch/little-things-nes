@@ -1,4 +1,5 @@
 *.o
+*/obj/nes/*.bin
 */obj/nes/*.1bpp
 */obj/nes/*.chr
 */obj/nes/*.ch1
@@ -9,6 +10,7 @@
 */*.nsf
 *.sav
 *.zip
+*/*.prg
 map.txt
 nsfmap.txt
 zip.in

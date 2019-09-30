@@ -7,6 +7,8 @@ binaries := \
   parallax/parallax.nes \
   spectralencode/spectral.nes \
   tellinglys/tellinglys.nes \
+  test28/test28.nes \
+  test28/test28-8Mbit.nes \
   test78/test78-0h.nes \
   test78/test78-0v.nes \
   test78/test78-78ines.nes \

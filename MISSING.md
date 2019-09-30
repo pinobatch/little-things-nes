@@ -8,8 +8,7 @@ NES projects left to include:
 - Math library
 - "Old projects" folders of 1012 and X61
 - porttest
-- BNTest
-- Test28
+- [BNTest](http://forums.nesdev.com/viewtopic.php?p=79826#p79826)
 - Revised test for 28 CNROM behavior (part of vol4?)
 
 NES projects left to put in their own repos:
