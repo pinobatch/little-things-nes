@@ -10,25 +10,26 @@
 #
 
 # These are used in the title of the NES program and the zip file.
-title = vaus-test
-version = 0.02
+title := vaus-test
+version := 0.02
 
 # Space-separated list of asm files
-objlist = vauspads main detailed ppuclear bcd
+objlist := vauspads main detailed ppuclear bcd
 
-AS65 = ca65
-LD65 = ld65
-CFLAGS65 = 
-objdir = obj/nes
-srcdir = src
-imgdir = tilesets
+AS65 := ca65
+LD65 := ld65
+CFLAGS65 := 
+objdir := obj/nes
+srcdir := src
+imgdir := tilesets
 
 # FCEUX for Windows has a better GUI for choosing alternate
 # controllers than FCEUX for SDL.
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 #EMU := fceux
-EMU := "$(HOME)/.wine/drive_c/Program Files/FCEUX/fceux.exe"
+EMU := "$(HOME)/.wine/drive_c/Program Files (x86)/FCEUX/fceux.exe"
 # other options for EMU are start (Windows) or gnome-open (GNOME)
+PY := python3
 
 .PHONY: run dist zip all clean 
 
@@ -75,5 +76,5 @@ $(objdir)/main.o: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
 # Rules for CHR ROM
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py $< $@
+	$(PY) tools/pilbmp2nes.py $< $@
 

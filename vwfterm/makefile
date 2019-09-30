@@ -50,9 +50,11 @@ CFLAGS = -std=gnu99 -Wall -DNDEBUG -O
 # not.  COMSPEC will be set to the name of the shell on Windows and
 # not defined on UNIX.
 ifdef COMSPEC
-DOTEXE=.exe
+DOTEXE:=.exe
+PY:=py -3
 else
-DOTEXE=
+DOTEXE:=
+PY:=python3
 endif
 
 .PHONY: run dist zip clean all
@@ -98,8 +100,8 @@ $(objdir)/term.o: $(objdir)/zthrobber.1bpp
 # Graphics conversion
 
 $(objdir)/%.s: tools/vwfbuild.py tilesets/%.png
-	$^ $@
+	$(PY) $^ $@
 
 $(objdir)/%.1bpp: tools/pilbmp2nes.py tilesets/%.png
-	$^ --planes=0 -o $@
+	$(PY) $^ --planes=0 -o $@
 
