@@ -1,5 +1,6 @@
 zipfilename := "little-things-nes.zip"
 binaries := \
+  bntest/bntest.nes \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \

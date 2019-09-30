@@ -9,6 +9,7 @@ NES projects left to include:
 - "Old projects" folders of 1012 and X61
 - porttest
 - [BNTest](http://forums.nesdev.com/viewtopic.php?p=79826#p79826)
+  (`_aorom`, `_h`, and `_v`) versions
 - Revised test for 28 CNROM behavior (part of vol4?)
 
 NES projects left to put in their own repos:
