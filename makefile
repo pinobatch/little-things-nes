@@ -9,6 +9,8 @@ binaries := \
   dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
   eq/eq.nes \
+  fme7acktest/fme7acktest.nes \
+  fme7ramtest/fme7ramtest.nes \
   iretiny/iretiny.nes \
   iretiny/iretiny218.nes \
   meece/meece.nes \

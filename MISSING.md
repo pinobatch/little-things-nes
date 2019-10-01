@@ -1,13 +1,11 @@
 NES projects left to include:
 
-- Boing2k7
-- [FME-7 RAM test](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
-- [FME-7 IRQ test](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
 - Math library
 - "Old projects" folder of 1012
 - porttest
-- [rgb121](https://forums.nesdev.com/viewtopic.php?p=94658#p94658)
+- [rgb121](https://forums.nesdev.com/viewtopic.php?p=94658#p94658) (images must be replaced)
 - [Sprite Cans 2011](http://forums.nesdev.com/viewtopic.php?p=77094#p77094) (music must be replaced)
+- Who's Cuter 2011 (images must be replaced)
 - Explore TravelMate and Dimension
 
 NES projects left to complete build system:

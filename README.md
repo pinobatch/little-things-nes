@@ -15,6 +15,8 @@ prior to 2019.
 - [DPCM Split](https://forums.nesdev.com/viewtopic.php?p=65871#p65871)
 - [EQ test (pink noise and sine sweep)](https://forums.nesdev.com/viewtopic.php?p=208506#p208506)
 - [Eighty](https://forums.nesdev.com/viewtopic.php?p=95153#p95153)
+- [FME-7 big PRG RAM](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
+- [FME-7 IRQ acknowledgment](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
 - [IRE tiny](https://forums.nesdev.com/viewtopic.php?p=159262#p159262)
 - [Mapper 78 submappers](https://forums.nesdev.com/viewtopic.php?p=208395#p208395)
 - Meece
