@@ -69,9 +69,6 @@ zip: $(title)-$(version).zip
 $(title)-$(version).zip: zip.in $(title).nes README.txt $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
-%.nes: %.prg %.chr
-	cat $^ > $@
-
 $(objdir)/index.txt: makefile
 	echo Files produced by build tools go here > $@
 

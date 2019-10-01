@@ -531,9 +531,10 @@ hello8:  .byt "timer to hide the top and",0
 hello9:  .byt "bottom of the background.",0
 hello10: .byt "Too bad it can't do 720p :(",0
 
-
 .segment "DMC"
 .align 64
 sampledata:
   .res 17,$00
 
+.segment "CHR"
+.incbin "obj/nes/ac16.chr"

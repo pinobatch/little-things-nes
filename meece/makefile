@@ -69,7 +69,7 @@ clean:
 objlistntsc := $(foreach o,$(objlist),$(objdir)/$(o).o)
 
 map.txt $(title).nes: nes.ini $(objlistntsc)
-	$(LD65) -C $^ -m map.txt -o $(title).prg
+	$(LD65) -C $^ -m map.txt -o $(title).nes
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 	$(AS65) $(CFLAGS65) $< -o $@

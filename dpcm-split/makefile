@@ -42,7 +42,7 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 map.txt dpcmletterbox.nes: NROM.ini $(objlistntsc)
-	$(LD65) -m map.txt -o dpcmletterbox.prg -C $^
+	$(LD65) -m map.txt -o dpcmletterbox.nes -C $^
 
 $(objdir)/main.o: $(objdir)/ac16.chr
 
