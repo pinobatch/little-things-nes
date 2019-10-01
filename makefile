@@ -2,14 +2,18 @@ zipfilename := "little-things-nes.zip"
 binaries := \
   a53bigchrram/a53bigchrram.nes \
   bntest/bntest.nes \
+  boing2k7/boing2k7.nes \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \
   dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
   eq/eq.nes \
+  iretiny/iretiny.nes \
+  iretiny/iretiny218.nes \
   meece/meece.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
+  palphase/palphase.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \
   pretendo/pretendo.nes \

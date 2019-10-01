@@ -12,8 +12,8 @@
 *.sav
 *.zip
 */*.prg
-map.txt
-nsfmap.txt
+*/map.txt
+*/map218.txt
+*/nsfmap.txt
 zip.in
-tellinglys/tellinglys.nes
 __pycache__
