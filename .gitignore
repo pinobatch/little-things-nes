@@ -7,6 +7,7 @@
 */obj/nes/*.nam
 */obj/nes/*.pb53
 */obj/nes/*.dmc
+*/obj/nes/*.121
 */*.nes
 */*.nsf
 *.sav

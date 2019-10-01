@@ -26,6 +26,7 @@ prior to 2019.
 - [Password save](https://forums.nesdev.com/viewtopic.php?p=64656#p64656)
 - [PAL chroma phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629)
 - [Pretendo and other fake logos](https://forums.nesdev.com/viewtopic.php?p=116405#p116405)
+- [RGB121](https://forums.nesdev.com/viewtopic.php?p=94658#p94658)
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419)
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055)
 - [Telling LYs?](https://forums.nesdev.com/viewtopic.php?f=22&t=18998)
