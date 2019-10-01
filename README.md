@@ -32,6 +32,10 @@ prior to 2019.
 - Tuning table generator for NSD.Lib
 - [Vaus Test](https://forums.nesdev.com/viewtopic.php?f=22&t=10662)
 - [VWF terminal](https://forums.nesdev.com/viewtopic.php?f=2&t=12436)
+- [Zapper lag tests](https://forums.nesdev.com/viewtopic.php?f=9&t=10198)
+
+Many of them have patches to their build system to help them build
+under Python 3 and late-2010s versions of cc65.
 
 Most should be under the zlib license or an equivalent GNU
 all-permissive license, though this merits an audit.

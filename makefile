@@ -3,6 +3,8 @@ binaries := \
   a53bigchrram/a53bigchrram.nes \
   bntest/bntest.nes \
   boing2k7/boing2k7.nes \
+  bunny250/zapperlag.nes \
+  bunny250/a-white.nes \
   convergence/convergence.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \

@@ -13,6 +13,7 @@
 *.zip
 */*.prg
 */map.txt
+*/mapalt.txt
 */map218.txt
 */nsfmap.txt
 zip.in
