@@ -1,0 +1,70 @@
+I will use FC1003.A as an example.
+
+There is a prefix for the whole file, whose meaning is unknown.
+A Game Doctor extractor built as an FDS extractor can ignore it.
+00 00 83
+
+Chunk $01 at offset 0x0003 is the 56-byte file system header chunk,
+beginning with a 15-byte sync pattern:
+0: 01 "*NINTENDO-HVC*"
+
+15: Mfr code: FF
+16: Game fourcc: "B002"
+
+Rest of header is zero-filled, leading to these values:
+20: Revision: 00
+21: Side number: 00 (A)
+22: Disk number: 00 (Disk 1)
+23: Has shutter: 00 (no)
+24: Disk color: 00 (yellow)
+25: File IDs to load at startup: 00 (none)
+
+At offset 0x003B are two bytes representing where the CRC would be.
+CRCs are omitted in the scene's FDS format but included in complete
+images of a Quick Disk, such as those used by Virtual Console.
+In this image, all CRCs are zero.
+
+Chunk $02 at offset 0x003D is a 2-byte chunk denoting the number of
+files visible to FDS BIOS.
+0: 02
+1: File count: 3
+
+Chunk $03 at offset 0x0041 is a 16-byte directory entry describing
+the following file.
+
+0: 03
+1: Consecutive file number, first being 00
+2: File ID used with FDS API: 00
+3: 8-byte filename in ASCII: "CARDGAME"
+11: Destination address: 4FFF
+13: File size: 0008
+15: Region: 00 (WRAM)
+
+Chunk $04 at offset 0x0053 is the file contents.  This may configure
+the mapper.
+
+80 E0 "B002" 00 00
+
+Chunk $03 at offset 0x005E is another directory entry.
+0: 03
+1: Consecutive file number is also 00, making this invalid
+2: File ID is also 00
+3: Name is "CARDGAME"
+11: Destination address is 4FFF
+13: Size is 8000
+15: Region: 00 (WRAM)
+
+Chunk $04 at offset 0x0070 is file contents, obviously the PRG ROM.
+
+Chunk $03 at offset 0x8073 is a directory entry.
+
+0: 03
+1: Consecutive and ID still aren't set
+3: "CARDGAME" again
+11: Address: 4FFF
+13: Size: 2000
+15: Region: 01 (CHR RAM)
+
+Chunk $04 at offset 0x8085 is CHR contents.
+
+The next chunk would be expected at $A087, but the image ends there.

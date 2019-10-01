@@ -15,6 +15,7 @@ prior to 2019.
 - [DPCM Split](https://forums.nesdev.com/viewtopic.php?p=65871#p65871)
 - [EQ test (pink noise and sine sweep)](https://forums.nesdev.com/viewtopic.php?p=208506#p208506)
 - [Eighty](https://forums.nesdev.com/viewtopic.php?p=95153#p95153)
+- File extractor for Family Computer Disk System (FDS) images
 - [FME-7 big PRG RAM](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
 - [FME-7 IRQ acknowledgment](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
 - [IRE tiny](https://forums.nesdev.com/viewtopic.php?p=159262#p159262)
@@ -23,7 +24,7 @@ prior to 2019.
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
 - MMC3 save viewer
 - [Password save](https://forums.nesdev.com/viewtopic.php?p=64656#p64656)
-- [PAL phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629)
+- [PAL chroma phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629)
 - [Pretendo and other fake logos](https://forums.nesdev.com/viewtopic.php?p=116405#p116405)
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419)
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055)
