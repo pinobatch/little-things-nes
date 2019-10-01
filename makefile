@@ -15,6 +15,7 @@ binaries := \
   iretiny/iretiny218.nes \
   meece/meece.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
+  mmc3save/mmc3save.nes \
   palphase/palphase.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \
