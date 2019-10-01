@@ -6,7 +6,7 @@ Entertainment System that I've produced over more than a decade
 prior to 2019.
 
 - [Action 53 (mapper 28) big CHR RAM](https://forums.nesdev.com/viewtopic.php?p=190851#p190851)
-- [Action 53 (mapper 28) comprehensive test](http://forums.nesdev.com/viewtopic.php?p=102693#p102693)
+- [Action 53 (mapper 28) comprehensive test](https://forums.nesdev.com/viewtopic.php?p=102693#p102693)
 - [BNROM and AOROM size and mirroring test](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
 - [Boing 2007](https://forums.nesdev.com/viewtopic.php?p=62806#p62806)
 - [ca65 macros reimplementing 6502 mnemonics](https://forums.nesdev.com/viewtopic.php?f=2&t=10701)
@@ -25,6 +25,7 @@ prior to 2019.
 - [PAL phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629)
 - [Pretendo and other fake logos](https://forums.nesdev.com/viewtopic.php?p=116405#p116405)
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419)
+- [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055)
 - [Telling LYs?](https://forums.nesdev.com/viewtopic.php?f=22&t=18998)
 - Text to spectrogram
 - Tuning table generator for NSD.Lib

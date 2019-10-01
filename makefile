@@ -19,6 +19,7 @@ binaries := \
   parallax/parallax.nes \
   password-save/pwtest.nes \
   pretendo/pretendo.nes \
+  scaling/scaling.nes \
   spectralencode/spectral.nes \
   tellinglys/tellinglys.nes \
   test28/test28.nes \
