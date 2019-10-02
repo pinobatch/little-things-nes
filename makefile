@@ -21,7 +21,9 @@ binaries := \
   palphase/palphase.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \
+  porttest/porttest.nes \
   pretendo/pretendo.nes \
+  rgb121/rgb121.nes \
   scaling/scaling.nes \
   spectralencode/spectral.nes \
   tellinglys/tellinglys.nes \
