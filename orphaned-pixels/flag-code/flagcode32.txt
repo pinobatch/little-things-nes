@@ -1,0 +1,41 @@
+flags from International Code of Signals and US Navy
+
+file contains positions from ' ' to '_'
+
+' '..')': Navy numerals
+'0'..'9': ICoS numerals
+'@': Navy shift to ICoS; ICoS understood or decimal point
+'A'..'Z': ICoS letters
+'[': ICoS prompt pennant
+'\'..'_': ICoS substitute for 1st through 4th flag in word
+
+Programs using this file may cut off the top and bottom
+pixel of each flag in order to hoist flags onto a character
+cell grid.
+
+Programs on limited palette platforms may replace
+black with blue and white with yellow.
+
+color codes within file:
+black, blue, red, yellow, white: common ICoS colors
+green: rare ICoS color, used only in prompt signal
+sky blue: represents shape of flag
+light green: no flag encoded to this position
+
+For the substitutes, a "word" is a sequence of letters
+or a sequence of numerals. For instance, VV is V(1st),
+1100 is 1(1st)0(3rd), but L 2330 is L 23(2nd)0.
+In a numeral word, repeaters don't count '@' as
+decimal point.
+
+missing
+from http://flagspot.net/flags/flagicsr.html
+ICoS books on board pennant
+from http://flagspot.net/flags/flagicsx.html
+Swedish Aring, Auml, Ouml
+
+the US Navy's drawings:
+http://www.chinfo.navy.mil/navpalib/communications/flags/flags.html
+
+the OFFICIAL International Code of Signals
+http://164.214.12.145/pubs/pubs_j_show_sections.html?dpath=ICOS&ptid=7&rid=1466
