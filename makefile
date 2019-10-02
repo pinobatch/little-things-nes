@@ -15,6 +15,7 @@ binaries := \
   fme7ramtest/fme7ramtest.nes \
   iretiny/iretiny.nes \
   iretiny/iretiny218.nes \
+  mathlib/mathlib.prg \
   meece/meece.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   mmc3save/mmc3save.nes \

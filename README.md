@@ -29,6 +29,8 @@ prior to 2019.
 - [Mapper 78 submappers](https://forums.nesdev.com/viewtopic.php?p=208395#p208395):
   test for handling of nametable mirroring in ROMs intended to run
   on the _Uchuusen_ and _Holy Diver_ cartridge boards
+- Math library:
+  multiply, divide, square root, binary to decimal
 - Meece:
   first NES program to use a Super NES Mouse
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
@@ -37,6 +39,7 @@ prior to 2019.
 - [PAL chroma phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629):
   investigate how a TV comb filter combines scanlines in the video
   from various NES and famiclone models
+- Port test for famiclone assembly
 - [Pretendo and other fake logos](https://forums.nesdev.com/viewtopic.php?p=116405#p116405):
   generate entropy without a button press to randomly choose a parody
   logo to drop into the Game Boy boot ROM intro
