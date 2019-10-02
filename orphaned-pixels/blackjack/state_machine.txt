@@ -1,0 +1,28 @@
+Bet phase
+---------
+If a column is open, player can key in a bet.
+Pressing Enter after keying in a bet changes the bet to the minimum of the bet and player's funds, deducts the bet from the player's funds, and makes the column active.
+Pressing Enter without keying in a bet puts the rest of the columns in busted state.
+Make double and split inactive and unavailable on each column.
+Deal one card to the dealer.
+
+Deal phase
+----------
+For each unbusted column with fewer than 2 cards, deal one card.
+When the second card is dealt, evaluate each column.
+
+If upcard is A, ask for insurance now.
+
+If 21, stand.
+If 9, 10, 11, or soft, and the bet is no more than half the table limit, make double available.
+If a pair, make split available.
+
+If split is available, and the player's funds are no less than this column's bet, and at least one column is busted, show a question (Split)/(No).
+If chose Split, make double unavailable, move the second card to a new column, set the bet on that column, make split active on both columns, and return to deal phase.
+If chose No, make split unavailable.
+
+If double is available, and the player's funds are no less than this column's bet, show a question (Double)/(No).
+If chose Double, make double active.
+If chose No, make double unavailable.
+
+If chose Hit, or double is active, 
