@@ -1,0 +1,10 @@
+Start with all 144 mahjong tiles.  The bottom layer of the turtle
+layout is eight rows, which have from top to bottom 12, 18, 10, 12,
+12, 10, 8, and 12 tiles.  Centered on top of this, add layers of 6x6,
+4x4, and 2x2 tiles, and one tile centered on top of that.  Finally,
+add one tile to the left center and two tiles to the right center of
+the bottom layer.
+
+Officially the tiles use black, red, green, and blue
+
+so the pf is 16x8
