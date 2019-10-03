@@ -1,4 +1,4 @@
-.include "ram.h"
+.include "global.inc"
 
 ; ld65 won't spit out a function's address in the map
 ; unless the address is actually used in the program.

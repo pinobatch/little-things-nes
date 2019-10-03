@@ -26,7 +26,7 @@
 ; http://en.wikipedia.org/wiki/Binary_scaling#Binary_angles
 ;
 
-.include "ram.h"
+.include "global.inc"
 .segment "CODE"
 
 ;;

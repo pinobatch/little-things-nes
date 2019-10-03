@@ -1,4 +1,4 @@
-.include "ram.h"
+.include "global.inc"
 
 tempoCounterLo = 8
 tempoCounterHi = 9

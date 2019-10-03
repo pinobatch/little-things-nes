@@ -1,4 +1,4 @@
-.include "ram.h"
+.include "global.inc"
 
 
 ; 57 if any nonzero bits; less if all zero
