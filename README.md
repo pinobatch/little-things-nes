@@ -63,7 +63,12 @@ prior to 2019.
 - Projects that never proceeded past pixel art prototypes
 
 Many of them have patches to their build system to help them build
-under Python 3 and late-2010s versions of cc65.
+under Python 3 and late-2010s versions of cc65.  (To get set up to
+build, see the instructions for [nrom-template]).  The build process
+is tested under Debian and Ubuntu distributions of the GNU/Linux
+operating system and may need changes to work on Microsoft Windows.
 
 Most should be under the zlib license or an equivalent GNU
 all-permissive license, though this merits an audit.
+
+[nrom-template]: https://github.com/pinobatch/nrom-template/
