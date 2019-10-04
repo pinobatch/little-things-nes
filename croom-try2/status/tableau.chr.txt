@@ -1,0 +1,34 @@
+CHR file for tableau
+
+00-3F: constant (single) tiles
+00: white
+01: black
+02-0F: unused
+10-1F: corners of tile (10: blank)
+20-27: top and bottom of tile
+28-2F: left and right of tile
+
+30-3F: changeable tiles
+30-33: player 1 emblem
+34-37: player 2 emblem
+38-3B: turned card 1 emblem
+3C-3F: turned card 2 emblem
+
+40-7F: unused
+
+80-FF: constant tiles in 8x16 pixel order
+80-83: digit 0 in score bar
+84-87: digit 1 in score bar
+88-A7: digits 2-9 in score bar
+A8-A9: left side of score bar
+AA-AB: right pointing triangle over score bar (turn marker)
+AC-AD: score bar background
+AE-AF: narrow 1 in score bar (tens digit)
+B0-B1: right side of score bar
+B2-B3: card turning animation frame 1 (back)
+B4-B5: card turning animation frame 2 (edge on)
+B6-B7: card turning animation frame 3 (front)
+B8-BB: back of card (Pin Eight logo)
+BC-BF: arrow cursor
+
+C0-FF: unused

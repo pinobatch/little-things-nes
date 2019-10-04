@@ -1,0 +1,98 @@
+Menu structure for Concentration Room try 2 Emblem Designer
+
+Login screen:
+
+Emblems are drawn grayscale (30, 10, 00, 0F) on this screen.
+When the cursor moves, the chosen player's emblem is drawn in color using a sprite.
+
+If player chooses a name, the emblem select screen appears.
+
+If player chooses ---, registration appears: a virtual keyboard appears for the player to enter a name, and the smiley-face emblem is automatically assigned.
+
+If player chooses retire author, an authorization code consisting of eight randomly chosen keystrokes is displayed, and the player needs to enter it. If all eight keystrokes are valid, the author's login entry (but not saved emblems) is erased; otherwise it is not erased. Then go back to the login screen.
+
+
+Power on:
+1. Copyright screen
+2. Title screen
+3. Login screen
+3A. Retire author screen
+3B. Registration screen
+3C. Studio: Select drawer
+3CA. Studio: Select emblem
+3CAA. Edit Emblem...
+3CAB. Copy To...
+3CAC. Set as Favorite
+
+
+Press Start
+
+Retire screen:
+screens/retire.nam
+
+Registration after name is accepted:
+screens/welcome.nam
+
+Emblem select screen is organized into three drawers:
+O (emblems created by the player)
+B (predefined emblems)
+A (predefined emblems 2.
+Each drawer has 80 emblems, divided into 8 pages of 10.
+
+Selection sequence
+
+Select from drawer: Implemented.
+Up/Down: Select page in drawer
+Left/Right: Select emblem on page
+B: Cancel
+A/Start: Accept
+
+Editor sequence does NOT follow Mabel's script anymore.  After the player has selected an emblem in drawer O and chosen to edit it:
+1. Load emblem data and metadata and goto 2
+2. Edit emblem, implemented
+   Select and brush is 1 or 2: goto 3
+   Start: goto 4
+3. Color picker dialog
+   Cancel: goto 2
+   Accept: change palette[brush] to chosen color and goto 2
+4. Save changes alert
+   Discard: exit editor sequence
+   Cancel: goto 2
+   Save: goto 5
+5. Classify emblem
+   Thing: set current emblem's metadata as thing, goto 6
+   Team: set current emblem's metadata as team, goto 6
+6. On-screen keyboard, prompt Title:
+   Start: commit and exit editor sequence
+   Hold Select: goto 2
+
+screen 4:
+screens/thingOrTeam.nam
+
+Copy sequence:
+1. Choose a destination emblem in drawer O
+   B: exit copy sequence
+   A, Start: goto 2
+2. Confirm
+   B: goto 1
+   A: commit
+
+screen 1:
+sel.s
+pageselPrepareUpdate 0-7
+mode: "Replace which emblem?"
+
+screen 2:
+ ,----------------------------.
+ |                            |
+ | Do you want to replace     |
+ | ,. O-00 NAMENAMENAMENAME   |
+ | `'   by NAMENAME           |
+ | with a copy of this?       |
+ | ,. O-00 NAMENAMENAMENAME   |
+ | `'   by NAMENAME           |
+ |                            |
+ |           Cancel  Replace  |
+ |                            |
+ `----------------------------'
+

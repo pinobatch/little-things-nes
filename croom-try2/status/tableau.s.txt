@@ -1,0 +1,348 @@
+;To draw card in the tableau:
+;
+;The tableau is stored COLUMN MAJOR.  This means that the
+;card at (x, y) is stored at cardState[8 * x + y].
+;
+;00-0F: face down card
+;40-7F: face up card
+;80-BF: removed card
+;C0-FF: card in process of being turned over (animated with sprites)
+
+curTurn = editorPixels + 0
+lastLead = editorPixels + 1
+nPairs = editorPixels + 2
+tableauCards = editorPixels + 8
+
+;;
+; Finds the tile that goes in the upper left corner of (x, y).
+; 0 x position
+; 1 y position
+.proc findCorner
+  lda #0
+  sta 2
+  lda 0
+  asl a
+  asl a
+  asl a
+  adc 1
+  tax
+
+  ldy 0
+  beq onLeftSide
+    sbc 8
+    tax
+    jsr topBottom
+    txa
+    clc
+    adc #8
+    tax
+    lsr 2
+  onLeftSide:
+  ldy 0
+  cpy #9
+  bcs onRightSide
+    jsr doLeftRight
+  onRightSide:
+
+  ; add pf corners
+  ldy 1
+  lda 2
+  ora #$10
+  cpy #0
+  bne notTopCorners
+    cpx #0
+    bne :+
+      ora #$01
+    :
+    cpx #72
+    bne notBottomCorners
+      ora #$02
+  notTopCorners:
+
+  cpy #8
+  bne notBottomCorners
+    cpx #8
+    bne :+
+      ora #$04
+    :
+    cpx #80
+    bne notBottomCorners
+      ora #$08
+  notBottomCorners:
+
+  rts
+
+doLeftRight:
+  lda 2
+  beq onTop
+    lda tableauCards-1,x
+    bpl onTop
+      lda 2
+      ora #$02
+      sta 2
+  onTop:
+
+  lda 2
+  cmp #8
+  beq onBottom
+    lda tableauCards,x
+    bpl onBottom
+      lda 2
+      ora #$08
+      sta 2
+  onBottom:
+
+  rts
+.endproc
+
+
+;;
+; Computes the basic tile number for the horizontal edge between
+; this tile and the tile above it.
+; 0: card is removed or out of bounds
+; 1: card above this one is present and face down
+; 2: card above this one is present and face up
+; 3: this card is present and face down
+; 6: this card is present and face up
+; Hardware tile numbers are the basic tile number (as above) plus
+; $1F if basic is 0 else plus $10.
+; @param 0
+; @param 1
+; @return the basic tile number
+.proc findTopEdge
+  lda 0
+  asl a
+  asl a
+  asl a
+  adc 1
+  tax
+  lda #0
+
+  ldy 1
+  beq onTop
+    bit tableauCards-1,x
+    bmi onTop
+    bvc @faceDown
+      adc #1
+    @faceDown:
+    adc #1
+  onTop:
+
+  cpy #8
+  bcs onBottom
+    bit tableauCards,x
+    bmi onBottom
+    bvc @faceDown
+      adc #3
+    @faceDown:
+    adc #3
+  onBottom:
+
+  ora #$10
+  cmp #$10
+  beq zero
+    clc
+    adc #$0F
+  zero:
+
+  rts
+.endproc
+
+;;
+; Computes the basic tile number for the vertical edge between
+; this tile and the tile to its left.
+; 0: card is removed or out of bounds
+; 1: card to left of this one is present and face down
+; 2: card to left of this one is present and face up
+; 3: this card is present and face down
+; 6: this card is present and face up
+; Hardware tile numbers are the basic tile number (as above) plus
+; $27 if basic is 0 else plus $10.
+; @param 0 x coordinate of this card
+; @param 1 y coordinate of this card
+; @return the basic tile number
+.proc findLeftEdge
+  lda 0
+  asl a
+  asl a
+  asl a
+  adc 1
+  tax
+  lda #0
+
+  ldy 1
+  beq onLeft
+    bit tableauCards-1,x
+    bmi onLeft
+    bvc @faceDown
+      adc #1
+    @faceDown:
+    adc #1
+  onLeft:
+
+  cpy #8
+  bcs onRight
+    bit tableauCards,x
+    bmi onRight
+    bvc @faceDown
+      adc #3
+    @faceDown:
+    adc #3
+  onRight:
+
+  ora #$10
+  cmp #$10
+  beq zero
+    clc
+    adc #$17
+  zero:
+
+  rts
+.endproc
+
+;;
+; Computes the block of four tiles centered about this card.
+; @param 0 x coordinate of this card
+; @param 1 y coordinate of this card
+.proc prepareCard
+
+  ; compute destination address in VRAM
+  lda #0
+  sta xferBufferLo
+  lda 1
+  asl a
+  adc 1
+  adc #TABLEAU_BASE
+  lsr a
+  ror xferBufferDstLo
+  lsr a
+  ror xferBufferDstLo
+  lsr a
+  ror xferBufferDstLo
+  lsr a
+  ror xferBufferDstLo
+  ora #$20
+  sta xferBufferDstHi
+
+  lda 0
+  asl a
+  adc 0
+  ora xferBufferDstLo
+  sta xferBufferDstLo
+
+
+  ; compute border
+  jsr findCorner
+  sta xferBuffer
+  jsr findTopEdge
+  sta xferBuffer+1
+  sta xferBuffer+2
+  jsr findLeftEdge
+  sta xferBuffer+4
+  sta xferBuffer+8
+
+  inc 0
+  jsr findCorner
+  sta xferBuffer+3
+  jsr findLeftEdge
+  sta xferBuffer+7
+  sta xferBuffer+11
+
+  inc 1
+  jsr findCorner
+  sta xferBuffer+15
+
+  dec 0
+  jsr findCorner
+  sta xferBuffer+12
+  jsr findTopEdge
+  sta xferBuffer+13
+  sta xferBuffer+14
+
+  dec 1
+
+  ; compute the tile HERE
+  lda 0
+  asl a
+  asl a
+  asl a
+  adc 1
+  tax
+  bit tableauCards,x
+  bmi hereIsTaken
+  bvs hereIsFaceUp
+    lda #TABLEAUTILE::P8
+    sta xferBuffer+5
+    lda #TABLEAUTILE::P8+1
+    sta xferBuffer+9
+    lda #TABLEAUTILE::P8+2
+    sta xferBuffer+6
+    lda #TABLEAUTILE::P8+3
+    sta xferBuffer+10
+
+  hereIsTaken:
+    lda #$10
+    sta xferBuffer+5
+    sta xferBuffer+9
+    sta xferBuffer+6
+    sta xferBuffer+10
+    rts
+
+  hereIsFaceUp:
+    lda #0
+    sta xferBuffer+5
+    sta xferBuffer+9
+    sta xferBuffer+6
+    sta xferBuffer+10
+    rts
+.endproc
+
+.proc blastCard
+  lda #VRAM_DOWN
+  ora lastPPUCTRL
+  sta PPUCTRL
+  ldy xferBufferDstLo
+  xloop:
+    lda xferBufferDstHi
+    sta PPUADDR
+    sty xferBufferDstLo
+    iny
+    .repeat 4, I
+      lda xferBuffer+4*I, x
+      sta PPUDATA
+    .endrepeat
+    inx
+    cpx #4
+    bcc xLoop
+  rts
+.endproc
+
+.proc tableauIntro
+  ldx #35
+  clrLoop:
+    lsr a
+    sta tableauCards,x
+    lda #0
+    sta tableauCards+36,x
+    dex
+    bpl clrLoop
+  lda #8
+  sta 1
+  yloop:
+    lda #7
+    sta 0
+    xloop:
+      jsr prepareCard
+      lda retraces
+      :
+        cmp retraces
+        beq :-
+      jsr blastCard
+      jsr screenOn
+      dec 0
+      bpl xloop
+    dec 1
+    bpl yloop
+  rts
+
+.endproc

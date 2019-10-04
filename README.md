@@ -11,6 +11,7 @@ prior to 2019.
 - [Boing 2007](https://forums.nesdev.com/viewtopic.php?p=62806#p62806):
   squashing the background using mistimed VRAM reads
 - [ca65 macros reimplementing 6502 mnemonics](https://forums.nesdev.com/viewtopic.php?f=2&t=10701)
+- Concentration Room Emblem Designer prototype
 - [Convergence](https://forums.nesdev.com/viewtopic.php?p=215229#p215229)
 - [DAC nonlinear volume](https://forums.nesdev.com/viewtopic.php?f=6&t=16726)
 - [DPCM Split](https://forums.nesdev.com/viewtopic.php?p=65871#p65871):

@@ -1,0 +1,25 @@
+.segment "ZEROPAGE"
+
+rngState: .res 4
+rngTaps = %
+.segment "CODE"
+
+
+;;
+; Generates y random bits in the lower bits of A by
+; clocking an LFSR four times. 
+.proc clockLFSR
+  lsr rngState
+  asl rngState+0
+  rol rngState+1
+  rol rngState+2
+  rol rngState+3
+  lda rngState+0
+  bcc notTap
+  eor #$C5
+notTap:
+  sta rngState+0
+  dey
+  bne random
+  rts
+.endproc

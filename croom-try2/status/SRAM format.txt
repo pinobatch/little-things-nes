@@ -1,0 +1,36 @@
+SRAM format for Concentration Room try 2 emblem designer
+
+$6000-$607F: textual header
+$6080-$60FF: each user's preferences
+$6100-$6AFF: 80 emblems' metadata, 32 bytes each
+$6B00-$7EFF: 80 emblems' data, 64 bytes each
+
+dataBase = $6B00
+metadataBase = $6100
+
+sramHeaderData:
+  .byt ".::::::.",13,10
+  .byt "Emblem File",13,10
+  .byt "This file contains 16x16 pixel emblems.",13,10
+  .byt "https://pineight.com/croom/",13,10,26
+sramHeaderDataEnd:
+
+preference data:
+00-07: author name
+08: author emblem number
+09: wallpaper color
+0A-0F: unknown
+
+emblem data:
+00-0F: top left tile
+10-1F: bottom left tile
+20-2F: top right tile
+30-3F: bottom right tile
+
+emblem metadata:
+00-0F: title (nul term)
+10-17: author (nul term)
+18: emblem type (?)
+19-1B: palette light, dark, darker
+1C-1F: unknown
+

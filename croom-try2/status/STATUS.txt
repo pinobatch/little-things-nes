@@ -1,0 +1,50 @@
+Status of Concentration Room as of 2008-02-26
+
+1. Press start on Retire Player... or an empty player slot
+DOES skip to the choose emblem from this bank screen
+SHOULD allow the player to perform interaction
+
+2. Press start at the login screen
+DOES skip to the choose emblem from this bank screen
+SHOULD open a menu:
+ |    1 Player Game           |
+ |    2 Player Game           |
+ |    Edit Emblems...         |
+ |    Cancel                  |
+ 
+3. B at choose emblem from this bank
+DOES return to the login screen
+SHOULD return to bank selection screen
+
+4. A at choose emblem from this bank
+DOES skip to Draw screen
+SHOULD open a menu:
+  Draw...
+  Copy
+  Paste
+  Set as My Emblem
+  Cancel
+
+5. Emblem editor
+SHOULD display the O-## code and name of the current emblem
+
+6. Start on emblem editor
+DOES skip to keyboard
+SHOULD open a menu:
+ | Save changes to emblem?    |
+ |  Discard    Cancel   Save  |
+
+7. Keyboard palette
+SHOULD show emblem
+
+8. Start on keyboard
+DOES return to oam without saving
+SHOULD save first
+
+9. Select+Start on keyboard
+DOES return to choose emblem without saving
+SHOULD return to editor
+
+10. Presets B-10 through B-39
+These should be filled in with more of the Adbusters billboard:
+each 2 columns of the billboard equal 1 row

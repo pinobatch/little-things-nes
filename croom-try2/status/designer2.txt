@@ -1,0 +1,17 @@
+there are two kinds of emblems:
+1. "things", or emblems on cards, of which 36 are randomly chosen to make a set
+2. team emblems, one of which gets chosen by each player
+
+we have 6 bytes of user and 4 bytes of pattern metadata that aren't getting used
+
+rom banks:
+0 drawers B and A
+1 curator's animation
+2 chr and nam data
+3 code
+
+next tasks at home pc:
+1. Expand rom to 64 KiB
+2. get buffer selection saving
+3. registration and login
+4. test tableau code

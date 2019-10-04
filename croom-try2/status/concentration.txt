@@ -1,0 +1,43 @@
+= Concentration =
+
+Concentration Room implements a classic board game called
+Concentration, sold as "Memory" by Ravensburger and Hasbro and
+"Matching" by Wonder Forge.
+
+== Rules ==
+I can has Ravensburger?
+
+There are 72 cards of 18 or 36 types, placed face-down in a 9x8 card tableau.
+On each turn, the player turns one card face-up and turns another card face-up, for all players to see. If they match, the player removes them from the tableau and adds them to his score, and his turn continues. Otherwise, he turns both cards face-down, and his turn ends.
+
+The first player to 19 pairs wins. Failing that, the player with the most pairs after all cards have been removed wins. In case of a tie (18-18 in 2 player), the player who was most recently ahead wins, as the last matches are much easier to get than the first.
+
+== Variant ==
+*Easy: 4 each of 18 types
+*Hard: 2 each of 36 types
+
+== Game state ==
+Game state can be saved in 80 bytes:
+# Number of pairs per player (4 bytes)
+# Last player to hold lead (1 byte)
+# Current player (1 byte)
+# Coordinates of first turned card (1 byte)
+# Coordinates of second turned card (1 byte)
+# Identity of each card (72 bytes), or -1 for removed
+
+== Hardware ==
+=== VRAM ===
+Playfield is 28 tiles wide (9 columns of 3 tiles plus right edge) by 25 tall (8 rows of 3 tiles plus bottom edge). Status line is 2 tiles tall and 14 tiles wide for each player.
+
+=== Palettes ===
+*bg0: tableau (white, gray, tableau color, black)
+*bg1:
+*bg2: team L
+*bg3: team R
+*obj0: cursor
+*obj1: messages
+*obj2: turned card 1
+*obj3: turned card 2
+
+=== CHR ===
+tableau.chr.txt

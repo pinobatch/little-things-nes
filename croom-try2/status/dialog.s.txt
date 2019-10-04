@@ -1,0 +1,92 @@
+;;
+; Runs a dialog box.
+; @param 0 list of (x, y) coordinates of choices
+; @param 2 number of choices, between 1 and 127
+; @param 3 OAM offset to use for cursor sprite, which should already have
+; attributes 1 (tile) and 2 (flip/prio/color) set
+; @param A default option
+; @return number of chosen option in A, carry set for A or clear for B
+.proc dialogSelector
+  sta 4
+
+  loop:
+    lda 4
+    asl a
+    tay
+    ldx 3
+    lda (0),y
+    sta OAM+3,x
+    iny
+    lda (0),y
+    sta OAM,x
+
+    lda retraces
+    :
+      cmp retraces
+      beq :-
+    lda #>OAM
+    sta 4
+    jsr screenOn
+    jsr readPad
+
+    lda newKeys
+    and #KEY_RIGHT|KEY_DOWN|KEY_SELECT
+    beq notNext
+      ldx 4
+      inx
+      cpx 2
+      bcc @notWrap
+        ldx #0
+      @notWrap:
+      stx 4
+    notNext:
+
+    lda newKeys
+    and #KEY_LEFT|KEY_UP
+    beq notPrev
+      ldx 4
+      bne @notWrap
+        ldx 2
+      @notWrap:
+      dex
+      stx 4
+
+    notPrev:
+
+    lda newKeys
+    and #KEY_A|KEY_B|KEY_START
+    beq loop
+  done:
+
+  clc
+  and #KEY_B
+  beq notCanceled
+    sec
+  notCanceled:
+  lda #4
+
+  rts
+.endproc
+
+.proc saveDialog
+
+  ; frame 0: draw frame
+  lda retraces
+  :
+    cmp retraces
+    beq :-
+  ldx #28
+  sta 0
+  ldx #29
+  sta 1
+  ldx #PICKER_Y
+  ldy #5
+  jsr drawFrame
+  jsr screenOn
+
+  ; frame
+  lda #>(PICKER_BASE + 2*32 + 3)
+  sta PPUADDR
+  lda #<(PICKER_BASE + 2*32 + 3)
+  sta PPUADDR
+.endproc

@@ -6,6 +6,7 @@ binaries := \
   bunny250/zapperlag.nes \
   bunny250/a-white.nes \
   convergence/convergence.nes \
+  croom-try2/emblem.nes \
   dacnonlinear/dacnonlinear.nes \
   dacnonlinear/dacnonlinear.nsf \
   dpcm-split/dpcmletterbox.nes \

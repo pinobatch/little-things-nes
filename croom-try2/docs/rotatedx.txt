@@ -1,0 +1,42 @@
+torso pitch angles:
+-10
+-6.65
+2.5
+15
+27.5
+36.65
+40
+
+hand x coords:
+24, 80, 176, 232
+
+roll forward at 12 px/frame
+then step, accelerating bottom from 16 to 32 px/frame
+
+rotation is about the lower left corner of a 128x128 pixel circle
+position is the lower left corner of a 128x128 pixel circle
+"hand at" is the lower left corner of a 32x8 pixel ellipse
+170px above 
+f1: -6.65 deg, 0,0; hand at -8,4
+f2: 2.5 deg, 12,0; hand at 48,8
+f3: 15 deg, 24,0; hand at 144,8
+f4: 27.5 deg, 36,0; hand at 200,4
+f5: 36.65 deg, 48,0; hand at 224,0
+f6: 40 deg, 68,2; hand at 224,0
+f7: 36.65 deg, 92,6; hand at 224,0
+f8: 27.5 deg, 116,8; hand at 224,0
+f9: 15 deg, 144,8; hand at 224,0
+f10: 2.5 deg, 176,8; hand at 224,0
+f11: -6.65 deg, 204,0; hand at 224,0
+f12: -10 deg, 236,4; hand at 224,0
+f13: -6.65 deg, 256,0; hand at 264,4
+
+
+
+"mazing" (mapping from cels to sprite tiles) method:
+
+each cel is divided into 1-tile-high rows
+scan each row of tiles to compute the x coords of the leftmost and rightmost pixel of each row
+round up to the next multiple of a tile width
+create tiles from the left to the right, but overlap the last (rightmost) tile with the next-to-last
+
