@@ -1,0 +1,14 @@
+0.02 (2014-08-16)
+
+* Updated for compatibility with cc65 2.14 series
+* pilbmp2nes updated for Python 2/3 compatibility
+* Factored out some PPU logic into subroutines
+* Switched to CRC16 randomizer
+* CHR ROM included with .incbin for fewer build steps
+* Removed some alignment padding
+* A few other micro-optimizations
+* More comments
+
+0.01 (2010-07-04)
+
+* Initial release

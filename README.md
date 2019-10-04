@@ -47,6 +47,7 @@ prior to 2019.
   logo to drop into the Game Boy boot ROM intro
 - [RGB121](https://forums.nesdev.com/viewtopic.php?p=94658#p94658):
   display 16-color images on an NES using pseudo-interlacing
+- [Russian Roulette](https://forums.nesdev.com/viewtopic.php?f=2&t=6567)
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419):
   use bit shifting to rotate background tiles horizontally
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055):

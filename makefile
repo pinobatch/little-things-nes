@@ -27,6 +27,7 @@ binaries := \
   porttest/porttest.nes \
   pretendo/pretendo.nes \
   rgb121/rgb121.nes \
+  roulette/roulette.nes \
   scaling/scaling.nes \
   spectralencode/spectral.nes \
   tellinglys/tellinglys.nes \
