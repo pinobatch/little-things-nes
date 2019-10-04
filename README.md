@@ -45,6 +45,8 @@ prior to 2019.
 - [Pretendo and other fake logos](https://forums.nesdev.com/viewtopic.php?p=116405#p116405):
   generate entropy without a button press to randomly choose a parody
   logo to drop into the Game Boy boot ROM intro
+- Raw PCM Hello: compare PCM to DPCM and attempt playback through
+  pulse channels' volume registers
 - [RGB121](https://forums.nesdev.com/viewtopic.php?p=94658#p94658):
   display 16-color images on an NES using pseudo-interlacing
 - [Russian Roulette](https://forums.nesdev.com/viewtopic.php?f=2&t=6567)
@@ -52,6 +54,8 @@ prior to 2019.
   use bit shifting to rotate background tiles horizontally
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055):
   real-time shrinking is possible using lookup tables
+- [Tall Pixel](https://forums.nesdev.com/viewtopic.php?p=53808#p53808):
+  stretch an image vertically by 150%
 - [Telling LYs?](https://forums.nesdev.com/viewtopic.php?f=22&t=18998):
   sub-frame input timing test
 - Text to spectrogram

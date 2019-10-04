@@ -30,6 +30,7 @@ binaries := \
   roulette/roulette.nes \
   scaling/scaling.nes \
   spectralencode/spectral.nes \
+  tall-pixel/tall_pixel.nes \
   tellinglys/tellinglys.nes \
   test28/test28.nes \
   test28/test28-8Mbit.nes \
