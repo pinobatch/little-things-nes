@@ -1,5 +1,6 @@
 zipfilename := "little-things-nes.zip"
 binaries := \
+  768/768.nes \
   a53bigchrram/a53bigchrram.nes \
   bntest/bntest.nes \
   boing2k7/boing2k7.nes \

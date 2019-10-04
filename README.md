@@ -5,6 +5,7 @@ This repository will contain several tech demos for Nintendo
 Entertainment System that I've produced over more than a decade
 prior to 2019.
 
+- 768-byte level editor
 - [Action 53 (mapper 28) big CHR RAM](https://forums.nesdev.com/viewtopic.php?p=190851#p190851)
 - [Action 53 (mapper 28) comprehensive test](https://forums.nesdev.com/viewtopic.php?p=102693#p102693)
 - [BNROM and AOROM size and mirroring test](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
