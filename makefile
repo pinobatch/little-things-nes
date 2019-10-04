@@ -42,6 +42,7 @@ binaries := \
   test78/test78-submapper2.nes \
   test78/test78-submapper3.nes \
   vaus-test/vaus-test.nes \
+  volumes/volumes.nes \
   vwfterm/vwfterm.nes
 
 # All recursive makefiles must support the `all` phony target

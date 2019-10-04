@@ -62,6 +62,8 @@ prior to 2019.
 - Tuning table generator for NSD.Lib
 - [Vaus Test](https://forums.nesdev.com/viewtopic.php?f=22&t=10662):
   read the _Arkanoid_ controller
+- [Volume tester](https://forums.nesdev.com/viewtopic.php?f=6&t=4906):
+  Relative volumes of APU channels
 - [VWF terminal](https://forums.nesdev.com/viewtopic.php?f=2&t=12436)
 - [Zapper lag tests](https://forums.nesdev.com/viewtopic.php?f=9&t=10198)
 - Projects that never proceeded past pixel art prototypes
