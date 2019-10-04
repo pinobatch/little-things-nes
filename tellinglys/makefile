@@ -118,10 +118,10 @@ $(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
 	cat $^ > $@
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py --planes "0;1" $< $@
+	$(PY) ../common/tools/pilbmp2nes.py --planes "0;1" $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 $(objdir)/%.u.chr: $(objdir)/%.chr
 	$(PY) tools/uniq.py $< $@ $(<:.chr=.nam)
