@@ -35,6 +35,7 @@ prior to 2019.
   first NES program to use a Super NES Mouse
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
 - MMC3 save data viewer
+- [OAM reset quirk](https://forums.nesdev.com/viewtopic.php?f=9&t=9628): 2 sprites will be missing after Reset
 - [Password save](https://forums.nesdev.com/viewtopic.php?p=64656#p64656)
 - [PAL chroma phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629):
   investigate how a TV comb filter combines scanlines in the video

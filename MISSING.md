@@ -1,7 +1,5 @@
 NES projects left to include:
 
-- Math library
-- porttest
 - [Sprite Cans 2011](http://forums.nesdev.com/viewtopic.php?p=77094#p77094) (music must be replaced)
 - Who's Cuter 2011 (images must be replaced)
 - Explore Dimension

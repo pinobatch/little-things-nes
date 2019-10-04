@@ -19,6 +19,7 @@ binaries := \
   meece/meece.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   mmc3save/mmc3save.nes \
+  oam-reset/oam_reset.nes \
   palphase/palphase.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \
