@@ -1,0 +1,14 @@
+01 ding
+Plays a sound.
+Demonstrates basic instructions and audio registers.
+
+02 ding2
+Plays a sound and makes the screen a solid color.
+Demonstrates PPU stabilization, reads, and writes
+
+03 ding3
+Does the above, waits a bit, then does it again.
+Demonstrates subroutines, interrupts, comparison, variables,
+and waiting.
+
+04 hello
