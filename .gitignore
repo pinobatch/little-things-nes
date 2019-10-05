@@ -5,7 +5,9 @@
 */obj/nes/*.ch1
 */obj/nes/*.s
 */obj/nes/*.nam
+*/obj/nes/*.pb8
 */obj/nes/*.pb53
+*/obj/nes/*.pkb
 */obj/nes/*.dmc
 */obj/nes/*.121
 */*.nes
