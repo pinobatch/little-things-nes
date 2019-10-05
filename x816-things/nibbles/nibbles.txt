@@ -1,0 +1,88 @@
+          _     _   _   _       _       _
+         | `.  | | |_| | |__   | |__   | |   ___    _____
+         | . `.| |  _  |  _ \  |  _ \  | |  / _ \  /  ___\
+         | |`. ` | | | | (_) | | (_) | | | |  ___| \___  \
+         |_|  `._| |_|  \___/   \___/  |_|  \___/  \_____/
+
+         Nibbles for NES                Instruction Manual
+
+=== Legal ===
+
+This manual is copyright (c) 2001 Damian Yerrick.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1
+or any later version published by the Free Software Foundation;
+with no Invariant Sections or Cover Texts.
+A copy of the license is included in the file `FDL.txt'.
+
+Nibbles itself is distributed under the terms of the GNU General
+Public License, version 2 or any later version published by the
+Free Software Foundation.
+
+
+=== About ===
+
+If you were in the PC game scene in the early 1990s, you've most
+likely played the QBasic game Nibbles.  Now it has been ported to
+the Nintendo Entertainment System and Family Computer.
+
+
+=== Installation ===
+
+To build Nibbles from sources, run mkall.bat from the DOS prompt.
+You'll need the DJGPP compiler and the x816 assembler.  The build
+process will produce nibbles.bin (16 KB program followed by 8 KB
+graphics) and nibbles.nes (iNES format ROM image).
+
+Nibbles is designed to run on an NROM cartridge with a 4 KB (or
+larger) program ROM and a 4 KB (or larger) graphics ROM.  It should
+work on most emulators; it has passed tests with LoopyNES, NESten,
+nester, RockNES, and BioNES.  (NESticle is no longer supported.)
+To run Nibbles on a real Famicom or NES console, you need an NROM
+board modified to use EEPROM chips, and an EEPROM programming device.
+Follow the instructions that came with your development kit.
+
+
+=== Play ===
+
+At the copyright screen, press Start.
+
+At the title screen, select the number of players with the
+up and down arrows on the + Control Pad, and press Start.
+
+During the game, move your snake with the + Control Pad.  Eat apples
+to grow longer and get points.  Avoid walls, other snakes, and your
+own rear end to survive.
+
+
+=== Changelog ===
+
+30%  Released on 4 Feb 2001
+     Snake length increase truer to QBasic original.  Pause function
+     and copyright screen added.  All source files marked with
+     license information.  Build process tested.
+
+25%  Now works around emulator bugs that allow writing to VROM.
+     Now sounds exactly like the QBasic version.
+
+20%  Can eat apples and pass levels. Two player mode works (but is
+     compiled out by default).
+
+10%  initial release. A snake moves around the screen, and you can
+     control it.
+
+
+=== Road map ===
+
+40%  Get player select working.  Scoring and lives system.
+        ................................
+        ................................
+        ....name x03........name x03....
+        ...........0...............0....
+50%  Simple music engine, playing `1812 Overture'.
+60%  High score system.  Finish the levels.
+
+(Subject to change.)
+
+
+C-x C-c
