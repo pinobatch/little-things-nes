@@ -37,7 +37,7 @@ EMU := fceux
 ifdef COMSPEC
 PY:=py -3
 else
-py:=python3
+PY:=python3
 endif
 
 .PHONY: run dist zip all clean
@@ -84,5 +84,5 @@ $(objdir)/main.o: $(objdir)/xdigits8b.chr
 # Rules for CHR data
 
 $(objdir)/%8b.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -1 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -1 $< $@
 

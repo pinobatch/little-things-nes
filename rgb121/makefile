@@ -90,11 +90,5 @@ $(objdir)/pics.o: $(foreach o,$(photolist),$(objdir)/$(o).121)
 
 # Rules for CHR ROM
 
-$(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
-
-$(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
-
 $(objdir)/%.121: $(photodir)/%.png
 	$(PY) tools/pngto121.py $< $@

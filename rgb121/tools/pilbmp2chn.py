@@ -12,7 +12,6 @@ from __future__ import with_statement
 import sys
 from time import sleep
 from PIL import Image
-from pilbmp2nes import formatTilePlanar, pilbmp2chr
 from bitbuilder import BitBuilder, Biterator, log2
 
 def histo(it):
@@ -162,6 +161,8 @@ printStats = True
 def main(argv=None):
     global printStats
     import sys
+
+    from pilbmp2nes import formatTilePlanar, pilbmp2chr
 
     if argv is None:
         argv = sys.argv

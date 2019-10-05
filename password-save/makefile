@@ -66,7 +66,7 @@ map.txt pwtest.nes: NROM.ini $(objlistntsc)
 $(objdir)/main.o: $(objdir)/titlegfx.chr $(objdir)/gamegfx.chr
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 clean:
 	rm -r $(objdir)/*.chr $(objdir)/*.o

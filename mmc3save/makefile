@@ -43,6 +43,9 @@ zip: mmc3save-$(version).zip
 mmc3save-$(version).zip: zip.in mmc3save.nes README.html $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
+clean:
+	-rm $(objdir)/*.chr $(objdir)/*.o
+
 $(objdir)/index.txt: makefile
 	echo Files produced by build tools go here > $@
 
@@ -58,4 +61,4 @@ map.txt mmc3save.nes: nes.ini $(objlistntsc)
 	$(LD65) -C $^ -m map.txt -o mmc3save.nes
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
