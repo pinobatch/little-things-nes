@@ -1,0 +1,98 @@
+Support up to 32 active objs.
+
+6502 prefers Structure Of Arrays.
+
+8 bits: x (in tiles)
+8 bits: sub-x (in 1/32 pixels)
+8 bits: y (in tiles)
+8 bits: sub-y (in 1/32 pixels)
+8 bits: dx
+8 bits: dy
+8 bits: state1
+8 bits: state2
+8 bits: type
+
+8 bits: forward sort order
+8 bits: inverse sort order
+
+_____________________________________________________________________
+Polymorphism
+
+Every object has a method.  This method should draw the object,
+search for and react to collisions, and then move the object for the
+next frame.  It can assume that the objects have been sorted by x
+tile position to speed up collision search.
+
+_____________________________________________________________________
+Flicker reduction
+
+In alternate frames, call sprites 0-31, then 12-31 and 0-11,
+then 24-31 and 0-23, then 6-31 and 0-23, then 18-31 and 0-17.
+The getOAM takes care of this, and finalizeOAM takes care of filling
+the rest.
+
+_____________________________________________________________________
+Computing sprite screen position based on object position
+
+Draw methods will call getXY like this:
+
+  ldx curObj
+  jsr getXY
+  bcs @invisible
+
+  ; draw bottom half
+  jsr nextOAM
+  beq @invisible
+  lda 0
+  sta OAM,y
+  lda state,x
+  tax
+  lda thisSpritesBottomFrame,x
+  sta OAM+1,y
+  ldx cur_obj
+  lda state,x
+  and #$40
+  ora #spr_color
+  sta OAM+2,y
+  lda 1
+  sta OAM+3,y
+
+  ; draw top half
+  lda #0
+  cmp #8
+  bcc @invisible
+  jsr nextOAM
+  lda 0
+  sec
+  sbc #8
+  sta OAM,y
+  lda state,x
+  tax
+  lda thisSpritesBottomFrame,x
+  sta OAM+1,y
+  ldx cur_obj
+  lda state,x
+  and #$40
+  ora #spr_color
+  sta OAM+2,y
+  lda 1
+  sta OAM+3,y
+@invisible:
+  rts
+  
+
+_____________________________________________________________________
+Gravity
+
+Yes, the dy resolution is enough for gravity.
+
+If 512 subpixels = 16 pixels = 1 meter then
+g = 9.80665 m/s/s * 512 subpixels/m * 1 s/60 frames * 1 s/60 frames
+  = 9.80665*512/3600 internal acceleration units
+  = 1.3947235 internal acceleration units
+  ~= 1+101/256 internal acceleration units
+
+So to implement gravity, add 1 to all dy velocities every frame and
+add an additional 1 in 101/256 of frames.  Use similar fractional
+accelerations on objects in other cases.
+

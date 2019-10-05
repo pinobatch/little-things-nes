@@ -1,0 +1,49 @@
+  ; Write bg
+  ldx #11
+  lda #0
+:
+  sta pokeColNameBuf,x
+  dex
+  bpl :-
+  ldx #5
+  lda #0
+:
+  sta pokeColAttrBuf,x
+  dex
+  bpl :-
+
+  lda #2
+  sta pokeColX
+:
+  lda pokeColX
+  lsr a
+  lsr a
+  and #$0e
+  sta pokeColNameBuf+12
+
+  lda pokeColX
+  asl a
+  and #$0e
+  sta pokeColNameBuf+13
+  jsr upd_pokeColName
+  inc pokeColX
+  lda pokeColX
+  cmp #62
+  bcc :-
+
+  lda #0
+  sta pokeColX
+  lda #$50
+  sta pokeColAttrBuf+1
+  lda #$05
+  sta pokeColAttrBuf+2
+  lda #$af
+  sta pokeColAttrBuf+6
+:
+  jsr upd_pokeColAttr
+  lda pokeColX
+  clc
+  adc #4
+  sta pokeColX
+  cmp #64
+  bcc :-

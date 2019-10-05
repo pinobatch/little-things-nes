@@ -2,6 +2,7 @@ zipfilename := "little-things-nes.zip"
 binaries := \
   768/768.nes \
   a53bigchrram/a53bigchrram.nes \
+  beakers/beakers.nes \
   bntest/bntest.nes \
   boing2k7/boing2k7.nes \
   bunny250/zapperlag.nes \
@@ -19,6 +20,7 @@ binaries := \
   iretiny/iretiny218.nes \
   mathlib/mathlib.prg \
   meece/meece.nes \
+  meta32/meta32.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   mmc3save/mmc3save.nes \
   oam-reset/oam_reset.nes \
