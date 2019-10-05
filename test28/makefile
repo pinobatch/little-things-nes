@@ -103,18 +103,13 @@ $(objdir)/wrongbanks.o: $(objdir)/font8x5.bin
 $(objdir)/ntscPeriods.s: tools/mktables.py
 	$< period $@
 
-# Rules for CHR ROM
-
-$(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
-	cat $^ > $@
+# Rules for CHR data
 
 $(objdir)/font8x5.bin: $(imgdir)/font8x5.png
 	$(PY) tools/cvt8x5.py $< $@
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
-
-
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

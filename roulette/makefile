@@ -84,7 +84,7 @@ $(objdir)/main.o: $(objdir)/titlegfx.chr $(objdir)/gamegfx.chr
 # Rules for CHR ROM
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

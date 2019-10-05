@@ -39,4 +39,4 @@ map.txt tall_pixel.nes: nes.ini $(objlistntsc)
 $(objdir)/main.o: $(objdir)/ac16.chr
 
 $(objdir)/ac16.chr: $(imgdir)/ac16.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

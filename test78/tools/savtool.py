@@ -17,6 +17,12 @@ except ImportError:
           file=sys.stderr)
     Image = None
 
+# Allow importing common tools
+commonpath = os.path.normpath(os.path.join(
+    os.path.dirname(__file__), "..", "..", "common", "tools"
+))
+sys.path.append(commonpath)
+
 default_palette = b'\x0F\x00\x10\x30\x0F\x06\x16\x26\x0F\x1A\x2A\x3A\x0F\x02\x12\x22'
 
 # Command line parsing and help #####################################

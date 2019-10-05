@@ -84,17 +84,17 @@ $(objdir)/main.o: \
 
 # Make lookup table
 $(objdir)/scaletable.s: tools/mkscaletable.py
-	$< period > $@
+	$(PY) $< period > $@
 
 # Rules for CHR
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 # Game Boy format, 48 lines tall
 # aka "rgbgfx -h"
 $(objdir)/%g48.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py -H 48 --planes "0,1" $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 48 --planes "0,1" $< $@

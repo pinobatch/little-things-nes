@@ -102,6 +102,6 @@ $(objdir)/term.o: $(objdir)/zthrobber.1bpp
 $(objdir)/%.s: tools/vwfbuild.py tilesets/%.png
 	$(PY) $^ $@
 
-$(objdir)/%.1bpp: tools/pilbmp2nes.py tilesets/%.png
+$(objdir)/%.1bpp: ../common/tools/pilbmp2nes.py tilesets/%.png
 	$(PY) $^ --planes=0 -o $@
 

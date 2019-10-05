@@ -108,17 +108,14 @@ $(objdir)/ntscPeriods.s: tools/mktables.py
 
 # Rules for CHR
 
-$(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
-	cat $^ > $@
-
 $(objdir)/%.chr: $(objdir)/%.sav
 	$(PY) tools/savtool.py $< $@
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 $(objdir)/%.nam: $(objdir)/%.sav
 	$(PY) tools/savtool.py $< $@

@@ -76,5 +76,5 @@ $(objdir)/main.o: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
 # Rules for CHR ROM
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 

@@ -94,7 +94,7 @@ $(objdir)/play.o: $(srcdir)/msg.txt
 # Rules for font and tones
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 $(objdir)/alphabet.s: tools/mkfont.py $(imgdir)/alphabet.png
 	$(PY) $^ -o $@
 $(objdir)/wavetable.s: tools/mkwavetable.py
