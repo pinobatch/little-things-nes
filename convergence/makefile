@@ -84,5 +84,5 @@ $(objdir)/bg.o: $(objdir)/tiles.ch1
 
 # Rules for graphics data conversion
 
-$(objdir)/%.ch1: $(imgdir)/%.png tools/pilbmp2nes.py
-	$(PY) tools/pilbmp2nes.py -1 $< $@
+$(objdir)/%.ch1: ../common/tools/pilbmp2nes.py $(imgdir)/%.png
+	$(PY) $^ -1 $@

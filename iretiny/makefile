@@ -86,4 +86,4 @@ $(objdir)/main.o: $(objdir)/digits.1bpp
 # Rules for CHR ROM
 
 $(objdir)/%.1bpp: $(imgdir)/%.png
-	tools/pilbmp2nes.py -1 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -1 $< $@

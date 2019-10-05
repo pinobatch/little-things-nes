@@ -61,7 +61,7 @@ $(objdir)/%.pkb: screens/%.nam
 	$(PY) tools/packbits3.py $< $@
 
 $(objdir)/%.chr: bmps/%.bmp
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: bmps/%.bmp
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

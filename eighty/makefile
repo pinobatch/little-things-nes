@@ -106,9 +106,9 @@ $(objdir)/ntscPeriods.s: tools/mktables.py
 # Rules for CHR ROM
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 

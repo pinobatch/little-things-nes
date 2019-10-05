@@ -111,13 +111,10 @@ $(objdir)/sintable.s: tools/sintable.py
 
 # Rules for CHR ROM
 
-$(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
-	cat $^ > $@
-
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 

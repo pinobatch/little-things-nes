@@ -47,7 +47,7 @@ map.txt dpcmletterbox.nes: NROM.ini $(objlistntsc)
 $(objdir)/main.o: $(objdir)/ac16.chr
 
 $(objdir)/ac16.chr: $(imgdir)/ac16.png
-	tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.chr

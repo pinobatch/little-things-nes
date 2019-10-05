@@ -47,10 +47,10 @@ CFLAGS = -std=gnu99 -Wall -DNDEBUG -O
 # py.exe in the path, but not python3.exe, which confuses MSYS Make.
 ifdef COMSPEC
 DOTEXE:=.exe
-PY:=py
+PY:=py -3
 else
 DOTEXE:=
-PY:=
+PY:=python3
 endif
 
 .PHONY: run debug all dist zip clean
@@ -113,13 +113,10 @@ $(objdir)/ntscPeriods.s: tools/mktables.py
 
 # Rules for CHR ROM
 
-$(title).chr: $(objdir)/bggfx.chr $(objdir)/spritegfx.chr
-	cat $^ > $@
-
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 

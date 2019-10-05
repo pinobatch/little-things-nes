@@ -54,9 +54,9 @@ $(objdir)/%.o: $(objdir)/%.s
 $(objdir)/main.o: $(objdir)/font16.chr
 
 $(objdir)/%16.chr: tilesets/%16.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 $(objdir)/%.chr: tilesets/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY)../common/ tools/pilbmp2nes.py $< $@
 
 

@@ -44,6 +44,6 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 $(objdir)/%.chr: tilesets/%.png
-	$(PY) tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/main.o: $(objdir)/ball.chr

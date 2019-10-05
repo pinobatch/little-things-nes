@@ -31,23 +31,15 @@ imgdir = tilesets
 EMU := fceux
 # other options for EMU are start (Windows) or gnome-open (GNOME)
 
-# Occasionally, you need to make "build tools", or programs that run
-# on a PC that convert, compress, or otherwise translate PC data
-# files into the format that the NES program expects.  Some people
-# write their build tools in C or C++; others prefer to write them in
-# Perl, PHP, or Python.  This program doesn't use any C build tools,
-# but if yours does, it might include definitions of variables that
-# Make uses to call a C compiler.
-CC = gcc
-CFLAGS = -std=gnu99 -Wall -DNDEBUG -O
-
 # Windows needs .exe suffixed to the names of executables; UNIX does
 # not.  COMSPEC will be set to the name of the shell on Windows and
 # not defined on UNIX.
 ifdef COMSPEC
-DOTEXE=.exe
+DOTEXE:=.exe
+PY:=py -3
 else
-DOTEXE=
+DOTEXE:=
+PY:=python3
 endif
 
 .PHONY: run all dist zip clean
@@ -91,19 +83,12 @@ $(objdir)/%.o: $(objdir)/%.s
 # Files that depend on .incbin'd files
 $(objdir)/bg.o: $(objdir)/mmc3logo.chr $(objdir)/fizztertiny16.chr
 
-# This is an example of how to call a lookup table generator at
-# build time.  mktables.py itself is not included because the demo
-# has no music engine, but it's available online at
-# http://wiki.nesdev.com/w/index.php/APU_period_table
-$(objdir)/ntscPeriods.s: tools/mktables.py
-	$< period $@
-
 # Rules for CHR ROM
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py $< $@
+	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
-	tools/pilbmp2nes.py -H 16 $< $@
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 
