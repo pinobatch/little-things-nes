@@ -78,7 +78,7 @@ NED_InstAddr            = NED_ZRAM_BASE + $0A
 
 NED_ChnPeriodLo         = NED_ZRAM_BASE + $0C
 NED_ChnPatOffs          = NED_ZRAM_BASE + $10
-NED_ChnVblanksLeft      = NED_ZRAM_BASE + $15
+NED_ChnVBlanksLeft      = NED_ZRAM_BASE + $15
 NED_ChnLastTone         = NED_ZRAM_BASE + $19
 
 NED_Reg4015             = NED_ZRAM_BASE + $1F
@@ -390,7 +390,7 @@ NED_SetupNED
                 STA     NED_ChnTremoloPos,X
                 STA     NED_ChnTremolo,X
                 STA     NED_ChnAutoTremolo,X
-                STA     NED_ChnVblanksLeft,X
+                STA     NED_ChnVBlanksLeft,X
                 STA     NED_ChnLoopedNoise,X
                 STA     NED_ChnTone,X
                 STA     NED_ChnInst,X
@@ -438,9 +438,9 @@ NED_SetVolume
 
 NED_SetPeriod
                 CPX     #NOSWAV_CHN
-                BEQ     @SetPeriodNoise
+                BEQ     SetPeriodNoise
                 cpx     #TRIWAV_CHN
-                beq     @SetPeriodTri
+                beq     SetPeriodTri
 
 
                 LDY     NED_Chn2RegIndex,X
@@ -460,7 +460,7 @@ NED_SetPeriod
 +
                 RTS
 
-@SetPeriodNoise
+SetPeriodNoise
                 AND     #$0F
                 ORA     NED_ChnLoopedNoise,X
                 STA     $400E
@@ -469,7 +469,7 @@ NED_SetPeriod
                 RTS
 
 
-@SetPeriodTri
+SetPeriodTri
                 LDY     NED_Chn2RegIndex,X
 
                 STA     $4002,Y
@@ -483,11 +483,11 @@ NED_SetPeriod
 NED_PlayNED
                 
                         LDA     NED_Speed
-                        BEQ     @Halted
+                        BEQ     Halted
                         INC     NED_CurrTick
                         CMP     NED_CurrTick
                         beq     +
-                        bpl     @UpdateTx
+                        bpl     UpdateTx
 +
                                 LDA     #0
                                 STA     NED_CurrTick
@@ -506,7 +506,7 @@ NED_PlayNED
                                 @DontIncOrder
                         jmp     NED_UpdateT0
 
-@UpdateTx
+UpdateTx
                                 ;lda     #6
                                 ;sta     $2001
                 
@@ -515,7 +515,7 @@ NED_PlayNED
                 
 
 -
-                        lda     NED_ChnVblanksLeft,X
+                        lda     NED_ChnVBlanksLeft,X
                         bmi     @HoldNoteOnTx
                         sec
                         sbc     #1
@@ -526,7 +526,7 @@ NED_PlayNED
                                 lda     #0
 
 @DontSetNoteOffTx
-                        sta     NED_ChnVblanksLeft,X
+                        sta     NED_ChnVBlanksLeft,X
 
 @HoldNoteOnTx
                         cpx     #TRIWAV_CHN
@@ -553,7 +553,7 @@ NED_PlayNED
 
 
                 LDX     #3
-@UpdateChannels
+UpdateChannels
                 CPX     #TRIWAV_CHN
                 BEQ     +
                 jsr     DoVolEffsTx
@@ -561,10 +561,10 @@ NED_PlayNED
                 jsr     DoPitchEffsTx
 @DontSetPeriod
                 DEX
-                BPL     @UpdateChannels
+                BPL     UpdateChannels
 
 
-@Halted
+Halted
                 INC     NED_ChnBigTick
                 INC     NED_ChnBigTick+1
                 INC     NED_ChnBigTick+2
@@ -575,7 +575,7 @@ NED_PlayNED
 DoVolEffsTx
                 lda     NED_ChnEff,X
                 cmp     #NED_EffVolSlide
-                bne     @NoEffVolSlideTx
+                bne     NoEffVolSlideTx
                         LDA     NED_ChnEffParm,X
                         BEQ     +
                                 STA     NED_ChnVolumeSlide,X
@@ -591,7 +591,7 @@ DoVolEffsTx
                         ;adc     NED_Temp1
                         adc     NED_ChnVolume,X
                         sta     NED_ChnVolume,X
-                        jmp     @EffVolSlideDone
+                        jmp     EffVolSlideDone
 +
                         tya
                         and     #$0F            ; remove!
@@ -605,10 +605,10 @@ DoVolEffsTx
                         ;sbc     NED_Temp1
                         ;sta     NED_Temp1
 
-@EffVolSlideDone
+EffVolSlideDone
                         jmp     +
 
-@NoEffVolSlideTx
+NoEffVolSlideTx
                 lda     NED_ChnAutoVolumeSlide,X
                 beq     +
                         clc
@@ -624,10 +624,10 @@ DoVolEffsTx
                 BEQ     +
                 STA     NED_ChnTremolo,X
 +               LDA     NED_ChnTremolo,X
-                bNE     @DoTremolo
+                bNE     DoTremolo
 ++
                 lda     NED_ChnAutoTremolo,X
-                bne     @DoTremolo
+                bne     DoTremolo
 
                 LDA     NED_ChnVolume,X
                 BPL     +
@@ -643,7 +643,7 @@ DoVolEffsTx
 
 
 
-@DoTremolo
+DoTremolo
 
                 PHA
                 and     #$0F
@@ -744,7 +744,7 @@ ReadSineTab
 
 
 
-@DoVibrato
+DoVibrato
                 PHA
                 and     #$0F
 
@@ -823,11 +823,11 @@ DoPitchEffsTx   jsr     DoArpEffsTx
                 STA     NED_ChnVibrato,X
                 +
                 LDA     NED_ChnVibrato,X
-                bNE     @DoVibrato
+                bNE     DoVibrato
 ++
 
                 lda     NED_ChnAutoVibrato,X
-                bne     @DoVibrato
+                bne     DoVibrato
 
                 LDA     NED_ChnPeriodHi,X
                 STA     NED_Temp1
@@ -840,12 +840,12 @@ DoPitchEffsTx   jsr     DoArpEffsTx
 DoPortaEffsTx
                 lda     NED_ChnEff,X
                 cmp     #NED_EffTonePorta
-                beq     @DoTonePorta
+                beq     DoTonePorta
 
                 cmp     #NED_EffPortaUp
                 beq     @DoPortaUp
                 cmp     #NED_EffPortaDown
-                beq     @DoPortaDown
+                beq     DoPortaDown
                 lda     NED_ChnAutoPorta,X
                 bne     @DoAutoPorta
                 jmp     -
@@ -886,7 +886,7 @@ DoPortaEffsTx
                 sta     NED_ChnPeriodHi,X
                 jmp     -
 
-@DoPortaDown
+DoPortaDown
                 LDA     NED_ChnEffParm,X
                 BEQ     +
                         STA     NED_ChnPortaSpeed,X
@@ -901,7 +901,7 @@ DoPortaEffsTx
                 sta     NED_ChnPeriodHi,X
                 jmp     -
 
-@DoTonePorta
+DoTonePorta
                 LDA     NED_ChnTone,X
                 BEQ     +
                 STA     NED_ChnPortaTone,X
@@ -1079,14 +1079,14 @@ DoAutoArpeggio
 
 
 
-@ChangeVolume
+ChangeVolume
                 sta     NED_ChnVolume,X
-                jmp     @DoneExEffsT0
+                jmp     DoneExEffsT0
 
-@SetSpeed       sta     NED_Speed
-                jmp     @DoneExEffsT0
+SetSpeed       sta     NED_Speed
+                jmp     DoneExEffsT0
 
-@BreakPattern   sec
+BreakPattern   sec
                 sbc     #1
                 sta     NED_CurrRow
                 lda     NED_CurrOrder
@@ -1097,7 +1097,7 @@ DoAutoArpeggio
                         lda     NED_RestartPos
 +
                 sta     NED_CurrOrder
-                jmp     @DoneExEffsT0
+                jmp     DoneExEffsT0
 
 
 DoEffsT0
@@ -1105,23 +1105,23 @@ DoEffsT0
                 BEQ     +
                 LDA     NED_ChnEffParm,X
                 cpy     #NED_EffSetVol
-                beq     @ChangeVolume
+                beq     ChangeVolume
                 cpy     #NED_EffSetSpeed
-                beq     @SetSpeed
+                beq     SetSpeed
                 cpy     #NED_EffBrkPat
-                beq     @BreakPattern
+                beq     BreakPattern
 +
-@DoneExEffsT0
+DoneExEffsT0
 
                 lda     NED_ChnEffParm,X
                 cpy     #NED_EffArpeggio
-                beq     @DoArpeggioT0
+                beq     DoArpeggioT0
                 lda     NED_ChnAutoArpX,X
-                bne     @DoAutoArpeggioT0
+                bne     DoAutoArpeggioT0
                 lda     NED_ChnAutoArpY,X
-                bne     @DoAutoArpeggioT0
+                bne     DoAutoArpeggioT0
                 lda     NED_ChnAutoArpZ,X
-                bne     @DoAutoArpeggioT0
+                bne     DoAutoArpeggioT0
 
 
                 lda     NED_ChnTone,X
@@ -1140,7 +1140,7 @@ DoEffsT0
 
 
 
-@DoArpeggioT0
+DoArpeggioT0
                 jsr     DoArpeggio
 
                 LDA     NED_ChnPeriodHi,X
@@ -1148,7 +1148,7 @@ DoEffsT0
                 LDA     NED_ChnPeriodLo,X
                 Jmp     NED_SetPeriod
 
-@DoAutoArpeggioT0
+DoAutoArpeggioT0
                 JMP     DoAutoArpeggio
 
 
@@ -1212,7 +1212,7 @@ DoArpeggio
 ; If instrument has not changed, just reset (& reload) volume and 
 ; reset misc things
 
-@SameInstrument
+SameInstrument
                 LDA     NED_ChnTotalVBlanks,X   ; 4
                 STA     NED_ChnVBlanksLeft,X    ; 4
                 LDA     NED_ChnLastVolume,X     ; 4
@@ -1220,28 +1220,28 @@ DoArpeggio
                 LDA     NED_ChnBitIndex,X       ; 4
                 ORA     NED_Reg4015             ; 3/4
                 STA     NED_Reg4015             ; 3/4
-                JMP     @NoInst                 ; 3
+                JMP     NoInst                  ; 3
 
 NED_UpdateT0
 
                                 ;lda     #6
                                 ;sta     $2001
 
-                JSR     GetSnotes
+                JSR     GetSNotes
 
                 ;INC     NED_CurrRow
                 ;RTS
 
                 LDX     #3
-@ChnLoop
+ChnLoop
 
                 LDA     NED_ChnInst,X
                 Bne     @YesInst
-                jmp     @NoInst
+                jmp     NoInst
 
 @YesInst
                         CMP     NED_ChnLastInst,X
-                        BEQ     @SameInstrument
+                        BEQ     SameInstrument
 
                         sta     NED_ChnLastInst,X       ; 4
                         asl                             ; 2
@@ -1375,14 +1375,14 @@ NED_UpdateT0
                         LDA     NED_ChnBitIndex,X       ; 4
                         ORA     NED_Reg4015             ; 3/4
                         STA     NED_Reg4015             ; 3/4
-@NoInst
+NoInst
 
                 ;LDA     NED_ChnTone,X
                 LDy     NED_ChnTone,X
-                BEQ     @NoTone
+                BEQ     NoTone
                         ;cmp     #97
                         cPY     #97
-                        beq     @NoteOff
+                        beq     NoteOff
 
                         ;STA     NED_ChnLastTone,X
                         STy     NED_ChnLastTone,X
@@ -1401,7 +1401,7 @@ NED_UpdateT0
 
                         lda     NED_ChnEff,X
                         cmp     #NED_EffTonePorta
-                        beq     @SkipPeriodSetToneRead
+                        beq     SkipPeriodSetToneRead
 
                         ;should make sure period is only updated when needed
                         lda     #$FF
@@ -1415,7 +1415,7 @@ NED_UpdateT0
                         ;ldY     NED_ChnLastTone,X
 
                         CPX     #NOSWAV_CHN
-                        BEQ     @ChnIsNoise
+                        BEQ     ChnIsNoise
 
 
                         LDA     Tone2PeriodLoTab-1,Y
@@ -1429,13 +1429,13 @@ NED_UpdateT0
                         ORA     NED_Reg4015
                         STA     NED_Reg4015
 
-@SkipPeriodSetToneRead
+SkipPeriodSetToneRead
 
-@NoTone
+NoTone
 
                         DEX
                         bmi     @ExitChnLoop
-                        jmp     @ChnLoop
+                        jmp     ChnLoop
 @ExitChnLoop
 
 ;                        INC     NED_CurrRow
@@ -1446,12 +1446,12 @@ NED_UpdateT0
                         jmp     UpdateChannelsT0
 
 
-@NoteOff        LDA     NED_ChnBitIndexInv,X
+NoteOff         LDA     NED_ChnBitIndexInv,X
                 AND     NED_Reg4015
                 STA     NED_Reg4015
-                jmp     @NoTone
+                jmp     NoTone
 
-@ChnIsNoise
+ChnIsNoise
                         dey
                         STy     NED_ChnPeriodLo,X
                         ;DEC     NED_ChnPeriodLo,X
@@ -1515,9 +1515,9 @@ UpdateDPCMT0    ldx     #DPCM_CHN
                 rts
 
 
-@PatternIsEmpty lda     #0
+PatternIsEmpty lda     #0
                 STA     NED_ChnPatRowsTotal,X
-                jmp     @BackFromPatternIsEmpty
+                jmp     BackFromPatternIsEmpty
 
 
 GetSNotes       LDA     #$40
@@ -1535,11 +1535,11 @@ GetSNotes       LDA     #$40
                 
                 
                 LDA     NED_CurrRow
-                BNE     @DontRecalcPtrs0
+                BNE     DontRecalcPtrs0
                 LDA     NED_CurrTick
-                BNE     @DontRecalcPtrs0
+                BNE     DontRecalcPtrs0
                 jmp     +
-@DontRecalcPtrs0 jmp     @DontRecalcPtrs
+DontRecalcPtrs0 jmp     DontRecalcPtrs
 +
 
 
@@ -1606,8 +1606,8 @@ GetSNotes       LDA     #$40
                         STA     NED_Temp1
                         LDA     (NED_TempWord),Y
                         bne     Buggar
-                        ;beq     @PatternIsEmpty
-                        jmp     @PatternIsEmpty
+                        ;beq     PatternIsEmpty
+                        jmp     PatternIsEmpty
 Buggar
                         lda     NED_Temp1
 +
@@ -1641,22 +1641,22 @@ Buggar
                         lda     #0
                         sta     NED_ChnNibAddrOdd,x
 
-@BackFromPatternIsEmpty
+BackFromPatternIsEmpty
                         dex
                         bpl     -
 
-@DontRecalcPtrs
+DontRecalcPtrs
 
                 LDX     #4      ; This now includes DPCM!!!
-@DecodeChnLoop
+DecodeChnLoop
                 DEC     NED_ChnPatRowsTotal,X
-                BMI     @DoneDecoding0
+                BMI     DoneDecoding0
                 DEC     NED_ChnPatRowsToSkip,X
-                BPL     @DoneDecoding0
+                BPL     DoneDecoding0
 
                 jmp     +
-@DoneDecoding0
-                JMP     @DoneDecoding
+DoneDecoding0
+                JMP     DoneDecoding
 +
 
                 LDA     NED_ChnPatAddrLo,X
@@ -1813,10 +1813,10 @@ Buggar
 @DontClearV
                 STa     NED_ChnNibAddrOdd,x                     ; 3 =~= 180 c
                                                 ; (180*4)/114=6-7 rasterlines
-@DoneDecoding
+DoneDecoding
                 dex
                 bmi     +
-                jmp     @DecodeChnLoop
+                jmp     DecodeChnLoop
 +
 
 
@@ -1829,8 +1829,8 @@ Buggar
 UpdateChannelsT0
                         ldx     #3
 -
-                        ;lda     NED_ChnVblanksLeft,X
-                        ldy     NED_ChnVblanksLeft,X
+                        ;lda     NED_ChnVBlanksLeft,X
+                        ldy     NED_ChnVBlanksLeft,X
                         bmi     @HoldNoteOnT0
                         ;sec
                         ;sbc     #1
@@ -1843,8 +1843,8 @@ UpdateChannelsT0
                                 ldy     #0
 
 @DontSetNoteOffT0
-                        ;sta     NED_ChnVblanksLeft,X
-                        sty     NED_ChnVblanksLeft,X
+                        ;sta     NED_ChnVBlanksLeft,X
+                        sty     NED_ChnVBlanksLeft,X
                         ;beq     @NotTriChn
 @HoldNoteOnT0
 
@@ -2070,7 +2070,7 @@ NED_SongPtrs    .DW     ned1
 ;NED_ChnPeriodHi         = NED_RAM_BASE + $08
 
 
-NED_SONGS = *
+NED_SONGS = $
 ;.incsrc "jfz.asm"
 ;.incsrc "demo.asm"
 ;.incsrc "nin.asm"
@@ -2084,17 +2084,17 @@ NED_SONGS = *
 
 ;.INCSRC "DPCMCODE.INC"
 
-getdpcmregs     lda #0
+GetDPCMRegs     lda #0
                 tax
                 tay
-                sta ned_temp1
+                sta NED_Temp1
                 rts
 
 
 ;.pad $00BF80
-VISPLAY_GFX = *
+VISPLAY_GFX = $
 ;        .incbin "visplayr.gfx"          ; the tiles for the note dots (64 bytes)
-DEFAULT_PAL = *
+DEFAULT_PAL = $
 ;        .incbin "visplay.pal"
 
 ;.PAD    $00C000

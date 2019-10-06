@@ -125,7 +125,7 @@ BingoDebrief
                 lda #0
                 sta $4015
                 jsr PlayBingoWav
-                jsr @SetupScroll
+                jsr SetupScroll
                 ldx #15
                 stx 5
 -
@@ -142,7 +142,7 @@ BingoDebrief
                 beq +
                 stx 5
 
-                jsr @SetupScroll
+                jsr SetupScroll
 
                 ldx 5
                 lda bingo1table,x
@@ -174,7 +174,7 @@ BingoDebrief
                 dex
                 bpl -
 
-                jsr @SetupScroll
+                jsr SetupScroll
                 ldx #60
                 stx 5
 -
@@ -185,7 +185,7 @@ BingoDebrief
                 bne -
                 rts
 
-@SetupScroll
+SetupScroll
                 lda #0
                 sta ppuaddr
                 sta ppuaddr

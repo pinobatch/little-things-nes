@@ -1,9 +1,10 @@
-  .opt on
-  .index 8
-  .mem 8
+  .incbin "nrom128.hdr"
+;  .opt on
+;  .index 8
+;  .mem 8
   .org $c000
-  .list
-  .symbol
+;  .list
+;  .symbol
 
 ppuctrl   = $2000
 ppumask   = $2001

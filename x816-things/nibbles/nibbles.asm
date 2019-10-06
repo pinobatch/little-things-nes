@@ -28,10 +28,10 @@
 
 
 
-
-.mem 8
-.index 8
-.list
+  .incbin "header.nes"
+;.mem 8
+;.index 8
+;.list
 
 
 .org $c000

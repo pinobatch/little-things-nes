@@ -50,12 +50,12 @@
 ; f000
 ; fffa interrupt vectors
 ;
-
-                .opt on
-                .mem 8
-                .index 8
+    .incbin "neshead.bin"
+;                .opt on
+;                .mem 8
+;                .index 8
                 .org $8000
-                .list
+;                .list
 
 ;PPU regs
 spraddr = $2003
@@ -173,9 +173,9 @@ resetcode       cld
                 sta $2000
                 sta $2001
                 lda #<readmedata
-                sta 2
+                sta 0
                 lda #>readmedata
-                sta 3
+                sta 1
                 lda #$20
                 jsr NT_decode
                 jsr wait4endvbl
@@ -215,15 +215,15 @@ title           lda #0
                 sta $2000
                 sta $2001
                 lda #<coprdata
-                sta 2
+                sta 0
                 lda #>coprdata
-                sta 3
+                sta 1
                 lda #$28
                 jsr NT_decode
                 lda #<ctitledata
-                sta 2
+                sta 0
                 lda #>ctitledata
-                sta 3
+                sta 1
                 lda #$20
                 jsr NT_decode
                 ldx #0
@@ -1133,7 +1133,12 @@ copynametable
 ;
 ; NT_decode
 ;
-                .incsrc "ntdec.asm" ;Kent Hansen's nametable decompress
+NT_decode
+                sta     $2006   ; write high byte of PPU address
+                lda     #$00
+                sta     $2006   ; write low byte of PPU address
+                jmp PKB_unpackblk
+                .incsrc "unpkb.asm"
 
 ;
 ; putpal
@@ -1218,9 +1223,9 @@ ReadJPad
 
 randdata        .incbin "randnos.bin"   ;made with randnos.c (included)
 gamebgdata      .incbin "ingame.nam"    ;made with SnowBro's nsa
-ctitledata      .incbin "title.cmp"     ;made with nsa and ntenc
-coprdata        .incbin "copr.cmp"      ;same
-readmedata      .incbin "readme.cmp"    ;same
+ctitledata      .incbin "title.pkb"     ;compressed with packbits
+coprdata        .incbin "copr.pkb"      ;same
+readmedata      .incbin "readme.pkb"    ;same
 
 ; palette for title screen and game
 pals

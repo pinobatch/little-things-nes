@@ -52,12 +52,12 @@
 ; f000
 ; fffa interrupt vectors
 ;
-
-                .opt on
-                .mem 8
-                .index 8
+    .incbin "neshead.bin"
+;                .opt on
+;                .mem 8
+;                .index 8
                 .org $8000
-                .list
+;                .list
 
 ;PPU regs
 spraddr = $2003
@@ -79,7 +79,7 @@ control4 = 7            ; controller 4 data
 gameType = 8            ; 0: puzzle; 1: action
 
 randSeed        = 10    ; (16 bits) random number seed
-delaymaker      = 12    ; (16 bits) the time until next cycle
+delayMaker      = 12    ; (16 bits) the time until next cycle
 gameSpeed       = 14    ; (16 bits) current speed of the game
 xcurs           = 16    ; cursor distance from left side in blocks
 ycurs           = 17    ; cursor distance from top in blocks
@@ -529,7 +529,7 @@ no_right
 +
                 jsr wait4vbl
 
-.comment
+.if 0
                 lda #$20
                 sta ppuaddr
                 lda #$e8
@@ -541,7 +541,7 @@ no_right
                 iny
                 cpy #8
                 bcc -
-.end
+.endif
                 jsr Redraw2row
                 jmp gameloop    ;endless loop
 
@@ -559,14 +559,14 @@ HandleClick
                 sta rdmgrline
 
                 jsr FloodFill
-.comment
+.if 0
                 lda twelves,y
                 clc
                 adc xcurs
                 tax
                 lda #0
                 sta field,x
-.end
+.endif
 +
                 rts
 
@@ -944,8 +944,8 @@ putcurs
 ;
 
 rand5           sty rand5save
-                ldy randseed
-                inc randseed
+                ldy randSeed
+                inc randSeed
                 lda randdata,y
                 ldy rand5save
                 rts
