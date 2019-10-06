@@ -1,46 +1,51 @@
+# makefile for using ASM6 to build x816-things
 
-.PHONY: all
+ifdef COMSPEC
+DOTEXE:=.exe
+PY:=py -3
+else
+DOTEXE:=
+PY:=python3
+endif
 
-all: nibbles/nibbles.nes raw-pcm-hello/sndtest.nes insane/insane.nes bingo/bingo.nes
+.PHONY: all clean
 
-nibbles/nibbles.nes: nibbles/nibbles.asm nibbles/title.pkb nibbles/copr.pkb nibbles/nibb_tab.bin asm6
-	( cd nibbles && ../asm6 nibbles.asm nibbles.nes )
+all: nibbles.nes sndtest.nes insane.nes bingo.nes
 
-nibbles/title.pkb: nibbles/title.nam nibbles/packbits
-	nibbles/packbits nibbles/title.nam nibbles/title.pkb
+clean:
+	-rm nibbles/*.pkb raw-pcm-hello/*.pkb bingo/*.pkb insane/*.pkb
+	-rm nibbles/*tab.bin
+	-rm nibbles/packbits$(DOTEXE) nibbles/mkpowers$(DOTEXE) asm6$(DOTEXE)
 
-nibbles/copr.pkb: nibbles/copr.nam nibbles/packbits
-	nibbles/packbits nibbles/copr.nam nibbles/copr.pkb
+nibbles.nes: nibbles/nibbles.asm nibbles/title.pkb nibbles/copr.pkb nibbles/nibb_tab.bin asm6$(DOTEXE)
+	( cd nibbles && ../asm6 nibbles.asm ../nibbles.nes )
 
-nibbles/nibb_tab.bin: nibbles/mkpowers
+sndtest.nes: raw-pcm-hello/sndtest.asm raw-pcm-hello/title.pkb asm6$(DOTEXE)
+	( cd raw-pcm-hello && ../asm6 sndtest.asm ../sndtest.nes )
+
+insane.nes: insane/insane.asm asm6$(DOTEXE)
+	( cd insane && ../asm6 insane.asm ../insane.nes )
+
+bingo.nes: bingo/bingo.asm bingo/title.pkb bingo/copr.pkb bingo/readme.pkb asm6$(DOTEXE)
+	( cd bingo && ../asm6 bingo.asm ../bingo.nes )
+
+# Lookup tables
+
+nibbles/nibb_tab.bin: nibbles/mkpowers$(DOTEXE)
 	( cd nibbles && ./mkpowers )
 
-nibbles/packbits: nibbles/packbits.c
-	gcc -Wall -O3 -s nibbles/packbits.c -o nibbles/packbits
+# Nametable RLE compression
 
-nibbles/mkpowers: nibbles/mkpowers.c
-	gcc -Wall -O3 -s nibbles/mkpowers.c -o nibbles/mkpowers
+%.pkb: %.nam nibbles/packbits$(DOTEXE)
+	nibbles/packbits $< $@
 
-raw-pcm-hello/sndtest.nes: raw-pcm-hello/sndtest.asm asm6
-	( cd raw-pcm-hello && ../asm6 sndtest.asm sndtest.nes )
+# Building native tools
 
-raw-pcm-hello/title.pkb: raw-pcm-hello/title.nam nibbles/packbits
-	nibbles/packbits raw-pcm-hello/title.nam raw-pcm-hello/title.pkb
+asm6$(DOTEXE): asm6.c
+	gcc -Wall -Os -std=c99 -s $< -o $@
 
-insane/insane.nes: insane/insane.asm asm6
-	( cd insane && ../asm6 insane.asm insane.nes )
+nibbles/packbits$(DOTEXE): nibbles/packbits.c
+	gcc -Wall -Os -s nibbles/packbits.c -o $@
 
-bingo/bingo.nes: bingo/bingo.asm bingo/title.pkb bingo/copr.pkb bingo/readme.pkb asm6
-	( cd bingo && ../asm6 bingo.asm bingo.nes )
-
-bingo/title.pkb: bingo/title.nam nibbles/packbits
-	nibbles/packbits bingo/title.nam bingo/title.pkb
-
-bingo/copr.pkb: bingo/copr.nam nibbles/packbits
-	nibbles/packbits bingo/copr.nam bingo/copr.pkb
-
-bingo/readme.pkb: bingo/readme.nam nibbles/packbits
-	nibbles/packbits bingo/readme.nam bingo/readme.pkb
-
-asm6: asm6.c
-	gcc -Wall -O3 -std=c99 -s asm6.c -o asm6
+nibbles/mkpowers$(DOTEXE): nibbles/mkpowers.c
+	gcc -Wall -Os -s nibbles/mkpowers.c -o $@

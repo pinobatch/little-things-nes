@@ -126,16 +126,19 @@ class UnPackBits(PackBits):
     def flush(self):
         out = bytearray()
         base = 0
-        while base < len(self.bytes):
-            c = self.bytes[base]
-            if c > 0 and c <= 127:
-                b = self.bytes[base + 1]
-                out.extend(self.bytes[base + 1:base + c + 2])
+        while base < len(self.data):
+            c = self.data[base]
+            if c >= 0 and c <= 127:
+                b = self.data[base + 1]
+                out.extend(self.data[base + 1:base + c + 2])
                 base += 2 + c
-            elif c >= -127:
-                b = self.bytes[base + 1]
-                out.fromlist([b] * (1 - c))
+            elif c >= 129:
+                b = self.data[base + 1]
+                out.extend([b] * (257 - c))
                 base += 2
+            else:
+                # Ignoring 128
+                base += 1
         return out
 
     @staticmethod

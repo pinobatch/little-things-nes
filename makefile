@@ -46,7 +46,11 @@ binaries := \
   test78/test78-submapper3.nes \
   vaus-test/vaus-test.nes \
   volumes/volumes.nes \
-  vwfterm/vwfterm.nes
+  vwfterm/vwfterm.nes \
+  x816-things/bingo.nes \
+  x816-things/insane.nes \
+  x816-things/nibbles.nes \
+  x816-things/sndtest.nes
 
 # All recursive makefiles must support the `all` phony target
 alls := $(sort $(foreach o,$(binaries),$(dir $(o))all))

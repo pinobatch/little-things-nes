@@ -19,5 +19,13 @@
 */mapalt.txt
 */map218.txt
 */nsfmap.txt
+x816-things/nibbles/packbits
+x816-things/nibbles/packbits.exe
+x816-things/nibbles/mkpowers
+x816-things/nibbles/mkpowers.exe
+x816-things/asm6
+x816-things/asm6.exe
+x816-things/*/*.pkb
+x816-things/nibbles/nibb_tab.bin
 zip.in
 __pycache__

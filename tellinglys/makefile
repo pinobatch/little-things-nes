@@ -48,10 +48,10 @@ CFLAGS = -std=gnu99 -Wall -DNDEBUG -O
 # py.exe in the path, but not python3.exe, which confuses MSYS Make.
 ifdef COMSPEC
 DOTEXE:=.exe
-PY:=py
+PY:=py -3
 else
 DOTEXE:=
-PY:=
+PY:=python3
 endif
 
 .PHONY: run debug all dist zip clean
