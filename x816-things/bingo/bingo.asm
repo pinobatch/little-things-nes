@@ -112,65 +112,53 @@ sprbuf = $200           ; sprite dma communication area
 ; Kevin Horton and Chris Covell played with it before I put it in.
 ;
 
-resetcode       cld
-                sei
-                jsr wait4vbl
+resetcode
+  cld
+  sei
+  
+  ldx #1          ;initialize sound chip
+  stx $4015
+  dex             ;0 -> A
+  stx $2000
+  stx $2001
+  txa             ;(A will contain 0 for most of init)
+  dex             ;255 -> S
+  stx $4003
+  txs
 
-                ldx #1          ;initialize sound chip
-                stx $4015
-                dex             ;0 -> A
-                txa             ;(A will contain 0 for most of init)
-                dex             ;255 -> S
-                stx $4003
-                txs
+  ; wait for warmup (1/2)
+  bit $2002
+  -
+    bit $2002
+    bpl -
 
-                sta $2000       ;turn off screen display
-                sta $2001
-                sta $2005
-                sta $2005
-                sta $4015       ;turn off sound
+  ; wait for warmup (2/2)
+  -
+    bit $2002
+    bpl -
+  
 
-
-;clear the NES's CPURAM
-                tay
-
--               sta 0,y
-                sta $100,y
-                sta $300,y
-                sta $400,y
-                sta $500,y
-                sta $600,y
-                sta $700,y
-                dey
-                bne -
-
-;clear out sprites
-                sta spraddr
-                tax
--               lda #$ef
-		sta sprbuf,x   ;Y = 241
-		inx
-		lda #$b6
-                sta sprbuf,x   ;index = blank
-		inx
-                lda #0
-		sta sprbuf,x   ;no flip, front, color 0
-		inx
-                sta sprbuf,x   ;X = 0
-		inx
-                bne -
-		lda #>sprbuf
-                sta sprdma      ;start sprite DMA
-		lda #0
-
+;clear work RAM (other than sprites)
+  tax
+  -
+    sta $00,x
+    sta $100,x
+    sta $300,x
+    sta $400,x
+    sta $500,x
+    sta $600,x
+    sta $700,x
+    dex
+    bne -
 
 ; ======================================
 ; == PRERELEASE NOTICE:               ==
 ; == remove this when game is done    ==
 ; ======================================
 
-                lda #0
+                lda #$80
                 sta $2000
+                lda #$00
                 sta $2001
                 lda #<readmedata
                 sta 0
@@ -178,12 +166,10 @@ resetcode       cld
                 sta 1
                 lda #$20
                 jsr NT_decode
-                jsr wait4endvbl
                 ldx #0
                 stx 0
                 ldx #titlepal-pals
                 jsr putpal
-                jsr wait4endvbl
                 jsr wait4vbl
                 lda #0
                 sta ppuaddr
@@ -195,7 +181,6 @@ resetcode       cld
                                 ;bg on fullscreen; color display
                 sta $2001
 -
-                jsr wait4endvbl
                 jsr wait4vbl
                 jsr ReadJPad
                 lda control1
@@ -211,8 +196,9 @@ title           lda #0
                 lda control1
                 bne title
 
-                lda #0
+                lda #$80
                 sta $2000
+                lda #$00
                 sta $2001
                 lda #<coprdata
                 sta 0
@@ -238,8 +224,8 @@ title           lda #0
 
                 ; Scroll the title screen up.
                 lda #0
-                sta ppuaddr
-                sta ppuaddr
+                sta $2005
+                sta $2005
                 sta 0
                 sta 1
                 sta 2
@@ -251,12 +237,10 @@ title           lda #0
                 lda #%00011110  ;black bg; sprites on fullscreen;
                                 ;bg on fullscreen; color display
                 sta $2001
-                ldx #0
-
-                jmp +
+;                ldx #250
+                ldx #1  ; frames to wait
 
 -
-                jsr wait4endvbl
                 jsr wait4vbl
                 dex
                 bne -
@@ -264,7 +248,6 @@ title           lda #0
                 jsr PlayBingoWav
 
 -
-                jsr wait4endvbl
                 jsr wait4vbl
                 clc
                 lda 0
@@ -292,7 +275,6 @@ title           lda #0
                 sta $2005
                 sta $2005
 -
-                jsr wait4endvbl
                 jsr $8000
                 jsr wait4vbl
                 jsr ReadJPad
@@ -342,7 +324,6 @@ NewLevel
                 jsr copynametable
 
                 ldx #0          ;rehide the display
-                stx $2000
                 stx $2001
                 ldx #0
                 stx 0
@@ -427,7 +408,6 @@ NewLevel
                 lda #$55
                 sta ppudata
 
-                jsr wait4endvbl
                 jsr wait4vbl
 
                 lda #0
@@ -453,7 +433,6 @@ NewLevel
                 sta py2
 
 gameloop
-                jsr wait4endvbl
                 jsr startsprite
                 jsr $8000
                 jsr ReadJPad
@@ -577,8 +556,11 @@ gameloop
 
                 jsr endsprite
 
-
                 jsr wait4vbl
+                lda #0
+                sta spraddr
+                lda #>sprbuf
+                sta sprdma
 
 
                 ; Check for hit.
@@ -964,19 +946,12 @@ rand
 ; waits for vertical blank
 ;
 
-wait4vbl        bit $2002
-                bpl wait4vbl
-                rts
-
-
-;
-; wait4endvbl
-; waits for end of vertical blank
-;
-
-wait4endvbl     bit $2002
-                bmi wait4endvbl
-                rts
+wait4vbl
+  lda retraces
+  -
+    cmp retraces
+    beq -
+  rts
 
 
 ;
@@ -1091,10 +1066,13 @@ midi2freq_more
 ;
 
 copynametable
-                ldy #0
+                ldy #$80  ; forward, not down
                 sty $2000
+                ldy #$00
                 sty $2001
+                pha
                 jsr wait4vbl
+                pla
                 sta ppuaddr
                 lda #0
                 sta ppuaddr

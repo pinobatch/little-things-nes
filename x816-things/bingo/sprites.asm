@@ -278,7 +278,7 @@ startsprite
 
 ;
 ; endsprite
-; Clears the rest of the sprite table and blits it.
+; Clears the rest of the sprite table to be blitted at next vblank.
 ;
 
 endsprite
@@ -288,11 +288,6 @@ endsprite
                 sta sprbuf,x
                 inx
                 bne -
-                sta spraddr
-                lda #>sprbuf
-                sta sprdma
-                nop
-                nop
                 rts
 
 

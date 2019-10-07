@@ -129,7 +129,6 @@ BingoDebrief
                 ldx #15
                 stx 5
 -
-                jsr wait4endvbl
                 jsr $8000
                 jsr wait4vbl
                 dec 5
@@ -178,7 +177,6 @@ BingoDebrief
                 ldx #60
                 stx 5
 -
-                jsr wait4endvbl
                 jsr $8000
                 jsr wait4vbl
                 dec 5
@@ -200,7 +198,6 @@ SetupScroll
                 sta $2005
                 lda #$d8
                 sta $2005
-                jsr wait4endvbl
                 jsr $8000
                 jsr wait4vbl
                 rts

@@ -60,7 +60,7 @@ playfield = $400
 STAR_SPACING = 44
 STAR_SPEED = 4
 
-
+retraces = 19
 rndl = 20
 rndh = 21
 sound_ptr = 22
@@ -122,7 +122,10 @@ crt0_startup
   stx ppuctrl
   dex           ;initialize stack
   txs
-  jsr wait4vbl
+  bit ppustatus ;warmup (1/2)
+  -
+    bit ppustatus
+    bpl -
 
   lda #1        ;initialize 2A03 PSG
   sta sndchn
@@ -144,8 +147,10 @@ crt0_startup
   inx
   bne -
 
-  jsr wait4vbl  ;after two VBLs the PPU should be warmed up
-  jsr copy_spr
+  bit ppustatus ;warmup (2/2)
+  -
+    bit ppustatus
+    bpl -
 
   ;clear unused 2nd nametable (so its RAM doesn't act up)
   lda #$2c
@@ -164,17 +169,11 @@ crt0_startup
   lda #1
   sta nPlayers
 
-  lda #0
-  sta ppumask
-
   lda #$3f      ;Copy the palette into PPU $3f00.
   sta ppuaddr
   ldx #0
   stx ppuaddr
 -
-  lda nibpal,x
-  sta ppudata
-  inx
   lda nibpal,x
   sta ppudata
   inx
@@ -193,8 +192,9 @@ crt0_startup
   lda #0
   sta ppuaddr
   jsr PKB_unpackblk
-  lda #0
+  lda #$80
   sta ppuctrl
+  lda #0
   sta ppuscroll
   sta ppuscroll
   lda #%00001010 ;bg no sprites
@@ -253,6 +253,7 @@ title_loop
   lda #0
   sta ppuscroll
   sta ppuscroll
+  lda #$80
   sta ppuctrl
   lda #%00011110
   sta ppumask
@@ -308,9 +309,10 @@ play_level
   
 game_loop
   jsr wait4vbl
+  lda #$80
+  sta ppuctrl
   lda #0
   sta ppumask
-  sta ppuctrl
   lda need_apple
   beq +
   jsr make_apple
@@ -322,8 +324,9 @@ game_loop
   lda curTurn
   cmp nPlayers
   bcc -
-  lda #0
+  lda #$80
   sta ppuctrl
+  lda #0
   sta ppuscroll
   sta ppuscroll
   sta curTurn
@@ -412,8 +415,9 @@ game_paused
   jsr copy_spr
 
   jsr wait4vbl
-  lda #0
+  lda #$80
   sta ppuctrl
+  lda #0
   sta ppuscroll
   sta ppuscroll
   lda #%00011110
@@ -1115,8 +1119,10 @@ clr_spr
 ; Waits for the start of a vertical blank.
 ;
 wait4vbl
-  bit ppustatus
-  bpl wait4vbl
+  lda retraces
+  -
+    cmp retraces
+    beq -
   rts
 
 ;
@@ -1172,6 +1178,7 @@ read_pads
 
 
 nmipoint
+  inc retraces
 irqpoint
   rti
 
