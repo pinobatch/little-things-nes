@@ -1,0 +1,4 @@
+TO DO:
+
+implement order table
+implement pattern commands 48, 4C-4D, 4E, 4F, 50-5F, 80-8F

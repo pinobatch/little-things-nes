@@ -1,0 +1,98 @@
+Palette
+0: 02002720 blue gray orange white (for most)
+1: 02160f20 blue red black white (for note names)
+
+== CHR ==
+
+00-7F unused
+80-8B Note names
+8C dot for empty
+8E right side of phrase no effect
+8F right side of phrase effect (in 5 column view)
+90,92,94,...,9A Octave numbers for white-key notes, color 1
+91,93,95,...,9B Octave numbers for black-key notes, color 2
+9c left side of phrase slur
+9d left side of phrase no slur
+9e left side of top of phrase slur
+9f left side of top of phrase no slur
+A0-AF Hexdigits 0-F at left side, color 1
+B0-BF Hexdigits 0-F at right side
+C0-CD Names of channels
+
+== 5-column screen ==
+
+Row above main scrolling:
+_00_squa__squa__tria__nois__dm__
+ |  |     |     |     |     |
+ |  |     |     |     |     +---- DMC (sample) channel
+ |  |     |     |     +---------- Noise channel
+ |  |     |     +---------------- Triangle channel
+ |  |     +---------------------- Pulse channel 2
+ |  +---------------------------- Pulse channel 1
+ +------------------------------- Section number
+
+Row in main scrolling area:
+ 0C>C203)@G405][- - ][- - ][- ] 
+ | || | ||
+ | || | |+----------------------- Start of phrase
+ | || | +------------------------ This row has an effect
+ | || +-------------------------- Instrument 3
+ | |+---------------------------- Note C-2
+ | +----------------------------- Tongued note
+ +------------------------------- Row 12 of this section
+
+
+== Overall structure of a project ==
+
+A project can be made with 8 KB or 16 KB banks.
+
+Bank size depends on PRG mapper:
+PRG bank  Boards        Project bank size
+None      NROM, C*ROM   1 x 16 KB
+32 KB     A*ROM, G*ROM  2 x 16 KB
+16 KB     U*ROM, S*ROM  n x 16 KB
+8 KB      T*ROM, E*ROM  n x 8 KB
+
+All code and data related to tone generator instruments resides in one
+bank so that it can easily be swapped out.
+
+Music is organized into notes, phrases, and sections.
+
+A section consists of commands to start phrases on channels at given
+(row, channel) pairs. It is similar to MOD's "order".
+
+A song consisting of an intro and a loop will have at least two
+sections: one for the intro and one for the loop.  Each will end with
+the "jump to section" command.
+
+A phrase is like MOD's pattern but smaller.  It spans only one channel
+and can be shorter or longer.
+
+A note can be played slurred or tongued.  A tongued note restarts the
+instrument's envelopes; a slurred note just changes the pitch.
+
+Instrument limits:
+1 bank instrument code + pointers + data
+256 instruments per project
+256 DMC instruments per project
+?? bytes per instrument
+
+Music limits:
+256 sections per project
+4096 phrases per project
+?? bytes per phrase or section
+
+
+== Section commands ==
+
+A section consists of different notes:
+
+0v xx : On channel v, play phrase x (for 256 most common phrases)
+1v 0x xx : On channel v, play phrase x
+2v xx : Change instrument on channel v to x
+3v xx : Set transpose of channel v to xx (signed)
+
+BF xx : Jump to section xx
+C0-FF : Wait for b-191 rows
+
+______________________________________________________________________

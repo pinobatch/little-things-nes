@@ -1,0 +1,108 @@
+;;; seq1
+;   Back when we just had an instrument engine, I used this to test each channel.
+seq1:
+  lda #1
+  ldx #0
+  jsr trigger_inst
+  ldy #24
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #1
+  ldx #4
+  jsr trigger_inst
+  ldy #26
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #1
+  ldx #0
+  jsr trigger_inst
+  ldy #27
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #2
+  ldx #4
+  jsr trigger_inst
+  ldy #8
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #5
+  ldx #12
+  jsr trigger_inst
+  ldy #0
+  jsr set_note
+  lda #3
+  ldx #8
+  jsr trigger_inst
+  ldy #32
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #3
+  ldx #8
+  jsr trigger_inst
+  ldy #34
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  lda #3
+  ldx #8
+  jsr trigger_inst
+  ldy #36
+  jsr set_note
+  ldy #180
+  jsr wait4vbl
+
+  lda #0
+  sta inst_hi+4
+  sta inst_hi+8
+  sta inst_hi+12
+  sta vol+4
+  sta vol+8
+  sta vol+12
+
+  lda #4
+  ldx #0
+  jsr trigger_inst
+  ldy #35
+  jsr set_note
+  ldy #27
+  jsr wait4vbl
+
+  rts
+
+;;; Appropriate instruments:
+
+inst_ptrs:
+  .addr silence_note
+  .addr short_note
+  .addr long_note
+  .addr tri_note
+  .addr arp_note
+  .addr wind_note
+
+silence_note:
+  .byt $00,$3f,$ff,$04
+short_note:
+  .byt $49,$8A,$17,$83,$17,$82,$17,$81,$ff,$03
+long_note:
+  .byt $8c,$4c,$4a,$49,$48,$10,$47,$10,$46,$11,$45,$12,$44,$14,$43,$18,$42,$ff,$03
+tri_note:
+  .byt $8f,$9b,$18,$00,$ff,$03
+arp_note:
+  .byt $0c,$53,$0c,$52,$0b,$96,$0b,$53,$0a,$52,$0a,$96
+  .byt $09,$53,$09,$52,$08,$96,$08,$53,$07,$52,$07,$96
+  .byt $06,$53,$06,$52,$05,$96,$05,$53,$04,$52,$04,$96
+  .byt $03,$53,$03,$52,$02,$96,$02,$53,$01,$52,$01,$96
+  .byt $00,$ff,$03
+wind_note:
+  .byt $56,$0d,$99,$01,$14,$50,$02,$14,$50,$03,$14,$50,$04,$14,$ff,$03

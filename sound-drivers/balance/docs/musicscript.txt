@@ -1,0 +1,35 @@
+[unassigned pattern events]
+program change
+note on + delta time 1 row
+tempo change
+
+let's see... if we did rows per minute then we'd need a counter wrapping at 3600.
+This is doable in 4 bytes of memory (playback speed and clock phase) and 12 bits of
+order 
+
+
+Order table format
+
+0x xx : Goto order x
+1x xx : Goto order x (all channels)
+2x xx : Play pattern x
+3x xx : Set tempo to x (all channels)
+40 xx : Set channel transpose to (signed char)x
+41 xx : Set instrument to x
+
+Pattern table format
+
+00-47 : Play note and wait 1 row
+48 xx xx : Set channel tempo to x rows per minute
+49-4B : unassigned
+4C    : Legato OFF
+4D    : Legato ON
+4E xx : Set instrument to x
+4F    : End pattern
+50-5F : Wait n-$4F vblanks
+60-6F : Hold: Wait n-$5F rows
+70-7F : Rest: Cut and wait n-$6F rows
+80-8F : Cut after n-$80 vblanks of the next row
+90-FF : unassigned
+
+"Instrument 0" means each note turns on a different instrument, each played at note 0.

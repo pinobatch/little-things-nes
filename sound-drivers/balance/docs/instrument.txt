@@ -1,0 +1,12 @@
+Balance instrument format
+
+$00-$0F, $40-$4F, $80-$8F, $c0-$cf
+  Set volume and duty and wait one frame
+$10-$3F
+  Wait n-$0F frames
+$50-$7F
+  Add n-$4F to note
+$90-$BF
+  Subtract n-$8F from note
+$FF nn
+  Branch backward by n bytes (this opcode included)
