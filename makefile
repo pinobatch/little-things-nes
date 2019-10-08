@@ -32,6 +32,7 @@ binaries := \
   rgb121/rgb121.nes \
   roulette/roulette.nes \
   scaling/scaling.nes \
+  sound-drivers/p8mus/pl.nes \
   sound-drivers/5/5.nes \
   sound-drivers/balance/balance.nes \
   spectralencode/spectral.nes \

@@ -1,0 +1,103 @@
+The Pin Eight Music Engine, version 0.1
+
+
+
+
+
+Patterns in a popular NES tracker format called NT2 are encoded as two streams: a nibblestream representing which columns of each row are used, and another nibblestream containing data.  I turned these into one bytestream.  I further developed the concept by adding a rest value after all note triggers and cuts and compressing runs of notes that retrigger the same instrument.
+
+Kevin Horton clued me in on the trick that saves the most space over NT2:  Do NOT break all channels to the next pattern when one channel ends its pattern.  Now repetition (especially in rhythm) is localized to a particular channel.  Making orders and patterns effectively C-strings (with a terminator suffix instead of a length prefix) lets one pattern fall into another and the intro fall into the loop.
+
+Another trick to save over NT2 is transposition.  A pattern can be transposed up or down n semitones.
+
+
+Here's the binary file format:
+
+
+HEADER
+
+00
+01 header size
+02
+03 initial speed (ticks / 64)
+04 number of instruments (each 8 bytes)
+05 number of orders (each 2 bytes)
+06 number of patterns (each 4 bytes)
+07
+08 ch0 initial order
+09 ch1 initial order
+0a ch2 initial order
+0b ch3 initial order
+0c ch4 initial order
+0d
+0e
+0f
+
+
+INSTRUMENT DATA
+
+0 wwnrvvvv: w = pulsewidth
+            n = never transpose
+            r = 0: retrigger every row; 1: don't
+            v = init. volume
+1 bbbbbbbb: b = bend rate (signed)
+2 l0aaaaaa: l = looped arpeggio
+            a = arpeggio note offset
+3 
+4 
+5 rrrrrrrr: r = ticks between bend rate toggles (for subsonic fm)
+                (0: disable; 1: 30 Hz; 2: 15 Hz; 3: 10 Hz...)
+6 rrrrtttt: attack rate/time
+7 rrrrtttt: decay rate/time
+
+
+ORDER DATA
+Composed of 2-byte packets.
+
+00tttttt pppppppp: Call pattern p, transposed up t semitones.
+11111111 pppppppp: Goto order #p (used e.g. at end of song)
+
+Other codes are as yet undefined.
+
+PATTERN DATA
+Composed of 1- or 2-byte packets.
+
+want:
+Set primary instrument
+Set secondary instrument
+Set tuning offset
+
+SECTION 00: Misc commands
+00000000: pattern break
+00cLLLLL: If c then release note.
+          Wait L rows.
+
+SECTION 01: Notes and effects
+010LLLLL rsnnnnnn: if r then trigger note in (s=0) primary or (s=1) secondary instrument
+                   do note n
+                   wait L+1 rows
+0110pppp: Set effect p to current instrument default.
+0111pppp nnnnnnnn: Set effect p to n until next retrig.
+
+SECTION 10: Primary instrument setting
+10riiiii: Set primary instrument to i
+          If r then trigger.
+
+SECTION 11: Secondary instrument setting
+11riiiii: Set secondary instrument to i
+          If r then trigger.
+
+
+
+EFFECTS
+
+We'll need effects
+
+set pulsewidth
+set volume
+set pitchslide
+set arpeggio
+immediate fine pitchbend (for chorusing)
+toggle portamento
+set tempo
+

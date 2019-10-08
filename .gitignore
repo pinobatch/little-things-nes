@@ -10,6 +10,7 @@
 */obj/nes/*.pkb
 */obj/nes/*.dmc
 */obj/nes/*.121
+*.nes.deb
 */*.nes
 */*.nsf
 *.sav
@@ -30,8 +31,8 @@ x816-things/nibbles/nibb_tab.bin
 sound-drivers/*/*.nes
 sound-drivers/*/map.txt
 sound-drivers/*/obj/nes/*.s
-sound-drivers/balance/5/mkpowers
-sound-drivers/balance/5/mkpowers.exe
+sound-drivers/5/tools/mkpowers
+sound-drivers/5/tools/mkpowers.exe
 sound-drivers/balance/tools/freqtable
 sound-drivers/balance/tools/freqtable.exe
 sound-drivers/balance/tools/81

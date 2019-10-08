@@ -1,0 +1,113 @@
+From:  Kevin Horton <khorton@i...>
+Date:  Sun Jun 24, 2001  1:51 pm
+Subject:  Re: [nesdev] Music engine design for small cartridges
+
+At 12:20 PM 6/24/01 -0500, you wrote:
+
+
+>You may have seen my description of the file format used by Michel
+>Iwaniec's NT2 tracker and replay code.
+>http://nesdev.parodius.com/nt2re.zip
+>I wonder if it's possible to make a smaller music engine or smaller
+>track files, especially for NROM/CNROM demos and games.  Of
+>course, it wouldn't be compatible with NT2, but the only real issue
+>is compatibility with the NES.
+
+It's fairly easy to make a much smaller representation of the music.  On 
+the Colecovision game Kevtris, I used a "note, pattern, track" format which 
+worked out very well.  All the music (3 songs + 3 jingles) fit into 1.5K.
+
+It looks something like this:
+
+song1:   .dw  track1, track2, track3
+
+track1:  .dw  pat1, pat2, pat2, pat1, 0, track1
+track2:  .dw  pat2, pat2, pat1, pat1, 0, track2
+track3:  .dw  pat3, pat3, pat3, pat3, 0, track3
+
+pat1:    .db 4, 12,4, 14,4, 16,8, 18,4, 0,4, 0,0
+
+pat2:    .db 4, 18,4, 20,4, 22,8, 24,4, 26,2, 0,0
+
+pat3:    .db 5, 0,4, 0,4, 0,4, 0,4, 0,8, 0,0
+
+
+.dw = "data word", which is a 16 bit pointer
+.db = "data byte", just a byte of data
+
+The patterns are made up like so:
+
+pat1:    .db 4, 12,4, 14,4, 16,8, 18,4, 0,4, 0,0
+
+^ label      ^I  ^N,L                        ^F
+
+I: Instrument #.  This defines the "instrument" that will be used to play 
+back this pattern.
+
+N,L:  Note, Length.  Note #1 is the lowest musical note the NES (or coleco) 
+can play.  A note value of 0 is a rest.  The length of the note was (in my 
+case) 1/16th's.  i.e.:
+
+1:  1/16th note
+2:  1/8th note
+3:  dotted 1/8th note
+4:  quarter note
+6:  dotted quarter
+8:  half
+12: dotted half
+16: whole note
+32: two whole notes
+
+Since a length of 32 is probably as big as you will ever need, you can do 
+some cheating :-).  Use only the lower 5 bits of that length byte to store 
+the note length, and use the other three for such things as "end of 
+pattern", pitch bending, or anything else.
+
+F: A note and length of 0 indicates this is the end of the pattern.
+
+---
+
+Each track is simply made up of a list of the patterns that will be used to 
+play it.  Each pattern is played sequentially in the order they are listed.
+
+track1:  .dw  pat1, pat2, pat2, pat1, 0, track1
+
+In this case, it will play pattern 1, then 2, then 2, then 1, and the 0 
+indicates this is the end of the pattern.  The code then takes the next 
+word and uses it to reset its pointer.  In this case, it resets the pointer 
+back to track1 so it will play the 4 patterns again.
+
+---
+
+song1:   .dw  track1, track2, track3
+
+song1 is storing the beginning addresses for each of the three channels 
+that will be used.  track1 = channel 1, track2 = channel 2, etc.  You can 
+add as many channels as you want to your code. On the CV I used 3, but on 
+the NES you could use 5.
+
+---
+
+The ability to use arbitrary-sized pattern pieces is what ends up saving 
+most of the space.  Usually the rhythm track is fairly repetitious, and as 
+such, you can store the entire thing with say, an 8 or 16 note pattern and 
+just loop it.  Total byte cost would be 16*2+2 = 34 bytes
+
+This storage method allows for some fairly serious memory-saving tricks 
+like this:
+
+song1:  .dw track1, track2, track3
+song2:  .dw track4, track5, track6
+
+pat1: .dw pat1, pat1, pat2, pat1
+pat4: .dw pat3, pat3, pat3, pat4, pat5, pat4, pat5, 0, pat4
+
+^ the trick here is "pat1" plays, then "falls onto" pat4, since there is no 
+0 marker at the end of it. Once "pat4" is played, it then will be 
+redirected back to the start of pat4, skipping the song's "intro".
+
+The player code for this style of music is fairly effecient, and shouldn't 
+run more than 500-600 bytes unless you do some really cute things like 
+pitch bending and such.  Even so, it shouldn't take much more space, maybe 
+1K-1.5K, if that.
+

@@ -1,0 +1,10 @@
+checklist:
+
+notes play on ch1
+notes play on ch2
+notes play on ch3
+notes transpose if the instrument doesn't prohibit it
+arpeggio
+pitchslide
+fm timing
+effects controlling these
