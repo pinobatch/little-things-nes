@@ -1,0 +1,37 @@
+123456789012345678901234567890123456789012345678901234567890123456789
+
+An instrument can have
+  a volume envelope
+  a timbre envelope
+  a note envelope, and
+  a detuning envelope.
+
+Volume envelope, timbre envelope, and note envelope are 4-bit
+envelopes.
+
+Format of 4-bit envelopes:
+0 len
+1 loop len
+2 step 0
+3 step 1
+4 step 2
+...
+each byte:
+76543210
+||||||||
+||||++++- parameter
+++++----- runlength
+
+Parameter of volume envelopes is a number 0-15.
+Parameter of timbre envelopes is 0, 4, 8, 12 for square waves,
+or 0 or 8 for noise.
+Parameter of note envelopes is the number of semitones above
+the nominal note.
+Parameter of detuning envelopes:
+
+3210
+||||
+|+++- Detune rate = 1 << this
++---- Detune direction:
+      0 increases the wavelength (and decreases the pitch)
+      1 decreases the wavelength (and increases the pitch)

@@ -16,7 +16,6 @@
 *.zip
 */*.prg
 */map.txt
-sound-drivers/*/map.txt
 */mapalt.txt
 */map218.txt
 */nsfmap.txt
@@ -28,6 +27,11 @@ x816-things/asm6
 x816-things/asm6.exe
 x816-things/*/*.pkb
 x816-things/nibbles/nibb_tab.bin
+sound-drivers/*/*.nes
+sound-drivers/*/map.txt
+sound-drivers/*/obj/nes/*.s
+sound-drivers/balance/5/mkpowers
+sound-drivers/balance/5/mkpowers.exe
 sound-drivers/balance/tools/freqtable
 sound-drivers/balance/tools/freqtable.exe
 sound-drivers/balance/tools/81
