@@ -9,20 +9,26 @@ def sliver_to_texels(lo, hi):
             for i in range(7, -1, -1)]
 
 def tile_to_texels(chrdata):
+    if len(chrdata) < 16:
+        chrdata = chrdata + bytes(16 - len(chrdata))
     _stt = sliver_to_texels
     return [_stt(a, b) for (a, b) in zip(chrdata[0:8], chrdata[8:16])]
 
-def chrbank_to_texels(chrdata):
+def chrbank_to_texels(chrdata, planes=2):
     _ttt = tile_to_texels
-    return [_ttt(chrdata[i:i + 16]) for i in range(0, len(chrdata), 16)]
+    tilelen = 8 * planes
+    return [_ttt(chrdata[i:i + tilelen])
+            for i in range(0, len(chrdata), tilelen)]
 
 def texels_to_pil(texels, tile_width=16):
     tilerows = [texels[i:i + tile_width]
               for i in range(0, len(texels), tile_width)]
+    if len(tilerows[-1]) < tile_width:
+        emptytile = [[0] * 8] * 8
+        tilerows[-1].extend([emptytile] * (tile_width - len(tilerows[-1])))
     texels = [bytes(c for tile in row for c in tile[y])
               for row in tilerows for y in range(8)]
     im = Image.frombytes('P', (8 * tile_width, len(texels)), b''.join(texels))
-    im.putpalette(b'\x00\x00\x00\x66\x66\x66\xb2\xb2\xb2\xff\xff\xff')
     return im
 
 def render_usage(tilewidth=32):
@@ -45,7 +51,10 @@ def parse_argv(argv):
     p.add_argument("--skip", type=parse_skip_arg,
                    help="bytes to skip (e.g. 4096, $1000, 0x1000), "
                         "or prg to skip entire .nes PRG ROM "
-                        "(default: 16 for .nes or 0 for other extensions")
+                        "(default: 16 for .nes or 0 for other extensions)")
+    p.add_argument("-1", "--1bpp", dest="planes",
+                   action="store_const", const=1, default=2,
+                   help="treat tiles as 1bpp (default: 2bpp NES format)")
     p.add_argument("--width", type=int, default=16,
                    help="number of tiles per row (default: 16)")
     return p.parse_args(argv[1:])
@@ -54,6 +63,7 @@ def main(argv=None):
     args = parse_argv(argv or sys.argv)
     infilename, outfilename = args.romfile, args.outfile
     skip = args.skip
+    planes = args.planes
     skip_prg = False
     if skip is None:
         ext = os.path.splitext(infilename)[-1].lower()
@@ -69,9 +79,14 @@ def main(argv=None):
                 prgromsize += (header[9] & 0x0F) << 22
             infp.read(prgromsize)
         romdata = infp.read()
-    tiles = texels_to_pil(chrbank_to_texels(romdata), args.width)
+    tiles = texels_to_pil(chrbank_to_texels(romdata, planes), args.width)
+    if planes == 1:
+        tiles.putpalette(b'\x00\x00\x80\xFF\xFF\x80')
+    else:
+        tiles.putpalette(b'\x00\x00\x00\x66\x66\x66\xb2\xb2\xb2\xff\xff\xff')
+
     if outfilename:
-        tiles.save(outfilename, bits=2)
+        tiles.save(outfilename, bits=planes)
     else:
         tiles.show()
 
