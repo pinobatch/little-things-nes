@@ -10,7 +10,7 @@ endif
 
 .PHONY: all clean
 
-all: nibbles.nes sndtest.nes insane.nes bingo.nes
+all: nibbles.nes sndtest.nes insane.nes bingo.nes s0.nes
 
 clean:
 	-rm nibbles/*.pkb raw-pcm-hello/*.pkb bingo/*.pkb insane/*.pkb
@@ -28,6 +28,9 @@ insane.nes: insane/insane.asm asm6$(DOTEXE)
 
 bingo.nes: bingo/bingo.asm bingo/title.pkb bingo/copr.pkb bingo/readme.pkb asm6$(DOTEXE)
 	( cd bingo && ../asm6 bingo.asm ../bingo.nes )
+
+s0.nes: sprite0/s0.asm sprite0/nromhead.bin sprite0/s0.chr asm6$(DOTEXE)
+	( cd sprite0 && ../asm6 s0.asm ../s0.nes )
 
 # Lookup tables
 

@@ -54,6 +54,7 @@ binaries := \
   x816-things/bingo.nes \
   x816-things/insane.nes \
   x816-things/nibbles.nes \
+  x816-things/s0.nes \
   x816-things/sndtest.nes
 
 # All recursive makefiles must support the `all` phony target
