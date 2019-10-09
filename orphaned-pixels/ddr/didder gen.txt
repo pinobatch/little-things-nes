@@ -1,0 +1,39 @@
+This was conceived in March 2012 for implementation in 2019 or later
+once certain patents owned by Konami expired.  It is now 2019.
+
+nesdidder:
+1. Get Stephania by Ilona Karmel synopsis from the net
+2. Draw column of LDUR areas
+3. Make a DWI parser
+4. Make a step bytecode format
+
+The story:
+The goal is to work in as many rhythm game puns as possible.
+
+Chronology:
+Concentration Room (pre-war), then the second game (during the
+war), then the dance game
+
+The heroine is named Stephania (Steph for short).  This name is a
+variant of Stephanie, from old Greek meaning "crowned" or "winning",
+but calls to mind StepMania.  (See also "han fang ji" and
+Ilona Karmel.)
+Steph is from a country that has been buying out businesses, making
+them citizen owned like GM briefly was in the real world USA,
+as a more gradual transition to communism than, say, the USSR.
+The country is the DDR, the D-- Democratic Republic.  (Pun on
+East Germany; still need to figure out what D stands for.)
+So Steph wants to be a dancer when she grows up.  She joins her
+school's line dancing troupe.
+
+Player 2 controls Dieter.  (Also pun.)
+
+The game loop of didder:
+1. Find the current scroll position
+2. If an arrow is just passing, record its proper time
+3. Compare the most recent step on each arrow to the recent arrows' proper times
+4. Draw all arrows
+5. Draw judgments
+
+Pently offers bpmmath, which allows calculating the beat fraction
+for step chart scrolling purposes.
