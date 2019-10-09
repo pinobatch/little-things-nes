@@ -11,7 +11,7 @@ prior to 2019.
 - [BNROM and AOROM size and mirroring test](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
 - [Boing 2007](https://forums.nesdev.com/viewtopic.php?p=62806#p62806):
   squashing the background using mistimed VRAM reads
-* [Boolean Beakers](https://forums.nesdev.com/viewtopic.php?f=10&t=4331)
+- [Boolean Beakers](https://forums.nesdev.com/viewtopic.php?f=10&t=4331)
 - [ca65 macros reimplementing 6502 mnemonics](https://forums.nesdev.com/viewtopic.php?f=2&t=10701)
 - Concentration Room Emblem Designer prototype
 - [Convergence](https://forums.nesdev.com/viewtopic.php?p=215229#p215229)
@@ -28,6 +28,7 @@ prior to 2019.
 - [FME-7 IRQ acknowledgment](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
 - GNOME vs. KDE: Battle of the Desktops:
   Bingo-inspired 2-player game
+- Hello World program produced while learning ca65
 - Insane Game: incomplete attempt to port the TI-83 version of
   SameGame
 - [IRE tiny](https://forums.nesdev.com/viewtopic.php?p=159262#p159262):
@@ -40,7 +41,7 @@ prior to 2019.
   multiply, divide, square root, binary to decimal
 - Meece:
   first NES program to use a Super NES Mouse
-* [Metatile engine using 32x16-pixel cells](https://forums.nesdev.com/viewtopic.php?f=2&t=1118)
+- [Metatile engine using 32x16-pixel cells](https://forums.nesdev.com/viewtopic.php?f=2&t=1118)
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
 - MMC3 save data viewer
 - Nibbles: the snake game people have loved since the QBasic era
