@@ -14,6 +14,7 @@ binaries := \
   dpcm-split/dpcmletterbox.nes \
   eighty/eighty.nes \
   eq/eq.nes \
+  fded/cout02.nes \
   fme7acktest/fme7acktest.nes \
   fme7ramtest/fme7ramtest.nes \
   hello-world-ca65/hello.nes \

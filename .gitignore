@@ -38,5 +38,8 @@ sound-drivers/balance/tools/freqtable
 sound-drivers/balance/tools/freqtable.exe
 sound-drivers/balance/tools/81
 sound-drivers/balance/tools/81.exe
+fded/fded
+fded/fded.exe
+fded/*.o
 zip.in
 __pycache__

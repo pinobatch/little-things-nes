@@ -23,6 +23,7 @@ prior to 2019.
   pink noise and sine sweep generators
 - [Eighty](https://forums.nesdev.com/viewtopic.php?p=95153#p95153):
   read buttons on the NES Four Score accessory
+- Fairydust Editor with Compressed Output
 - FamiTracker module to video renderer
 - File extractor for Family Computer Disk System (FDS) images
 - [FME-7 big PRG RAM](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
