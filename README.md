@@ -8,6 +8,7 @@ prior to 2019.
 - 768-byte level editor
 - [Action 53 (mapper 28) big CHR RAM](https://forums.nesdev.com/viewtopic.php?p=190851#p190851)
 - [Action 53 (mapper 28) comprehensive test](https://forums.nesdev.com/viewtopic.php?p=102693#p102693)
+- Anti-DiskDude header cleaner
 - [BNROM and AOROM size and mirroring test](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
 - [Boing 2007](https://forums.nesdev.com/viewtopic.php?p=62806#p62806):
   squashing the background using mistimed VRAM reads
