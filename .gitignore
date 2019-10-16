@@ -11,6 +11,7 @@
 */obj/nes/*.pkb
 */obj/nes/*.dmc
 */obj/nes/*.121
+*/obj/nes/*.2bt
 *.nes.deb
 */*.nes
 */*.nsf

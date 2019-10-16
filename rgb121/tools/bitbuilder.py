@@ -11,7 +11,6 @@ def log2(i):
 class BitBuilder(object):
 
     def __init__(self):
-        import array
         self.data = bytearray()
         self.nbits = 0  # number of bits left in the last byte
 
@@ -33,7 +32,7 @@ class BitBuilder(object):
         """Append a number from 0 to divisor - 1.
 
 This writes small numbers with floor(log2(divisor)) bits and large
-numbers with ceil(log2(divisor) bits.
+numbers with ceil(log2(divisor)) bits.
 
 """
         nBits = log2(divisor)

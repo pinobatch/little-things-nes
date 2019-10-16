@@ -7,6 +7,7 @@ binaries := \
   boing2k7/boing2k7.nes \
   bunny250/zapperlag.nes \
   bunny250/a-white.nes \
+  chrpress/chrpress.nes \
   convergence/convergence.nes \
   croom-try2/emblem.nes \
   dacnonlinear/dacnonlinear.nes \
