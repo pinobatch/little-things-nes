@@ -52,6 +52,7 @@ binaries := \
   vaus-test/vaus-test.nes \
   volumes/volumes.nes \
   vwfterm/vwfterm.nes \
+  x816-things/bench.nes \
   x816-things/bingo.nes \
   x816-things/insane.nes \
   x816-things/nibbles.nes \

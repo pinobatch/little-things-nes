@@ -6,6 +6,13 @@ built with the assembler ASM6, whose syntax is similar.  Greets to
 Johnathan Roatch for proving the concept of assembling x816 code
 using ASM6.
 
+## Compatibility Benchmarks 2001
+
+I made this in September 2001.  I intended it to be a big dunk on
+NESticle, showing a bunch of things that it got wrong and other
+emulators of the time got right, but Game Boy Advance homebrew
+sucked me in before I could finish it.
+
 ## GNOME vs. KDE
 
 `bingo` is GNOME vs KDE: Battle of the Desktops (June 2000).

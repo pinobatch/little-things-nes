@@ -14,6 +14,7 @@ prior to 2019.
   squashing the background using mistimed VRAM reads
 - [Boolean Beakers](https://forums.nesdev.com/viewtopic.php?f=10&t=4331)
 - [ca65 macros reimplementing 6502 mnemonics](https://forums.nesdev.com/viewtopic.php?f=2&t=10701)
+- Compatibility Benchmarks for 2001
 - Concentration Room Emblem Designer prototype
 - [Convergence](https://forums.nesdev.com/viewtopic.php?p=215229#p215229)
 - [DAC nonlinear volume](https://forums.nesdev.com/viewtopic.php?f=6&t=16726)
