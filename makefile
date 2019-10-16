@@ -39,6 +39,7 @@ binaries := \
   sound-drivers/5/5.nes \
   sound-drivers/balance/balance.nes \
   spectralencode/spectral.nes \
+  sprite-cans/spritecans.nes \
   tall-pixel/tall_pixel.nes \
   tellinglys/tellinglys.nes \
   test28/test28.nes \

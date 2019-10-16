@@ -1,0 +1,21 @@
+2019-10-15
+
+* Port build tools to Python 3
+* Remove music sequence for legal reasons
+
+2011-04-23
+
+* Port from DOS-based x816 assembler to cross-platform ca65
+* Switch from NerdTracker II to the far smaller driver Pently 2
+* Automatic detection of NTSC, PAL, or Dendy mode; music compensates
+* Change vblank waiting from race-prone PPUSTATUS spin to waiting
+  for NMI count to change
+* Remove cargo-cult code from early NES homebrew days
+* Switch from O(n^2) exact gnome sort to O(n) eventual bubble sort
+  for less slowdown when adding cans
+* Rewrite some build tools in Python
+* Replace pseudo-insular font with standard lowercase
+* Test on PowerPak
+
+2000
+* initial release

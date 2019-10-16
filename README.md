@@ -67,6 +67,7 @@ prior to 2019.
   use bit shifting to rotate background tiles horizontally
 - Sound drivers that never progressed far
 - [Sprite 0 hit interactive test]
+- [Sprite Cans](https://forums.nesdev.com/viewtopic.php?p=77094#p77094)
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055):
   real-time shrinking is possible using lookup tables
 - [Tall Pixel](https://forums.nesdev.com/viewtopic.php?p=53808#p53808):

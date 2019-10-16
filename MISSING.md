@@ -1,14 +1,14 @@
-NES projects left to include:
+Projects to add:
 
-- [Sprite Cans 2011](http://forums.nesdev.com/viewtopic.php?p=77094#p77094) (music must be replaced)
 - Who's Cuter 2011 (images must be replaced)
 - Forbidden Four
 
-NES projects left to complete build system:
-- [BNTest](https://forums.nesdev.com/viewtopic.php?p=79826#p79826)
-  (`_aorom`, `_h`, and `_v`) versions
+Projects to finish:
 
-NES projects left to put in their own repos:
+- Sprite Cans: Add music that's not quite as repetitive
+- BNTest: Build `_aorom`, `_h`, and `_v` versions
+
+Projects to add to their own repositories:
 
 - Cover Your Own
 - FizzBuzz
