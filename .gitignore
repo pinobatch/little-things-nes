@@ -43,4 +43,6 @@ fded/fded
 fded/fded.exe
 fded/*.o
 zip.in
+/src-files.in
+/bin-files.in
 __pycache__

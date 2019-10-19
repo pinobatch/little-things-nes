@@ -1,4 +1,5 @@
-zipfilename := "little-things-nes.zip"
+binzipfilename := "little-things-nes.zip"
+srczipfilename := "little-things-nes-src.zip"
 binaries := \
   768/768.nes \
   a53bigchrram/a53bigchrram.nes \
@@ -64,9 +65,9 @@ binaries := \
 # All recursive makefiles must support the `all` phony target
 alls := $(sort $(foreach o,$(binaries),$(dir $(o))all))
 
-# TODO: separate repos for coveryourown, fizzbuzz, and striker
+# See MISSING.md for other things that should be added
 
-.PHONY: all clean dist zip zip.in $(alls)
+.PHONY: all clean dist $(alls)
 
 all: $(alls)
 
@@ -78,18 +79,21 @@ clean:
 	  $(MAKE) -C $$d clean; \
 	done
 
-dist: $(zipfilename)
+dist: $(binzipfilename) $(srczipfilename)
 
-$(zipfilename): $(alls) zip.in
-	zip -9u $@ -@ < zip.in
+$(binzipfilename): bin-files.in $(alls)
+	zip -9u $@ -@ < $<
+	-advzip -z3 $@
 
-binaries.in: makefile
-	git ls-files | grep -e "README.md" > zip.in
-	echo binaries.in >> zip.in
-	for d in $(binaries); do echo $$d >> zip.in; done
+$(srczipfilename): src-files.in $(alls)
+	zip -9u $@ -@ < $<
+	-advzip -z3 $@
 
-zip.in:
-	git ls-files | grep -e "^[^\.]" > zip.in
-	echo zip.in >> zip.in
-	for d in $(binaries); do echo $$d >> zip.in; done
+bin-files.in: makefile
+	git ls-files | grep -e "README.md" > $@
+	echo $@ >> $@
+	for d in $(binaries); do echo $$d >> $@; done
 
+src-files.in: makefile
+	git ls-files | grep -e "^[^\.]" > $@
+	echo $@ >> $@
