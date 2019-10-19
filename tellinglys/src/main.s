@@ -381,7 +381,7 @@ write_accum_once:
     dec $00
     bne :-
   rts
-.endproc	
+.endproc
 
 ;;
 ; Wait for vblank then wait for all keys to be released
