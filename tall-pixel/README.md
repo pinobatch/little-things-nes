@@ -1,7 +1,7 @@
 Tall Pixel demo
+===============
 
-PocketNES is an emulator that runs NES games on Game Boy Advance.
-<http://www.pocketnes.org>
+[PocketNES] is an emulator that runs NES games on Game Boy Advance.
 It shrinks the screen to match that of the GBA by skipping lines
 of the picture.  But it changes which lines it skips every frame
 so that lines don't appear to "drop out" of the image.
@@ -13,26 +13,29 @@ make the picture bigger.  Every 3 lines, it uses mixed $2006/$2005
 writes to set the scroll down by 2 lines from the last write,
 resulting in a repeat.
 
-The effect works on my NTSC NES + PowerPak, and it should also
+The effect works on my NTSC NES and PowerPak, and it should also
 work on Dendy-style PAL famiclones that use a clock divider of 15.
 But the official PAL NES uses a clock divider of 16, resulting in
 319.6875 CPU cycles for each 3 lines instead of 341, and the code
 would need to be modified.  The part that waits for a partial cycle
 should look like the following, but I have no PAL NES to test it on:
 
-  lda tmp176
-  adc #176
-  sta tmp176
-  bcs here
-here:
+      lda tmp176
+      adc #176
+      sta tmp176
+      bcs here
+    here:
 
-The image tilesets/ac16.png contains an 8x16 pixel monospace font
-based on the style of type used for the titles of the DS games
-Animal Crossing: Wild World, Puppy Palace, and Big Brain Academy.
+The image `tilesets/ac16.png` contains an 8x16 pixel monospace font
+based on the style of type used for the titles of the Nintendo DS
+games _Animal Crossing: Wild World_, _Puppy Palace_, and
+_Big Brain Academy_.
+
+[PocketNES]: <http://www.pocketnes.org>
 
 == Legal ==
 
-Copyright (c) 2009 Damian Yerrick <http://www.pineight.com/>
+Copyright (c) 2009 Damian Yerrick
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above

@@ -1,5 +1,6 @@
-Russian Roulette: a Zapper tech demo by Damian Yerrick
-======================================================
+Russian Roulette
+================
+A Zapper tech demo by Damian Yerrick
 
 One of a revolver's six chambers holds a paint capsule.  Each player
 in turn spins the cylinder and pulls the trigger.  (No Zapper? Press
@@ -17,7 +18,7 @@ To compile the source code, you need to install these:
 
 * GNU [Make]
 * ca65 and ld65 from the [cc65] project
-* [Python] 2.6, 2.7, or 3.x
+* [Python] 3
 * Python Imaging Library (or its fork [Pillow])
 
 Rationale

@@ -1,3 +1,6 @@
+OAM reset behavior test
+=======================
+
 The Picture Processing Unit of the Nintendo Entertainment System
 contains Object Attribute Memory, which stores a display list of 64
 sprites, or positions of individual moving objects.  Internally, OAM
@@ -23,21 +26,18 @@ One console was discovered to be broken in such a way as
 to allow only seven sprites per line instad of eight.
 <https://forums.nesdev.com/viewtopic.php?f=9&t=9628>
 
-Building this demo requires cc65, Python, and Python Imaging Library.
-You'll probably also need GNU Make and Coreutils, which Windows users
-can find in MSYS and users of Ubuntu and other Debian-based operating
-systems can find in the build-essential package.
+Building this demo requires cc65, Python, Pillow (Python Imaging
+Library, and GNU Make.
 
-
-== Legal ==
-
+Legal
+-----
 The demo is distributed under the following license, based on the
 GNU All-Permissive License:
 
-; Copyright 2012 Damian Yerrick
-;
-; Copying and distribution of this file, with or without
-; modification, are permitted in any medium without royalty provided
-; the copyright notice and this notice are preserved in all source
-; code copies.  This file is offered as-is, without any warranty.
+    Copyright 2012 Damian Yerrick
+    
+    Copying and distribution of this file, with or without
+    modification, are permitted in any medium without royalty provided
+    the copyright notice and this notice are preserved in all source
+    code copies.  This file is offered as-is, without any warranty.
 

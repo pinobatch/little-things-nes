@@ -1,11 +1,12 @@
 FME-7 IRQ acknowledge test
+==========================
 
 Here's another test specifically for the acknowledgment behaviors
 I'm seeing.  No unofficial opcodes.
 
-As of February 2015, NES emulators disagree on what value to write to
-register $0D to acknowledge an interrupt request (IRQ) on Sunsoft's
-FME-7 mapper IC.
+As of February 2015, NES emulators disagreed on what value to
+write to register $0D to acknowledge an interrupt request (IRQ)
+on Sunsoft's FME-7 mapper IC.
 
 NESdev Wiki says clearing bit 0 (enable interrupts) will acknowledge
 the IRQ.  This is consistent with the ack behavior of many other
@@ -36,8 +37,12 @@ On 2015-02-28, l_oliveira ran this test ROM and discovered that
 all 0D writes produce Acked.  Quietust made the corresponding
 change to the Nintendulator source tree.
 
-Copyright 2015 Damian Yerrick
-Copying and distribution of this file, with or without
-modification, are permitted in any medium without royalty provided
-the copyright notice and this notice are preserved in all source
-code copies.  This file is offered as-is, without any warranty.
+Legal
+-----
+This and many other short tests are under an all-permissive license:
+
+    Copyright 2015 Damian Yerrick
+    Copying and distribution of this file, with or without
+    modification, are permitted in any medium without royalty provided
+    the copyright notice and this notice are preserved in all source
+    code copies.  This file is offered as-is, without any warranty.

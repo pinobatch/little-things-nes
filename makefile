@@ -83,6 +83,11 @@ dist: $(zipfilename)
 $(zipfilename): $(alls) zip.in
 	zip -9u $@ -@ < zip.in
 
+binaries.in: makefile
+	git ls-files | grep -e "README.md" > zip.in
+	echo binaries.in >> zip.in
+	for d in $(binaries); do echo $$d >> zip.in; done
+
 zip.in:
 	git ls-files | grep -e "^[^\.]" > zip.in
 	echo zip.in >> zip.in
