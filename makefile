@@ -4,7 +4,9 @@ binaries := \
   768/768.nes \
   a53bigchrram/a53bigchrram.nes \
   beakers/beakers.nes \
-  bntest/bntest.nes \
+  bntest/bntest-aorom.nes \
+  bntest/bntest-h.nes \
+  bntest/bntest-v.nes \
   boing2k7/boing2k7.nes \
   bunny250/zapperlag.nes \
   bunny250/a-white.nes \

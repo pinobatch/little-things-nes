@@ -2,14 +2,7 @@
 .include "global.inc"
 .import __RAMCODE_RUN__, __RAMCODE_LOAD__, __RAMCODE_SIZE__
 
-; iNES header
-.segment "INESHDR"
-  .byt "NES",$1A
-  .byt 32  ; PRG ROM is sixteen banks, each 2 * 16384 bytes
-  .byt 0   ; no CHR ROM; uses 8 KiB CHR RAM instead (if we used
-           ; CHR ROM we'd be on the NINA board instead of BxROM)
-  .byt $21 ; v mirroring, no battery, no trainer; mapper $x2
-  .byt $20 ; classic header format; mapper $2x
+; iNES header is in header-*.s
 
 ; Reset vectors ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
@@ -362,7 +355,9 @@ putsmap:
   .addr $21C2, result1foot
   .addr $2222, result2head
   .addr $2264, found_nts
-  .addr $22A2, result2foot
+  .addr $22A2, result2foot1
+  .addr $22E2, result2foot2
+  .addr $2322, result2foot3
 putsmap_end:
 credit1:        .byt "BxROM/AxROM Function Tester",0
 credit2:        .byt "PD 2011 Damian Yerrick",0
@@ -370,4 +365,6 @@ credit3:        .byt "No rights reserved",0
 result1head:    .byt "Accessible PRG banks:",0
 result1foot:    .byt "if not 0-F then truncated!",0
 result2head:    .byt "Accessible nametables:",0
-result2foot:    .byt "01:horz; 02:vert; 04:1-scrn",0
+result2foot1:   .byt "01: horz arrange/vert mirror",0
+result2foot2:   .byt "02: vert arrange/horz mirror",0
+result2foot3:   .byt "04: 1-screen",0

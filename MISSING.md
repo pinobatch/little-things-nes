@@ -6,7 +6,6 @@ Projects to add:
 Projects to finish:
 
 - Sprite Cans: Add music that's not quite as repetitive
-- BNTest: Build `_aorom`, `_h`, and `_v` versions
 
 Projects to add to their own repositories:
 
