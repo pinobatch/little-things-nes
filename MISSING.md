@@ -10,6 +10,5 @@ Projects to finish:
 Projects to add to their own repositories:
 
 - Cover Your Own
-- FizzBuzz
 - President
 - Book reader
