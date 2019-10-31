@@ -5,8 +5,8 @@ import argparse
 from PIL import Image
 
 def sliver_to_texels(lo, hi):
-    return [((lo >> i) & 1) | (((hi >> i) & 1) << 1)
-            for i in range(7, -1, -1)]
+    return bytes(((lo >> i) & 1) | (((hi >> i) & 1) << 1)
+                 for i in range(7, -1, -1))
 
 def tile_to_texels(chrdata):
     if len(chrdata) < 16:
@@ -20,12 +20,17 @@ def chrbank_to_texels(chrdata, planes=2):
     return [_ttt(chrdata[i:i + tilelen])
             for i in range(0, len(chrdata), tilelen)]
 
-def texels_to_pil(texels, tile_width=16):
-    tilerows = [texels[i:i + tile_width]
-              for i in range(0, len(texels), tile_width)]
-    if len(tilerows[-1]) < tile_width:
-        emptytile = [[0] * 8] * 8
-        tilerows[-1].extend([emptytile] * (tile_width - len(tilerows[-1])))
+def texels_to_pil(texels, tile_width=16, row_height=1):
+    row_length = tile_width * row_height
+    tilerows = [
+        texels[j:j + row_length:row_height]
+        for i in range(0, len(texels), row_length)
+        for j in range(i, i + row_height)
+    ]
+    emptytile = [bytes(8) * 8]
+    for row in tilerows:
+        if len(row) < tile_width:
+            row.extend([emptytile] * (tile_width - len(tilerows[-1])))
     texels = [bytes(c for tile in row for c in tile[y])
               for row in tilerows for y in range(8)]
     im = Image.frombytes('P', (8 * tile_width, len(texels)), b''.join(texels))
@@ -57,6 +62,9 @@ def parse_argv(argv):
                    help="treat tiles as 1bpp (default: 2bpp NES format)")
     p.add_argument("--width", type=int, default=16,
                    help="number of tiles per row (default: 16)")
+    p.add_argument("--row-height", type=int, default=1,
+                   help="height of each row in column-major tiles "
+                   "(default: 1; 2 may help for 8x16 sprites)")
     return p.parse_args(argv[1:])
 
 def main(argv=None):
@@ -79,7 +87,8 @@ def main(argv=None):
                 prgromsize += (header[9] & 0x0F) << 22
             infp.read(prgromsize)
         romdata = infp.read()
-    tiles = texels_to_pil(chrbank_to_texels(romdata, planes), args.width)
+    tiles = texels_to_pil(chrbank_to_texels(romdata, planes),
+                          args.width, args.row_height)
     if planes == 1:
         tiles.putpalette(b'\x00\x00\x80\xFF\xFF\x80')
     else:
