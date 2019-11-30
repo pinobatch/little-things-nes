@@ -27,7 +27,7 @@ def texels_to_pil(texels, tile_width=16, row_height=1):
         for i in range(0, len(texels), row_length)
         for j in range(i, i + row_height)
     ]
-    emptytile = [bytes(8) * 8]
+    emptytile = [bytes(8)] * 8
     for row in tilerows:
         if len(row) < tile_width:
             row.extend([emptytile] * (tile_width - len(tilerows[-1])))
