@@ -61,10 +61,13 @@ $(objdir)/%.o: $(objdir)/%.s
 map.txt spritecans.nes: nes.ini $(objlistntsc)
 	$(LD65) -m map.txt -o spritecans.nes -C $^
 
-$(objdir)/sprite.o: $(objdir)/spritecans.chr
+$(objdir)/sprite.o: $(objdir)/main.chr $(objdir)/can16.chr
 
-$(objdir)/spritecans.chr: $(imgdir)/main.png
+$(objdir)/%.chr: $(imgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py $< $@
+
+$(objdir)/%16.chr: $(imgdir)/%.png
+	$(PY) ../common/tools/pilbmp2nes.py -H16 $< $@
 
 $(objdir)/ntscPeriods.s: tools/mktables.py
 	$(PY) $< period $@

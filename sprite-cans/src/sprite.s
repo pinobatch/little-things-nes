@@ -511,4 +511,7 @@ titlepal:
   .addr nmipoint, resetpoint, irqpoint
 
 .segment "CHR"
-  .incbin "obj/nes/spritecans.chr"
+chrstart:
+  .incbin "obj/nes/main.chr"
+.res chrstart+$800-*
+  .incbin "obj/nes/can16.chr"
