@@ -1,3 +1,7 @@
+Future
+* More informative success message (requested by Vinny and ISSOtm)
+* Clarify dialogue to rule out anything untoward between Johny and
+  papa (requested by DreamLandBuds, exelotl, and ISSOtm)
+
 0.01 (2019-06-15)
 * initial release
-

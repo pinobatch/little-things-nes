@@ -273,15 +273,15 @@ show_pass_animation:
   sta ciSrc+1
   lda #$00
   tay
-  ldx #66
+  ldx #128
   jsr unpb53_xtiles_to_ay
   lda #<pass_nam
   sta ciSrc+0
   lda #>pass_nam
   sta ciSrc+1
   lda #$21  ; "Pass!"
-  ldy #$80
-  ldx #12
+  ldy #$20
+  ldx #11*2
   jsr unpb53_xtiles_to_ay
 
   jsr ppu_vsync
