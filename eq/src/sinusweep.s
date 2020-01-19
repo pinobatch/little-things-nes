@@ -1,7 +1,7 @@
 ;
 ; Sine sweep generator
 ;
-; Copyright 2017 Damian Yerrick
+; Copyright 2017, 2020 Damian Yerrick
 ; 
 ; This software is provided 'as-is', without any express or implied
 ; warranty.  In no event will the authors be held liable for any damages
@@ -22,37 +22,42 @@
 
 .export sinusweep
 .import sine4011
+
+.code
+.align 64  ; don't cross page boundaries
 .proc sinusweep
-pos1 = $09
-pos2 = $0A
-pos3 = $0B
 freq0 = $0C
 freq1 = $0D
 freq2 = $0E
 freq3 = $0F
 
+  ; Begin at 1 sample per 4 sample periods, or 1 cycle per 1024
+  ; sample periods
   ldx #0
-  stx pos2
+  ldy #0
   stx freq0
   stx freq1
   stx freq3
   lda #$40
   sta freq2
 
-  ; add frequency to position
 more:
+  ; Each sample period is currently 66 cycles.
+  ; Add frequency to position, stored in XXYY
   lda freq1
   asl a
-  lda freq2
-  adc pos2
-  sta pos2
+  tya
+  adc freq2
+  tay
   txa
   adc freq3
   tax
   lda sine4011,x
   sta $4011
 
-  ; increase frequency logarithmically
+  ; increase frequency exponentially
+  ; f = f0 * (65537/65536)^t
+  ; or a doubling about every 45426 samples
   clc
   lda freq2
   adc freq0
@@ -66,10 +71,15 @@ more:
   lda #0
   adc freq3
   sta freq3
+
+  ; Terminate when frequency is 1 cycles per 2 sample periods
+  ; for a total of 9 octaves
   bpl more
   rts
 .endproc
 
+; this triangle wave was used for testing before sine4011
+; was finished
 .if 0
 .rodata
 .align 256
