@@ -20,8 +20,8 @@ kalandir says:
 
 ## Moves
 
-Sokoban, that game where you push boxes onto the dots from an
-overhead-ish view, was released as Boxxle in some territories.
+_Sokoban_, that game where you push boxes onto the dots from an
+overhead-ish view, was released as _Boxxle_ in some territories.
 
 But what if it were side view?  I thought about that in mid-2001 and
 came up with this move set:
@@ -71,7 +71,7 @@ VII. Lift crate from below
     .8.     .N8
     N** <-> .**
 
-_Wrecking Ball Boy_ ended up implementing I-III but not IV-VII,
+_Wrecking Ball Boy_ ended up implementing I-IV but not V-VII,
 which I had forgotten.  However, the way it implemented III ended up
 behaving almost as an eighth move:
 
