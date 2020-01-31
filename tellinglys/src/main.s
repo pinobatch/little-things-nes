@@ -294,8 +294,8 @@ have_final_PPUCTRL:
 
 .endproc
 
-CONVO_BLACK_TILE = $77
-CONVO_ARROW_TILE = $96
+CONVO_BLACK_TILE = $74
+CONVO_ARROW_TILE = $93
 
 
 .proc convo_update
