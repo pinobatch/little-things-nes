@@ -15,6 +15,7 @@ CFLAGS65 :=
 objdir := obj/nes
 srcdir := src
 imgdir := tilesets
+commonimgdir = ../common/tilesets
 
 objlist = main 
 objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
@@ -45,12 +46,9 @@ $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
-$(objdir)/main.o: $(objdir)/font16.chr
+$(objdir)/main.o: $(objdir)/finkheavy16.chr
 
-$(objdir)/%16.chr: tilesets/%16.png
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
-
-$(objdir)/%.chr: tilesets/%.png
-	$(PY)../common/ tools/pilbmp2nes.py $< $@
 
 

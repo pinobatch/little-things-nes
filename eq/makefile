@@ -26,6 +26,7 @@ CFLAGS65 =
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 EMU := fceux
@@ -117,4 +118,6 @@ $(objdir)/%.chr: $(imgdir)/%.png
 $(objdir)/%16.chr: $(imgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
+$(objdir)/%16.chr: $(commonimgdir)/%.png
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 

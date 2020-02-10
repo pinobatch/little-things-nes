@@ -23,6 +23,7 @@ CFLAGS65 = -DUSE_DAS=1
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 EMU := fceux
@@ -93,7 +94,7 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/main.o: $(objdir)/font16.chr
+$(objdir)/main.o: $(objdir)/finkheavy16.chr
 $(objdir)/wrongbanks.o: $(objdir)/font8x5.bin
 
 # This is an example of how to call a lookup table generator at
@@ -112,4 +113,7 @@ $(objdir)/%.chr: $(imgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
+
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

@@ -128,7 +128,7 @@ start_over:
   sta OAM+0
   lda #('T'<<1)
   sta OAM+1
-  lda #%00000000
+  lda #%00100000  ; behind bg
   sta OAM+2
   lda #16
   sta OAM+3
@@ -312,4 +312,4 @@ s0ok:
 
 .segment "CHR"
   .res 32*32
-  .incbin "obj/nes/font16.chr"
+  .incbin "obj/nes/finkheavy16.chr"

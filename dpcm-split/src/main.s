@@ -537,4 +537,6 @@ sampledata:
   .res 17,$00
 
 .segment "CHR"
-.incbin "obj/nes/ac16.chr"
+.res 32*1, $00
+.res 32*31, $FF
+.incbin "obj/nes/finkheavy16.chr"

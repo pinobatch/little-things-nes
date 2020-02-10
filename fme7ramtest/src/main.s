@@ -145,7 +145,7 @@ initial_palette_end:
 
 results_msg:
   .byte "FME-7 big work RAM test",10
-  .byte "Copr. 2015 Damian Yerrick",10
+  .byte $7F," 2015 Damian Yerrick",10
   .byte "",10
   .byte "",10
   .byte "",10
@@ -214,7 +214,7 @@ wram_found_msg:
 ; Include the CHR ROM data
 .segment "CHR"
   .res $0400  ; bank 0: empty
-  .incbin "obj/nes/fizztertiny16.chr"  ; banks 1-3: font
+  .incbin "obj/nes/fizzter16.chr"  ; banks 1-3: font
   .res $1000  ; banks 4-7: empty
 
 ; RAM tests ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

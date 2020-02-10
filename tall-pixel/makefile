@@ -14,6 +14,7 @@ CFLAGS65 =
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
 
@@ -36,7 +37,10 @@ $(objdir)/%.o: $(objdir)/%.s
 map.txt tall_pixel.nes: nes.ini $(objlistntsc)
 	$(LD65) -C $^ -m map.txt -o tall_pixel.nes
 
-$(objdir)/main.o: $(objdir)/ac16.chr
+$(objdir)/main.o: $(objdir)/finkheavy16.chr $(objdir)/bggfx16.chr 
 
-$(objdir)/ac16.chr: $(imgdir)/ac16.png
+$(objdir)/%16.chr: $(imgdir)/%.png
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
+
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

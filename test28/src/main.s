@@ -772,7 +772,7 @@ hdig:
 
 .segment "RODATA"
 font16_chr:
-  .incbin "obj/nes/font16.chr"
+  .incbin "obj/nes/finkheavy16.chr"
 font16_chr_end:
 
 initial_palette:

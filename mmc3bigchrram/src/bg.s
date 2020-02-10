@@ -109,7 +109,7 @@ titlestrips:
 title_msg:
   .byte "To test NES 2.0 support,",10
   .byte "press the Start Button.",10,10,10
-  .byte "@ 2016 Damian Yerrick",0
+  .byte $7F," 2016 Damian Yerrick",0
 
 ; CHR RAM loading ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -236,7 +236,7 @@ copyjobsbase:
   COPYJOB cp_mmc3logo,    mmc3logo_chr,    2048, $1800
 
 .segment "BANK0"
-fizztertiny_chr: .incbin "obj/nes/fizztertiny16.chr"
+fizztertiny_chr: .incbin "obj/nes/fizzter16.chr"
 mmc3logo_chr: .incbin "obj/nes/mmc3logo.chr"
 
 .segment "CODE"

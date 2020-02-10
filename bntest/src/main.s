@@ -340,7 +340,7 @@ test_reading_all_banks:
 
 .segment "RODATA"
 font16_chr:
-  .incbin "obj/nes/font16.chr"
+  .incbin "obj/nes/finkheavy16.chr"
 zerothrough15:
   .repeat 17,I
     .byt I

@@ -26,6 +26,7 @@ CFLAGS65 =
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 EMU := fceux
@@ -81,7 +82,7 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/bg.o: $(objdir)/mmc3logo.chr $(objdir)/fizztertiny16.chr
+$(objdir)/bg.o: $(objdir)/mmc3logo.chr $(objdir)/fizzter16.chr
 
 # Rules for CHR ROM
 
@@ -89,6 +90,9 @@ $(objdir)/%.chr: $(imgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py $< $@
 
 $(objdir)/%16.chr: $(imgdir)/%.png
+	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
+
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 

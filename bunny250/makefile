@@ -25,6 +25,7 @@ CFLAGS65 = -DZAPPER_TO_A_BUTTON=1 -DDPCM_UNSAFE=1
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 EMU := fceux
@@ -82,10 +83,7 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/main.o: $(objdir)/font16.chr 
+$(objdir)/main.o: $(objdir)/finkheavy16.chr 
 
-$(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) ../common/tools/pilbmp2nes.py $< $@
-
-$(objdir)/%16.chr: $(imgdir)/%.png
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@

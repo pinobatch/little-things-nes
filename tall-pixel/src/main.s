@@ -340,4 +340,5 @@ hello6: .byt "Use the effect in homebrew.",0
 hello8: .byt $18,$19,$1A,$1B,$1C,$1D,$1E,$1F,"  Your friend, Pino",0
 
 .segment "CHR"
-.incbin "obj/nes/ac16.chr"
+.incbin "obj/nes/bggfx16.chr"
+.incbin "obj/nes/finkheavy16.chr"

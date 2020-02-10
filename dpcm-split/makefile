@@ -24,6 +24,7 @@ CFLAGS65 =
 objdir = obj/nes
 srcdir = src
 imgdir = tilesets
+commonimgdir = ../common/tilesets
 
 objlist = main
 objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
@@ -44,9 +45,9 @@ $(objdir)/%.o: $(objdir)/%.s
 map.txt dpcmletterbox.nes: NROM.ini $(objlistntsc)
 	$(LD65) -m map.txt -o dpcmletterbox.nes -C $^
 
-$(objdir)/main.o: $(objdir)/ac16.chr
+$(objdir)/main.o: $(objdir)/finkheavy16.chr
 
-$(objdir)/ac16.chr: $(imgdir)/ac16.png
+$(objdir)/%16.chr: $(commonimgdir)/%.png
 	$(PY) ../common/tools/pilbmp2nes.py -H 16 $< $@
 
 clean:

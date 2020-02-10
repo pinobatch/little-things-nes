@@ -161,7 +161,7 @@ initial_palette_end:
 
 results_msg:
   .byte "FME-7 IRQ acknowledge test",10
-  .byte "Copr. 2015 Damian Yerrick",10
+  .byte 127," 2015 Damian Yerrick",10
   .byte "",10
   .byte "Basic support",10
   .byte "To be announced",10
@@ -225,7 +225,7 @@ ack2_msg:   .byte "No ack",0
 ; Include the CHR ROM data
 .segment "CHR"
   .res $0400  ; bank 0: empty
-  .incbin "obj/nes/fizztertiny16.chr"  ; banks 1-3: font
+  .incbin "obj/nes/fizzter16.chr"  ; banks 1-3: font
   .res $1000  ; banks 4-7: empty
 
 ; IRQ handler: This actually performs the tests ;;;;;;;;;;;;;;;;;;;;;
