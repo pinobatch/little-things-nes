@@ -1,0 +1,13 @@
+0.03 (2017-08-19)
+* make install PREFIX=~/.local
+* Option to write raw PCM to standard output instead of writing a
+  RIFF WAVE file
+* scripts/gmeplay.sh to play through PulseAudio; can be adapted to
+  other PCM sinks
+
+0.02 (2017-07-17)
+* added mute and solo (requested by syboxez)
+
+0.01 (2017-07-14)
+* initial release
+

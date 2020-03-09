@@ -30,6 +30,7 @@ prior to 2019.
 - File extractor for Family Computer Disk System (FDS) images
 - [FME-7 big PRG RAM](https://forums.nesdev.com/viewtopic.php?p=142573#p142573)
 - [FME-7 IRQ acknowledgment](https://forums.nesdev.com/viewtopic.php?p=142243#p142243)
+- [gmewav](https://forums.nesdev.com/viewtopic.php?f=6&t=16218): render anything libgme or DUMB plays to a WAV file
 - GNOME vs. KDE: Battle of the Desktops:
   Bingo-inspired 2-player game
 - Hello World program produced while learning ca65
@@ -66,7 +67,7 @@ prior to 2019.
 - [Software parallax](https://forums.nesdev.com/viewtopic.php?f=22&t=16419):
   use bit shifting to rotate background tiles horizontally
 - Sound drivers that never progressed far
-- [Sprite 0 hit interactive test]
+- Sprite 0 hit interactive test
 - [Sprite Cans](https://forums.nesdev.com/viewtopic.php?p=77094#p77094)
 - [Sprite scaling](https://forums.nesdev.com/viewtopic.php?f=22&t=12055):
   real-time shrinking is possible using lookup tables

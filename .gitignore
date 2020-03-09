@@ -41,7 +41,8 @@ sound-drivers/balance/tools/81
 sound-drivers/balance/tools/81.exe
 fded/fded
 fded/fded.exe
-fded/*.o
+gmewav/gmewav
+gmewav/gmewav.exe
 zip.in
 /src-files.in
 /bin-files.in
