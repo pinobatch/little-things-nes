@@ -80,8 +80,14 @@ Common plane maps:
   Super NES mode 7 and Game Boy Advance 8bpp
 - `10 --hflip --little`  
   Virtual Boy and GBA 2bpp
-- `3210 --hflip --little`
+- `3210 --hflip --little`  
   GBA 4bpp
+
+Less common plane maps:
+- `0;1;2;3`  
+  VT03 4bpp
+- `0,2;1,3`  
+  VT16 4bpp on 16-bit data bus
 
 In a palette format:
 - `0` and `1` are constant bits.
