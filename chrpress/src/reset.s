@@ -6,8 +6,6 @@
 
 .segment "ZEROPAGE"
 nmis: .res 1
-cur_keys: .res 2
-new_keys: .res 2
 psg_sfx_state: .res 32
 
 .segment "INESHDR"
