@@ -16,6 +16,7 @@ sucked me in before I could finish it.
 ## GNOME vs. KDE
 
 `bingo` is GNOME vs KDE: Battle of the Desktops (June 2000).
+It includes the NerdTracker II sound driver.
 
 To account for modern NES emulators' increased accuracy compared to
 what we had at the time (NESticle and LoopyNES), two changes have
@@ -27,7 +28,7 @@ and the OAM update has been moved to vertical blank.
 
 `insane` is a very incomplete attempt to clone SameGame in January
 and May 2000, inspired by the TI-83 port by Martin Hock and Bill
-Nagel.
+Nagel.  It includes the NerdTracker II sound driver.
 
 ## Nibbles
 
@@ -56,7 +57,8 @@ reliable method of busy-waiting for a change in retrace count.
 
 Demonstrates sound quality difference between hardware DPCM playback
 and raw 4-bit PCM.  The pulse width test is broken due to limits of
-available emulators in January 2001.
+available emulators in January 2001.  (A corrected version of the
+pulse width test appears in Compatibility Benchmarks 2001.)
 
 ## Sprite 0 test
 

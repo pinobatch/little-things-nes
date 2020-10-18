@@ -34,8 +34,8 @@ prior to 2019.
 - GNOME vs. KDE: Battle of the Desktops:
   Bingo-inspired 2-player game
 - Hello World program produced while learning ca65
-- Insane Game: incomplete attempt to port the TI-83 version of
-  SameGame
+- Insane Game:
+  incomplete attempt to port the TI-83 version of SameGame
 - [IRE tiny](https://forums.nesdev.com/viewtopic.php?p=159262#p159262):
   port of the IRE (brightness level) test of 240p Test Suite to run
   on a minimalist devcart
@@ -49,7 +49,9 @@ prior to 2019.
 - [Metatile engine using 32x16-pixel cells](https://forums.nesdev.com/viewtopic.php?f=2&t=1118)
 - [MMC3 big CHR RAM](https://forums.nesdev.com/viewtopic.php?f=3&t=13890)
 - MMC3 save data viewer
-- Nibbles: the snake game people have loved since the QBasic era
+- Nibbles:
+  the snake game people have loved since the QBasic era, which
+  ended up on a few famiclones' built-in pirate multicarts
 - [OAM reset quirk](https://forums.nesdev.com/viewtopic.php?f=9&t=9628): 2 sprites will be missing after Reset
 - [Password save](https://forums.nesdev.com/viewtopic.php?p=64656#p64656)
 - [PAL chroma phase](https://forums.nesdev.com/viewtopic.php?p=133629#p133629):
@@ -87,7 +89,7 @@ prior to 2019.
 
 Many of them have patches to their build system to help them build
 under Python 3 and late-2010s versions of cc65.  (To get set up to
-build, see the instructions for [nrom-template]).  The build process
+build, see the instructions for [nrom-template].)  The build process
 is tested under Debian and Ubuntu distributions of the GNU/Linux
 operating system and may need changes to work on Microsoft Windows.
 
