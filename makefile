@@ -1,5 +1,6 @@
-binzipfilename := "little-things-nes.zip"
-srczipfilename := "little-things-nes-src.zip"
+version := 20.10
+binzipfilename := little-things-nes-$(version).zip
+srczipfilename := little-things-nes-src-$(version).zip
 binaries := \
   768/768.nes \
   a53bigchrram/a53bigchrram.nes \
@@ -64,10 +65,11 @@ binaries := \
   x816-things/s0.nes \
   x816-things/sndtest.nes
 
-# All recursive makefiles must support the `all` phony target
-alls := $(sort $(foreach o,$(binaries),$(dir $(o))all))
+# See MISSING.md for other things that could be added
 
-# See MISSING.md for other things that should be added
+# All elements of binaries must be produced by a makefile in the
+# same directory that supports the `all` phony target.
+alls := $(sort $(foreach o,$(binaries),$(dir $(o))all))
 
 .PHONY: all clean dist $(alls)
 
@@ -80,6 +82,7 @@ clean:
 	for d in $(foreach o,$(alls),$(dir $(o))); do \
 	  $(MAKE) -C $$d clean; \
 	done
+	-rm bin-files.in src-files.in
 
 dist: $(binzipfilename) $(srczipfilename)
 
