@@ -23,7 +23,6 @@ CFLAGS65 = -DUSE_DAS=1 -DDPCM_UNSAFE_PADS=1
 objdir:=obj/nes
 srcdir:=src
 imgdir:=tilesets
-PENTLY_MASTER:=..
 
 #EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
 EMU := fceux

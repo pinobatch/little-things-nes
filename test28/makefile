@@ -84,7 +84,7 @@ clean:
 
 objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
 
-map.txt $(title).prg: test28master.x $(objlistntsc)
+map.txt $(title).prg: test28prg.x $(objlistntsc)
 	$(LD65) -o $(title).prg -C $^ -m map.txt
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc

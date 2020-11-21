@@ -27,7 +27,7 @@ LF = 10
 .globalzp reg80_value, reg81_value, reg00_value, reg01_value
 
 ; testseq.s
-.global sanity_self_test, setup_oam_for_test, detect_chr_ram_size
+.global consistency_self_test, setup_oam_for_test, detect_chr_ram_size
 .global calc_prg_bank, verify_bank80c0
 .global load_mirror_sentinels, verify_mirror_ignores_bit3210
 .global get_mirror_type, mirror_type_expect, get_mirror_type_once

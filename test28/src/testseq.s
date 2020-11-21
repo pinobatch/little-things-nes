@@ -70,7 +70,7 @@ bank_size_masks: .byt $01, $03, $07, $0F
 ; Run a few predefined values.
 ; The tests were last correlated to docs/calc_prg_bank.py
 ; on 2012-10-14.
-.proc sanity_self_test
+.proc consistency_self_test
 current_bank_counter = 3
   ldx #15
 

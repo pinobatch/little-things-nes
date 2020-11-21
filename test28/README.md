@@ -23,7 +23,7 @@ entry points except the last bank do the following:
 
 == Reset in the last bank ==
 
-The boot process first does some basic sanity checks on the
+The boot process first does basic consistency checks on the
 environment, enough to ensure that the interactive PRG ROM test
 returns meaningful results.
 

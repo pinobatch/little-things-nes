@@ -158,7 +158,7 @@ set_initial_palette:
   cmp #32
   bcc :-
   
-  ; acknowledge all relevant interrupts and set the master enable
+  ; acknowledge all relevant interrupts and enable them at the CPU
   lda $4015
   cli
 
