@@ -13,6 +13,8 @@
 */obj/nes/*.121
 */obj/nes/*.2bt
 *.nes.deb
+*.nes.ram.nl
+*.cdl
 */*.nes
 */*.nsf
 *.sav
