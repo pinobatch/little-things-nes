@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Wave to DPCM converter
-Copyright 2012, 2019 Damian Yerrick
+Copyright 2012, 2019, 2021 Damian Yerrick
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -53,7 +53,7 @@ def load_wave_as_mono_s16(filename):
 def save_wave_as_mono_u8(filename, freq, data):
     import wave
     from array import array
-    data = array('B', (min(255, (s + 32896) // 256) for s in data)).tostring()
+    data = bytearray(min(255, (s + 32896) // 256) for s in data)
     with closing(wave.open(filename, "wb")) as outfp:
         outfp.setnchannels(1)
         outfp.setsampwidth(1)
@@ -115,7 +115,7 @@ def upsample_data(data, infreq, outfreq, volume):
 def encode_dpcm(data):
     """Encode a 16-bit signed wave to 64-level DPCM."""
     from array import array
-    out = array('B')
+    out = bytearray()
     level = 0
     curbyte = 0
     curbit = 1
@@ -159,7 +159,7 @@ def main(argv=None):
           % (infreq, outfreq, len(data), len(resampled)))
     encoded = encode_dpcm(resampled)
     with open(outfilename, 'wb') as outfp:
-        outfp.write(encoded.tostring())
+        outfp.write(encoded)
     if decompfilename:
         decoded = decode_dpcm(encoded)
         save_wave_as_mono_u8(decompfilename, outfreq, decoded)
