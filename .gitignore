@@ -41,6 +41,8 @@ sound-drivers/balance/tools/freqtable
 sound-drivers/balance/tools/freqtable.exe
 sound-drivers/balance/tools/81
 sound-drivers/balance/tools/81.exe
+common/tools/pngtochr
+common/tools/pngtochr.exe
 fded/fded
 fded/fded.exe
 gmewav/gmewav
