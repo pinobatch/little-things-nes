@@ -26,8 +26,9 @@ mirroring.
 * Bit 3 true (1): VRAM A10 = PA10, or vertical mirroring
 
 The sense of bit 3 of 78.3 is 0=PA11, 1=PA10.  This matches that of
-bit 0 of byte 6 of the iNES header, but it's inverted compared to
-most other mappers (FDS, MMC1-4, VRC2/4/7, FME-7, Action 52).
+bit 0 of byte 6 of the iNES header as well as Disk System mirroring.
+It's inverted compared to most other mappers (FDS, MMC1-4, VRC2/4/7,
+FME-7, Action 52).
 
 Test procedure
 --------------

@@ -13,7 +13,7 @@ since the start of the frame.  For instance, it could wait for a
 press at the title screen and then seed a random number generator
 from the time it took.
 
-But simple emulators always change inputs at the same time each
+Simple emulators always change inputs at the same time each
 frame, such as the start or end of vertical blanking.  The lack of
 variance in timing is telling about whether an emulator was used;
 hence the name.	

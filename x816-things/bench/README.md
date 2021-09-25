@@ -36,9 +36,9 @@ homebrew sucked me in:
 - Add test for proper behavior of the color emphasis and grayscale
   features of the PPU Mask register ($2001).
 - Add basic tests of the more useful among 2A03's unofficial opcodes.
-- Make sure 2A03's decimal mode is disabled properly (all `adc` and
-  `sbc` instructions operate in binary whether or not D flag is
-  set, but D flag isn't frozen to one position).
+- Make sure 2A03's decimal mode is disabled properly (D flag can be
+  set and cleared, and all `adc` and `sbc` instructions operate in
+  binary whether or not D flag is set).
 - Test that writes to the PPU VRAM Data register update the
   scrolling position. (NESticle fails this test, and software such
   as Mouser that relies on failing this test fails on a real NES.)

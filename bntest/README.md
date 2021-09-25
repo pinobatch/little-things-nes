@@ -7,7 +7,7 @@ Background
 Because the NES could see only about 32 KiB of ROM at once, NES Game
 Pak circuit boards contained hardware called a "mapper" that would
 control the upper address lines and let the CPU "turn the page" in
-the game program.  But PCBs during the NES era were limited in how
+the game program.  PCBs during the NES era were limited in how
 much ROM they supported because they only controlled a small number
 of address lines.  For example, BNROM supported four 32 KiB pages for
 a total of 128 KiB, while the AxROM family (AMROM, ANROM, and AOROM)
@@ -20,9 +20,9 @@ with additional upper address bits.  For example, most emulators
 support at least 512 KiB of ROM for mappers 7 and 34.
 
 The PowerPak is a CompactFlash adapter cartridge for the NES.  It
-uses authentic NES hardware to play the game but emulates the mapper.
-As of PowerPak mappers 1.34, mapper 7 supports only 256 KiB, and
-mapper 34 supports only 128 KiB.
+emulates the mapper and otherwise uses authentic NES hardware to
+play the game.  As of PowerPak mappers 1.34, mapper 7 supports only
+256 KiB, and mapper 34 supports only 128 KiB.
 
 Test instructions
 -----------------
@@ -60,18 +60,18 @@ Test results in mid-2011:
 
 * In Nestopia and FCEUX, both mappers allow access to the entire
   512 KiB, as could be supported by a clone board.
-* In Nintendulator, mapper 34 allows 512 KiB, but mapper 7 allows
+* In Nintendulator, mapper 34 allows 512 KiB, and mapper 7 allows
   256 KiB.  This is consistent with allowing 4 bits (one 74HC161)
   worth of state.
 * In PowerPak mappers 1.34, mapper 7 allows 256 KiB, and mapper 34
-  allows only 128 KiB, to the maximum supported by those cartridge
-  boards manufactured by Nintendo.  After first publication of this
-  test, Loopy released an updated mapper 34 allowing 512 KiB.
+  allows only 128 KiB, to the maximum supported by cartridge boards
+  manufactured by Nintendo.  After first publication of this test,
+  Loopy released an updated mapper 34 allowing 512 KiB.
 
 The test was originally written for the predecessor to _Action 53_,
-but that ended up using its own custom mapper once its scope
-expanded beyond NROM games.  The games _Haunted: Halloween '85_
-(2015) and _Lizard_ (2018) went on to use a 4 Mbit (512 KiB) BNROM.
+which ended up using its own custom mapper once its scope expanded
+beyond NROM games.  The games _Haunted: Halloween '85_ (2015) and
+_Lizard_ (2018) went on to use a 4 Mbit (512 KiB) BNROM.
 
 Legal
 -----

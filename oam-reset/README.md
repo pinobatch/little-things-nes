@@ -8,15 +8,16 @@ is implemented as DRAM, a form of memory that bleeds out over time
 and must be refreshed every few milliseconds.  OAM is organized as 32
 rows, each row containing two sprites, and the refresh circuitry
 scans a pair of sprites at a time.  Normally, the PPU refreshes OAM
-as long as display is enabled.  But at power-on or reset, the refresh
-circuit is in an unpredictable state until it has finished displaying
-one frame.
+as long as display is enabled.  At power-on or reset, the refresh
+circuit begins in an unpredictable state until it has finished
+displaying at least a whole scanline.
 
 Normally, a game updates OAM once per frame by copying a 256-byte
 display list from main memory.  But if the program updates OAM once
-and then just leaves it there, some sprites will not be displayed
-because the refresh circuit will have overwritten them with blank
-data.  This program demonstrates this glitch:  it copies the display
+before turning on rendering for the first time and then just leaves
+it there, some sprites will not be displayed because the refresh
+circuit will have overwritten them with blank data.
+This program demonstrates this quirk:  it copies the display
 list to OAM once after reset and then once again each time the user
 presses Select to change the sprite configuration.  Press Reset on
 the Control Deck to make two sprites (an even-odd pair) drop out.

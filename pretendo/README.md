@@ -22,7 +22,7 @@ video memory, various bus conflicts inside the PPU result in
 "analog effects" that produce unpredictable behavior.  So the
 program turns rendering on, reads 256 bytes from video memory,
 and computes their CRC16 value.  This produces about one frame
-of visible artifacts but hopefully 16 usable bits of entropy.
+of visible artifacts along with hopefully 16 usable bits of entropy.
 
 This program displays an animation nearly identical to the power-on
 sequence of the original Game Boy system, except with four digits
@@ -49,11 +49,12 @@ of showing the user whether the Game Pak's edge connector is dirty.
 (For further details, see U.S. Patent 5,134,391.)
 
 Game Boy and Game Boy Pocket use the animation seen here, while
-Game Boy Color uses the same logo but a different animation,
+Game Boy Color uses the same logo with a different animation,
 and Game Boy Advance Game Paks carry a higher detail logo.
 The Sega Master System, Sega Genesis, and Game Gear have a more
-primitive system that just looks for the name "SEGA" in the
-cartridge header and displays a predefined message if it matches.
+primitive "Trademark Security System" (TMSS) that just looks for the
+name "SEGA" in the cartridge header and displays a predefined message
+if it matches.
 
 Legal
 -----

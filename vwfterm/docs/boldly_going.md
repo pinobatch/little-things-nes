@@ -30,15 +30,12 @@ games are Koei war simulators.  Nor has MMC5 been replicated in
 a CPLD as of 2015.
 
 **JSROM**, called **NES-BTR** in North America, uses Sunsoft's FME-7
-mapper.  JSROM itself contains only 8 KiB of RAM.  But because of
-how the bank bits are arranged in the register, it is speculated
-that FME-7 still outputs a bank number on the PRG A13-A18 lines when
-the CPU is reading or writing $6000 while RAM is enabled.
-
-On March 7, 2015, a test ROM was released to help determine whether
-the FME-7 drives PRG address lines A13-A18 while PRG RAM is active.
-However, nobody has yet volunteered to solder together a board and
-try it.
+mapper.  Though the licensed JSROM board contains only 8 KiB of RAM,
+it was speculated that FME-7 still outputs a bank number on the PRG
+A13-A18 lines when the CPU is reading or writing $6000-$7FFF while
+RAM is enabled.  On March 7, 2015, a test ROM was released to help
+settle this (see fme7acktest), after which l_oliveira successfully
+rewired a board to use 32 KiB and even 128 KiB RAMs.
 
 CHR RAM
 -------
@@ -46,18 +43,17 @@ The game contains a large amount of text, and drawing it all to a
 28-column-wide window quickly becomes awkward.  Text is more
 comfortable to read when it uses a smaller, proportional font.
 On the NES, a proportional font requires CHR RAM on the cartridge.
-No official FME-7 game uses CHR RAM, but the FME-7 implementations
-in the PowerPak and common emulators correctly display the output of
+Though no licensed FME-7 game uses CHR RAM, FME-7 works when the
+cartridge is rewired to use it, and the FME-7 implementations in
+the PowerPak and common emulators correctly display the output of
 an FME-7 program using CHR RAM.
-
-The FME-7 is unlikely to interfere with use of CHR RAM, but we could
-make a test ROM to be sure.
 
 Raster splits
 -------------
 The NES is designed to show up to 256 different tiles in one scene.
-Arranging the palettes and attributes to use both bitplanes
-separately allows up to 512.  But a terminal needs control over each
+This is fine for repetitive game scenes.  Arranging the palettes
+and attributes to use both bitplanes separately allows up to 512.
+A full-screen terminal, by contrast, needs control over each
 individual pixel on the screen in order to place individual glyphs
 at arbitrary positions.  So the terminal uses raster splits to get
 up to 420 different tiles, whose bitplanes separate into 840 tiles.
@@ -118,6 +114,5 @@ that an authentic FME-7's behavior differed from all three of them.
 Patches to the IRQ logic of these three environments soon followed.
 
 FCEUX still has other timing differences that the acknowledgment
-test does not cover.  These differences have not yet been fully
-characterized, but the display artifact that they produce is not
-critical.
+test does not cover.  These differences, which have not yet been
+fully characterized, cause some minor display artifacts.

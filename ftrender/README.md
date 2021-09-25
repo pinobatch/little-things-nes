@@ -1,10 +1,10 @@
 ftrender
 ========
 An attempt to render a FamiTracker module's text export as video.
-It was created in April 2018, when the Discord chat platform could
-play video when uploaded as an attachment to a channel but not an
-audio-only file.  It shows the channels roughly as they would appear
-in the tracker and renders the result through FFmpeg.
+It was created in April 2018, when the Discord chat platform played
+video when uploaded as an attachment to a channel and treated an
+audio-only file as a download.  It shows the channels roughly as they
+would appear in the tracker and renders the result through FFmpeg.
 
 Installation
 ------------

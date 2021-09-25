@@ -4,25 +4,25 @@ Header cleaner for iNES ROMs
 
 ## Introduction
 
-On the PC, ROMs are most commonly stored in a format called "iNES",
-named after the early NES emulator developed by Marat Fayzullin that
-introduced the format.  The iNES format consists of a 16-byte header,
-followed by program code, optionally followed by graphics font data.
+ROM images of games for Nintendo Entertainment System are most
+commonly stored in a format called "iNES", named after the early NES
+emulator developed by Marat Fayzullin that introduced the format.
+The iNES format consists of a 16-byte header, followed by program
+code ("PRG"), optionally followed by graphics font data ("CHR").
 Early versions of iNES used only the first 7 bytes of the header,
 leaving the other 9 reserved and set to zero.  Some early conversion
 tools designed for use with iNES files stored "signature"
 information, such as the author of the tool or the site that provided
 a file, in the reserved bytes.  One common signature was "DiskDude!",
 after the author of a tool that was popular at the time.  Such files
-were invalid, but few people noticed at the time because Nesticle and
-other emulators of the time simply ignored the reserved bytes.
-However, later versions of the iNES emulator defined purposes for
-some of the reserved bytes, making files containing a signature
-fail to run on newer emulators that follow the newer specification.
+were invalid, which few people noticed at the time because NESticle
+and other emulators of the time simply ignored the reserved bytes.
+When later versions of the iNES emulator defined purposes for
+some of the reserved bytes, files containing a signature failed
+to run on newer emulators that follow the newer specification.
 
-Kevin Horton has described the iNES format as well as a proposed
-extension that he calls NES 2.0:
-http://nesdev.parodius.com/bbs/viewtopic.php?t=2090
+Kevin Horton has described the iNES format as well as an extension
+called [NES 2.0](https://wiki.nesdev.org/w/index.php?title=NES_2.0).
 
 Anti-DiskDude looks for nonzero bytes in some of the bytes that are
 still reserved.  If nonzero bytes are present, it assumes that these

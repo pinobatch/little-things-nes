@@ -22,8 +22,8 @@ raster effects.
 This version has a slight visual artifact in the top overscan region
 because it uses sprite 0 as a timing reference so that it can be used
 even with an NMI handler whose execution time in CPU cycles varies.
-But a game whose NMI handler takes constant time would not need
-sprite 0; it could use the end of the NMI handler as a reference.
+A game whose NMI handler takes constant time would not need sprite 0;
+it could use the end of the NMI handler as a reference.
 
     Reset handler:
       Set up screen data

@@ -21,8 +21,8 @@ entry points except the last bank do the following:
    and freeze.
 7. Write "pass" and freeze.
 
-== Reset in the last bank ==
-
+Reset in the last bank
+----------------------
 The boot process first does basic consistency checks on the
 environment, enough to ensure that the interactive PRG ROM test
 returns meaningful results.
@@ -37,10 +37,10 @@ returns meaningful results.
    These tile numbers both refer to blank tiles.  If the write to
    $2C00 affected $2000, then we're stuck in 1-screen mirroring, in
    which case write msg_mirror_stuck and freeze.
-6. If the warm boot signature is "in progress", write msg_not_so_fast
-   and freeze.
-7. If the warm boot signature is "complete", write msg_warm_boot_last
-   and freeze.
+6. If the warm boot signature is "in progress", write
+   `msg_not_so_fast` and freeze.
+7. If the warm boot signature is "complete", write
+   `msg_warm_boot_last` and freeze.
 8. Set the warm boot signature.
 
 Once all these tests pass, load the font, clear both nametables and
@@ -85,7 +85,6 @@ Detect CHR RAM size
 
 Automated PRG bank test
 -----------------------
-
 Press Start to run automated tests.  The first iterates through
 all 131072 combinations of mode, outer bank, and inner bank.  It
 calls a function in the RAM module that writes the registers, reads
@@ -99,12 +98,12 @@ A Famicom or NTSC NES finishes this phase in up to 17 seconds on a
 512 KiB cart (outer banks $00-$0F) or 68 seconds on a maximum 2 MiB
 cart (outer banks $00-$3F).  PAL takes 20% longer.
 
-== Automated CHR bank test ==
-
+Automated CHR bank test
+-----------------------
 A shorter automated test covers everything to do with register $00.
 It clocks through the last bank, setting inner bank, then outer bank,
-then mirroring.  These tests are performed using safe_set_a_to_x, in
-mode $3C-$3F and the last outer bank.
+then mirroring.  These tests are performed using `safe_set_a_to_x`,
+in mode $3C-$3F and the last outer bank.
 
 1. Reload the CHR bank sentinels, as in detecting CHR RAM size.
 2. Make sure mirroring mode $00 and $01 don't have individual D4s,
@@ -112,21 +111,19 @@ mode $3C-$3F and the last outer bank.
    D4 if mode is written last.  Set mode=$3C, reg00=$10, reg01=$10,
    mode=$3C, then fail if mirroring is not 1-screen page 0.
    Repeat with $3D, $00, $00, $3D, and page 1.
-3. Make sure reg00 D4 affects mirroring in 1-screen but not H/V.
+3. Make sure reg00 D4 affects mirroring only in 1-screen, not H/V.
    For each mode $3C through $3F, for each reg00 in $00 and $10,
    write mode and reg00 and read back mirroring.
 4. Make sure CHR bank does not affect inner bank or mirroring.
    Write mode $3F, then for each reg00 in $00-$0F, read back the
    inner bank and mirroring.
 
-The final automated test is 
-
-== The RAM module ==
-
+The RAM module
+--------------
 The RAM module is loaded into $0400-$07FF and actually performs all
 actions that may result in PRG ROM bank switching.
 
-try_returning ensures that the last bank is loaded into $C000-$FFFF
+`try_returning` ensures that the last bank is loaded into $C000-$FFFF
 so that tests can continue.
 
 1. Write $FF to registers $80 and $81.  This ensures horizontal
@@ -134,38 +131,41 @@ so that tests can continue.
 2. If the bank at $C000 is the last bank, return A = 1.
 3. Clear the screen and turn the background red in case the CHR bank
    changed to make the font disappear.
-4. Write failed_to_return_msg and freeze.  Because the code for
+4. Write `failed_to_return_msg` and freeze.  Because the code for
    banks other than the last bank is loaded, we can use that to
    display the message.
 
-verify_bus_conflict switches to 32K (oversize BNROM) mode and runs
+`verify_bus_conflict` switches to 32K (oversize BNROM) mode and runs
 four tests:
 
-1. Make sure $FFF6 contains 0, or fail with ATFAIL_KNOWN_00.
+1. Make sure $FFF6 contains 0, or fail with `ATFAIL_KNOWN_00`.
 2. Write $FF to $FFF6 and make sure the last bank was selected, or
-   fail with ATFAIL_BUS_CONFLICT_AND.
-3. Make sure $FFF6 contains $FF, or fail with ATFAIL_KNOWN_FF.
+   fail with `ATFAIL_BUS_CONFLICT_AND`.
+3. Make sure $FFF6 contains $FF, or fail with `ATFAIL_KNOWN_FF`.
 4. Write $00 to $FFF7 and make sure the first bank was selected, or
-   fail with ATFAIL_BUS_CONFLICT_OR.
+   fail with `ATFAIL_BUS_CONFLICT_OR`.
 5. Tail call try_returning.
 
-read_mode_x_bank_y is the heart of automated test 1, and it does the
+`read_mode_x_bank_y` is the heart of automated test 1, and it does the
 following:
 
 1. Write the chosen mode to $80 and the chosen outer bank to $81.
 2. For inner bank from $00 to $1F:
 
     1. Write the inner bank to $01.
-    2. Read the bank in $8000 and write it to out80[X].
-    3. Read the bank in $C000 and write it to outC0[X].
-    4. Read the nametable in $2000 and write it to out20[X].
-    5. Read the nametable in $2400 and write it to out24[X].
-    6. Read the nametable in $2800 and write it to out28[X].
-    7. Read the nametable in $2C00 and write it to out2C[X].
+    2. Read the bank in $8000 and write it to `out80[X]`.
+    3. Read the bank in $C000 and write it to `outC0[X]`.
+    4. Read the nametable in $2000 and write it to `out20[X]`.
+    5. Read the nametable in $2400 and write it to `out24[X]`.
+    6. Read the nametable in $2800 and write it to `out28[X]`.
+    7. Read the nametable in $2C00 and write it to `out2C[X]`.
 
 3. Tail call try_returning.
 
-inner_outer_mode is similar to read_mode_x_bank_y but does not read nametables and writes the registers in a different order, to make sure that the bank behavior does not depend on the order in which bank numbers and mode are written:
+`inner_outer_mode` is similar to `read_mode_x_bank_y` but does not
+read nametables and writes the registers in a different order, to
+make sure that the bank behavior does not depend on the order in
+which bank numbers and mode are written:
 
 1. Write the chosen inner bank to $01.
 2. Set Y to 0.
@@ -173,20 +173,24 @@ inner_outer_mode is similar to read_mode_x_bank_y but does not read nametables a
      Write the outer bank to $81.
      For mode from $03 to $3F by 4:
        Write the mode to $80.
-       Read the bank in $8000 and write it to out80[Y].
-       Read the bank in $C000 and write it to outC0[Y].
+       Read the bank in $8000 and write it to `out80[Y]`.
+       Read the bank in $C000 and write it to `outC0[Y]`.
        Add 1 to Y.
-4. Tail call try_returning.
+4. Tail call `try_returning`.
 
-safe_set_a_to_x writes a mapper register and tells whether this affected the CHR RAM bank.
+`safe_set_a_to_x` writes a mapper register and tells whether this
+affected the CHR RAM bank.
 
 1. Set mapper register A to value X.
 2. If the last bank is still visible in $C000-$FFFF, return A = 0.
-3. Tail call try_returning.  If this happens, other writes took effect.
+3. Tail call `try_returning`.  If this happens, other writes took effect.
 
-set_chr_bank_x is a convenience alias for safe_set_a_to_x that always sets register 0.
+`set_chr_bank_x` is a convenience alias for `safe_set_a_to_x` that
+always sets register 0.
 
-freeze_in_bank_0 sets the mode to $0B (32K UNROM #180, horizontal mirroring) and the outer and inner banks to 0, so that the first bank is mapped into $8000 and $C000.
+`freeze_in_bank_0` sets the mode to $0B (32K UNROM #180, horizontal
+mirroring) and the outer and inner banks to 0, so that the first bank
+is mapped into $8000 and $C000.
 
 Emulating the mapper
 --------------------
@@ -203,8 +207,8 @@ given set of $80 (mode), $81 (outer bank), $01 (current bank) values:
    with bits from the outer bank shifted left by 1. The size_masks
    are $01, $03, $07, $0F.
 
-The reference implementations are calc_prg_bank in src/testseq.s and
-docs/calc_prg_bank.py.
+The reference implementations are `calc_prg_bank` in src/testseq.s
+and docs/calc_prg_bank.py.
 
 Legal
 -----

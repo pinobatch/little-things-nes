@@ -3,8 +3,9 @@ Eighty
 A test program for the NES Four Score
 
 You MUST have an NES Four Score or compatible accessory for this
-program to work.  Famicom expansion controllers will not work,
-but an NES Four Score on an AV Famicom will probably work.
+program to work.  Famicom expansion controllers will not work.
+An NES Four Score on an AV Famicom has not been tested but will
+probably work.  Hori adapter is not yet supported either.
 
 The Four Score's report is 24 bits long on D0 of each of ports 1
 ($4016) and 2 ($4017).  Port 1 ($4016) returns 8 bits of player 1's

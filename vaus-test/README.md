@@ -16,7 +16,7 @@ again the people blamed aliens.  So they all crammed into Vaus
 lifeboats and began mining the area for materials to repair the
 _Arkanoid_ when one Vaus got trapped.
 
-But this is the story of someone learning to pilot a Vaus and making
+This is the story of someone learning to pilot a Vaus and making
 sure its control panel is in order.
 
 The controller

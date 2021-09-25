@@ -10,8 +10,9 @@ Super NES controller extension cord, that connects the respective
 power, ground, clock, latch, and data pins.
 
 As with the standard controller, the mouse is read by turning the
-latch ($4016.d0) on and off, and then reading bit 0 of $4016 or $4017
-several times.  But its report is 32 bits long as opposed to 8 bits.
+latch ($4016.d0) on and off and then reading bit 0 of $4016 or $4017
+several times.  Its report is longer: 32 bits long as opposed to
+8 bits for the NES controller or 16 for the Super NES controller.
 
 The first byte of the report can be ignored.  The other three bytes
 are in big-endian order:
@@ -44,10 +45,12 @@ and $4017, which the program sees as bit deletions from the serial
 stream.  Ordinarily, one would read each controller twice, compare
 the data, and use the previous frame's data if they don't match.
 This works because the extra latch pulse to set up the second read
-has no side effects on the standard NES or Super NES controller.  But
-an extra latch pulse sent to a mouse will clear the mouse's count of
-accumulated mickeys.
+has no side effects on the standard NES or Super NES controller.
+The mouse is less amenable to rereading because an extra latch pulse
+sent to a mouse will clear the mouse's count of accumulated mickeys.
+
+(Later, the "Rahsennor trick" was discovered to (ab)use OAM DMA to
+align controller reading in way that avoids DPCM-related corruption.)
 
 This demo was produced in mid-2011, prior to adding mouse support to
 the game _Thwaite_.
-

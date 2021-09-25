@@ -60,7 +60,7 @@ next line.  If A is nonzero, the line is drawn in inverse video
 `term_discard_line`
 -------------------
 Clears the output buffer.  Useful for a message that has been
-flushed but will be replaced, such as "MORE" in a pager.
+flushed with intent to replace, such as "MORE" in a pager.
 
 `term_remeasure`
 ----------------

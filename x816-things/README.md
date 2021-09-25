@@ -40,7 +40,7 @@ I've even seen it pop up on NOAC famiclones' built-in pirate
 multicarts despite everything that's broken about its code from
 having been tested exclusively on emulators of the time.
 
-Most files were modified around February 2001, but the CHR was a year
+Most files were modified around February 2001; the CHR was a year
 newer (March 2002) to make the font more legible.  The title screen
 was modified on 2003-11-01, presumably to remove confusing references
 to an unfinished 2-player mode, and there also appears to be a PIF

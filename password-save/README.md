@@ -22,7 +22,7 @@ keypad (0-9, star, and pound) along with the Latin alphabet minus
 vowels and S.  (Vowels run the risk of accidentally spelling an
 obscene word, and S looks too much like a digit 5 even in lowercase.)
 These are arranged in an order that makes sense on the entry screen
-but less sense when trying casual cryptanalysis.
+while adding a bit of complexity to casual cryptanalysis.
 
 An 8-character password with a 32-symbol alphabet can store up to
 40 bits.  This is 8 bits for a check value plus a 32-bit payload.

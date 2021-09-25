@@ -3,7 +3,7 @@ Convergence test
 
 Use this ROM to test the convergence of your monitor.
 
-The test is 1.25 KiB, but iNES format rounds that up to 16 KiB.
+The test is 1.25 KiB, which iNES format rounds up to 16 KiB.
 It may run on a minimalist devcart with 8K PRG RAM and no CHR
 (mapper 218) but hasn't been tested in that configuration.
 

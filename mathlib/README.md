@@ -2,21 +2,39 @@ This is a library of mathematical subroutines for use in video games running on 
 
 Multiplication and division
 -------------
-mul8 computes A * Y using long multiplication.  It is expected to finish in about 150 or so cycles.
+`mul8` computes `A * Y` using long multiplication.  It is expected to
+finish in about 150 or so cycles.
 
-getSlope1 computes floor(256 * A / Y).  As the name indicates, it was developed for rise over run calculations in Thwaite, where the result can be interpreted as 0.8 fixed point (that is, the numerator of a fraction with a denominator of 256).
+`getSlope1` computes `floor(256 * A / Y)`.  As the name indicates, it was developed for rise over run calculations in _Thwaite_, where the result can be interpreted as 0.8 fixed point (that is, the numerator of a fraction with a denominator of 256).
 
 Square root
 ----------
-What do you call the part of a Minecraft tree that's in the ground?  A square root.  What do you call the number that you multiply by itself to get a given number?  That's also a square root.  Most integers do not have integer (or even rational) square roots, but it's still useful to have the greatest integer less than the square root, as well as the remainder.
+What do you call the part of a _Minecraft_ tree that's in the ground?  
+A square root.  
+What do you call the number that you multiply by itself to get a
+given number?  
+That's also a square root.
 
-Given n, solve for r and m, where n = r*r + m, 0 <= r, and 0 <= m <= 2r.
+Integers that are not perfect squares do not have square roots in the
+integers (or even the rationals).  For any positive integer, this
+routine finds the greatest integer not greater than the square root,
+as well as the remainder.
 
-A subroutine to do this in under 520 cycles was taken from http://6502org.wikidot.com/software-math-sqrt.
+Given integer n where 0 <= n <= 65535, solve for r and m, where n = r*r + m, 0 <= r, and 0 <= m <= 2r.
+
+A subroutine to do this in under 520 cycles was taken
+from <http://6502org.wikidot.com/software-math-sqrt>.
 
 Trigonometry
 ----------
-getAngle finds the angle of a vector from (X1, Y1) to (X2, Y2) in units of 1/32 turn, rounded to the nearest unit.  Using this angle, you can project the displacement back onto the unit vector corresponding to that angle to approximate the length of the vector without need for a square root.  It finishes within about 380 cycles, and the maximum error found in the fixed tests was 0.506 units, where each unit is 1/32 of an angle.  (Errors up to 0.5 are unavoidable when angles are rounded; the rest is tangent search.)
+`getAngle` finds the angle of a vector from (X1, Y1) to (X2, Y2) in
+units of 1/32 turn, rounded to the nearest unit.  Using this angle,
+you can project the displacement back onto the unit vector
+corresponding to that angle to approximate the length of the vector
+without needing a square root.  It finishes within about 380 cycles,
+and the maximum error found in the fixed tests was 0.506 units, or
+5.7 degrees, or 0.099 radian.  (Errors up to 0.5 are unavoidable when
+angles are rounded; the rest is tangent search.)
 
 Number formatting
 ----------

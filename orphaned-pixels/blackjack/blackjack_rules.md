@@ -21,13 +21,13 @@ Player buys one or more hands by placing a bet in the betting box at the bottom 
 Dealer is dealt one card, and each player is dealt two.
 (We use the no-hole-card rule to simplify programming.)
 
-If the dealer's upcard is an ace, the player can insure the hand.  This bet has a house advantage, as one-third of insurances would need to win but tens are only 31% of cards.  But when a lot of tens are in the deck, or if the player is trying to reduce variation, it can be a good deal.
+If the dealer's upcard is an ace, the player can insure the hand.  This bet has a house advantage, as one-third of insurances would need to win but tens are only 31% of cards.  It becomes a good deal when a lot of tens are in the deck or if the player is trying to reduce variation.
 
-If there is an open column, a pair may be split. Those playing behind may choose to join or not to join the split hand. Splits are recommended for A-A and 8-8 against 2 through 9. A split hand can be played as normal, but A-10 resulting from a split is not blackjack, and split A cannot be hit past 2 cards.
+If there is an open column, a pair may be split. Those playing behind may choose to join or not to join the split hand. Splits are recommended for A-A and 8-8 against 2 through 9. A split hand can be played as normal with two exceptions: A-10 resulting from a split is not blackjack, and split A cannot be hit past 2 cards.
 
 A two-card hand may be doubled down. It's recommended for hands valued 10 or 11, especially if there are a lot of high cards left in the deck.
 
-A hand with value less than 21 may be hit. Hitting a soft hand cannot bust it, but hitting a hard hand can bust it and eliminate the player.
+A hand with value less than 21 may be hit. Hitting a soft hand cannot bust it. Hitting a hard hand can bust it and eliminate the player.
 
 Or with a hand valued at least 12, the player can stand. Standing is recommended for all hands valued 17 or more and for specific combinations of player hand value and the dealer's card value dictated by a basic strategy.
 
