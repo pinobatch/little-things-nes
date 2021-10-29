@@ -626,16 +626,16 @@ def render_song_rows(canvas, style, song, frametimes, first_row,
 # Now we do something with this #####################################
 
 def main():
-    module_path = "overtone 32.txt"
+    module_path = "boy2.txt"
     song_id = 0
-    audio_path = "overtone 32.wav"
-    output_path = "null.mp4"
-    beat_length = 3
-    measure_length = 12
+    audio_path = "boy2.wav"
+    output_path = "boy2.mp4"
+    beat_length = 4
+    measure_length = 16
 
     # normally 1280, but if expansions make it too wide, use
     # 1440 to 1920 to horizontally compress the output
-    prescale_width = 1280
+    prescale_width = 960
     video_quality = 0  # 0 to 10
     use_flipscreen = False
 
@@ -667,6 +667,7 @@ def main():
     style = DrawStyle()
     fps = 30
     canvas_sz = prescale_width, 720
+    enc_sz = canvas_sz[0]//2, canvas_sz[1]//2
 
     cmd_out = [
         'ffmpeg', '-y',  # overwrite
@@ -680,7 +681,7 @@ def main():
 
         # Video transformation options
         '-pix_fmt', 'yuv420p',
-        '-vf', 'scale=640:360',
+        '-vf', 'scale=%d:%d' % enc_sz,
         '-t', "%.2f" % (maxframes/60),
 
         # Encoding options
@@ -689,7 +690,8 @@ def main():
         '-c:v', 'libx264',
         '-crf', "%d" % (28 - video_quality),
         '-c:a', 'aac',
-        "-b:a", "96k",
+        "-b:a", "80k",
+        "-movflags", "+faststart",
         output_path
     ]
     encoder = subprocess.Popen(cmd_out, stdin=subprocess.PIPE)

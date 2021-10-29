@@ -60,7 +60,7 @@ def parse_argv(argv):
     p.add_argument("-1", "--1bpp", dest="planes",
                    action="store_const", const=1, default=2,
                    help="treat tiles as 1bpp (default: 2bpp NES format)")
-    p.add_argument("--width", type=int, default=16,
+    p.add_argument("-w", "--width", type=int, default=16,
                    help="number of tiles per row (default: 16)")
     p.add_argument("--row-height", type=int, default=1,
                    help="height of each row in column-major tiles "
@@ -70,15 +70,13 @@ def parse_argv(argv):
 def main(argv=None):
     args = parse_argv(argv or sys.argv)
     infilename, outfilename = args.romfile, args.outfile
-    skip = args.skip
+    skip, skip_prg = args.skip, False
     planes = args.planes
-    skip_prg = False
     if skip is None:
         ext = os.path.splitext(infilename)[-1].lower()
         skip = 16 if ext == '.nes' else 0
     elif skip == 'prg':
-        skip = 16
-        skip_prg = True
+        skip, skip_prg = 16, True
     with open(infilename, "rb") as infp:
         header = infp.read(skip)
         if skip_prg:
