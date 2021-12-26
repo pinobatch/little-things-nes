@@ -54,9 +54,9 @@ Control group tests:
   No sprite 0 hit
 * Vertical mirroring, CHR page 4-5 in window 0, window 0 at $0000:  
   No sprite 0 hit
-* Horizontal mirroring, CHR page 0-1 in window 0, window 0 at $0000:  
-  Sprite 0 hit
 * Vertical mirroring, CHR page 2-3 in window 0, window 0 at $0000:  
+  Sprite 0 hit
+* Horizontal mirroring, CHR page 0-1 in window 0, window 0 at $0000:  
   Sprite 0 hit
 * Vertical mirroring, CHR page 0-1 in window 0, window 2 at $0000:  
   Sprite 0 hit

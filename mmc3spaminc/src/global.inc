@@ -21,4 +21,7 @@
 ; selfmodengine.s
 .global setup_selfmodarea, selfmodarea
 
+; bg.s
+.global cls_puts_multiline, puts_multiline_16, puts_16
+
 .endif

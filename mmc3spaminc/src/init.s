@@ -30,7 +30,7 @@ vwait1:
   ldx #mmc3_default_banks_end - mmc3_default_banks - 1
   :
     stx $8000
-    lda mmc3_default_banks
+    lda mmc3_default_banks,x
     sta $8001
     dex
     bpl :-
@@ -58,5 +58,5 @@ vwait2:
 .endproc
 
 mmc3_default_banks:
-  .byte 0, 2, 4, 5, 6, 7, 0, 1
+  .byte 0, 2, 2, 2, 2, 2, 0, 1
 mmc3_default_banks_end:

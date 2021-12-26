@@ -16,8 +16,7 @@ version = wip
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
 # (the \ character) at the end of the line and continue on the next.
-objlist = selfmodengine mmc3 init main title \
-pads ppuclear
+objlist = selfmodengine mmc3 init main title pads ppuclear bg
 
 
 AS65 = ca65

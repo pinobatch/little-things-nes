@@ -60,13 +60,16 @@ selfmodarea_end:
 ; 0: inc $8001 -- controls CHR page in PPU $0000-$07FF
 ; 1: asl $8000 -- swaps CHR at PPU $0000-$0FFF and $1000-$1FFF
 ; 2: lsr $A000 -- swaps tilemaps at PPU $2400-$27FF and $2800-$2BFF
+; 3: dec $8001 -- writes 3 then 2 as a control
 
-selfmod_instruction:  .byte INC_ABS, ASL_ABS, LSR_ABS
-selfmod_addrlo:       .byte $01,     $00,     $00
-selfmod_addrhi:       .byte $80,     $80,     $81
+selfmod_instruction:  .byte INC_ABS, ASL_ABS, LSR_ABS, DEC_ABS
+selfmod_addrlo:       .byte $01,     $00,     $00,     $01
+selfmod_addrhi:       .byte $80,     $80,     $A0,     $80
 
 .segment "ROM8000"
+.assert * = $8000, error, "pattern not at $8000"
 .byte $80, $03
 
 .segment "ROMA000"
-.byte $80
+.assert * = $A000, error, "pattern not at $A000"
+.byte $01

@@ -1,7 +1,7 @@
 Spam Inc
 ========
 
-- **spam:** repeatedly and rapidly perform an action
+- **spam:** repeatedly and rapidly [perform an action]
 - **inc:** a CPU instruction that increments a value in memory
 
 The Nintendo Entertainment System contains a clone of the MOS 6502
@@ -24,24 +24,72 @@ back $FF then $00) and expecting only the $FF write to take effect.
 MMC3 is believed to honor the second write.  Whether it honors the
 first write is uncertain.  Testing this behavior is tricky, as a
 program running on the CPU has no way to see the intermediate result
-by itself.  So instead, the program uses side effects from the PPU.
-The tilemap is filled with a tile index where one bank has a
-character with opaque pixels and another transparent pixels, and
-sprite 0 is drawn opaque.  Then it rapidly executes RMW instructions
-on a ROM address with the bank number for opaque pixels to make the
-MMC3 switch to opaque pixels for one CPU cycle and transparent pixels
-the next cycle.
+by itself.  So instead, the program uses side effects from the PPU's
+"sprite 0 hit" feature, which sets a status flag when an opaque
+background pixel overlaps an opaque pixel of the first movable object
+in the scene.  The tilemap is filled with a tile index where one bank
+has a character with opaque pixels and another transparent pixels,
+and sprite 0 is drawn opaque.  Then it rapidly executes RMW
+instructions on a ROM address with the bank number for opaque pixels
+to make the MMC3 switch to opaque pixels for one CPU cycle and
+transparent pixels the next cycle.
 
 If the MMC3 honors both writes, I expect it to keep the bank switched
 just long enough for the CHR ROM to sometimes return opaque pixels
 for the background.  These pixels overlapping sprite 0 then cause the
-PPU to set the sprite 0 overlap flag in its status register.
+PPU to turn on the sprite 0 hit flag, which the CPU can read.
 
 \* Exact ratio varies in PAL NES
 
-Caveat
-------
-Only the title screen exists as of this writing.
+[perform an action]: https://en.wikipedia.org/wiki/Spam_(video_games)
+
+Interpreting results
+--------------------
+The tests use an opaque 8x16-pixel sprite over a background whose
+content depends on mapper commands.  CHR ROM pages 0 ($0000) and 4
+($1000) begin with two solid transparent (color 0) tiles, and page 2
+($1000) has an opaque (color 3) tile at the same spot.  Tests are
+performed at nametable $2800, so that vertical mirroring causes the
+PPU to read nametable 0, filled with tile $00, and horizontal
+mirroring causes it to read nametable 1, filled with opaque tile $80.
+
+The first five tests form the control group, to ensure that the PPU
+and MMC3 are working enough for the results to be meaningful.  This
+part uses only plain writes, not RMWs.  This makes it harder for an
+emulator or hardware clone to pass the test for the wrong reason.
+Among these, 1 and 2 should not hit, and the others should hit.
+
+1. Baseline: Transparent background tile $00 in CHR page 0 at $0000
+   does not overlap opaque sprite in CHR page 2 at $1800.
+2. Background tile at CHR page 4 does not overlap either.
+3. Background tile at CHR page 2 is opaque and therefore overlaps.
+4. Horizontal mirroring brings in opaque tile $80 which overlaps.
+5. Swap $0000-$0FFF and $1000-$1FFF, putting opaque background tile
+   from CHR page 2 into $0000.
+
+The next four tests determine whether the MMC3 honors the first
+or second write in an RMW.  These "short spams" fit well within
+vertical blanking.
+
+1. `inc $8001`: Write $03 then $04 to point $0000 to CHR page 2-3
+   then 4-5.
+2. `lsr $A000`: Write $01 then $00 to set nametable mirroring so as
+   to bring background tile $80 then $00 into view.
+3. `asl $8000`: Write $80 then $00 to swap $0000 and $1000 and then
+   unswap them.
+4. `dec $8001`: Write $03 then $02 to point $0000 to CHR page 2-3
+   then 2-3.  This is a consistency check to make sure RMWs take
+   effect at all, as bit 0 of windows 0 and 1 has no effect on MMC3.
+
+On FCEUX and Mesen, 4 hits and the others do not.
+
+The last three "long spam" tests distinguish honoring only the second
+write from honoring both.  They use the same addresses and values as
+the first three short spam tests.  If the MMC3 honors both writes,
+the screen will show a brief flickering or rolling pattern at the
+top, causing a hit where the pattern overlaps the sprite.
+
+None of these hit on FCEUX; all three hit on Mesen and PowerPak.
 
 Future directions
 -----------------
