@@ -18,4 +18,7 @@
 ; pads.s
 .global read_pads
 
+; selfmodengine.s
+.global setup_selfmodarea, selfmodarea
+
 .endif

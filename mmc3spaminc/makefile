@@ -16,7 +16,7 @@ version = wip
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
 # (the \ character) at the end of the line and continue on the next.
-objlist = mmc3 init main title \
+objlist = selfmodengine mmc3 init main title \
 pads ppuclear
 
 
@@ -101,12 +101,9 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/main.o: $(objdir)/title16.chr
+$(objdir)/main.o: $(objdir)/title16.chr $(objdir)/resultfont16.chr
 
-# This is an example of how to call a lookup table generator at
-# build time.  mktables.py itself is not included because the demo
-# has no music engine, but it's available online at
-# http://wiki.nesdev.com/w/index.php/APU_period_table
+# an example of how to call a lookup table generator at build time.
 $(objdir)/ntscPeriods.s: tools/mktables.py
 	$< period $@
 
