@@ -1,4 +1,5 @@
-.import nmi_handler, reset_handler, irq_handler
+.import nmi_handler, reset_handler, irq_handler, main
+.export copychr_then_main
 
 .segment "INESHDR"
   .byt "NES",$1A  ; magic signature
@@ -10,4 +11,12 @@
 .segment "VECTORS"
 .addr nmi_handler, reset_handler, irq_handler
 
+copychr_then_main := main
 
+; Include the CHR ROM data
+.segment "CHR"
+  .incbin "obj/nes/title16.chr"
+  ; empty page 4 before results on 5-7
+  ; first tile of page 4 must be transparent
+  .res 1024, $00
+  .incbin "obj/nes/resultfont16.chr"

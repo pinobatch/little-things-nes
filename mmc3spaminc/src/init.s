@@ -1,5 +1,6 @@
 .include "nes.inc"
 .include "global.inc"
+.import copychr_then_main
 
 .segment "ONCE"
 .proc reset_handler
@@ -54,9 +55,9 @@ vwait2:
   ; afterward, you want to use the NMI method because if you read
   ; PPUSTATUS at the exact moment that the bit turns on, it'll flip
   ; from off to on to off faster than the CPU can see.
-  jmp main
+  jmp copychr_then_main
 .endproc
 
 mmc3_default_banks:
-  .byte 0, 2, 2, 2, 2, 2, 0, 1
+  .byte 0, 2, 4, 5, 6, 7, 0, 1
 mmc3_default_banks_end:

@@ -10,14 +10,13 @@
 #
 
 # These are used in the title of the NES program and the zip file.
-title = mmc3spaminc
-version = wip
+title := mmc3spaminc
+version := wip
 
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
 # (the \ character) at the end of the line and continue on the next.
-objlist = selfmodengine mmc3 init main title pads ppuclear bg
-
+objlist := selfmodengine init main title pads ppuclear bg
 
 AS65 = ca65
 LD65 = ld65
@@ -60,7 +59,7 @@ run: $(title).nes
 debug: $(title).nes
 	$(DEBUGEMU) $<
 
-all: $(title).nes
+all: $(title).nes $(title)-tg.nes
 
 # Rule to create or update the distribution zipfile by adding all
 # files listed in zip.in.  Actually the zipfile depends on every
@@ -78,6 +77,7 @@ $(title)-$(version).zip: zip.in $(title).nes README.md CHANGES.txt $(objdir)/ind
 zip.in:
 	git ls-files | grep -e "^[^.]" > $@
 	echo $(title).nes >> $@
+	echo $(title)-tg.nes >> $@
 	echo zip.in >> $@
 
 $(objdir)/index.txt: makefile
@@ -88,10 +88,14 @@ clean:
 
 # Rules for PRG ROM
 
-objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
+objlist_te := $(foreach o,$(objlist) terom,$(objdir)/$(o).o)
+objlist_tg := $(foreach o,$(objlist) tgrom,$(objdir)/$(o).o)
 
-map.txt $(title).nes: terom.cfg $(objlistntsc)
+map.txt $(title).nes: terom.cfg $(objlist_te)
 	$(LD65) -o $(title).nes -m map.txt -C $^
+
+tgmap.txt $(title)-tg.nes: tgrom.cfg $(objlist_tg)
+	$(LD65) -o $(title)-tg.nes -m map.txt -C $^
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 	$(AS65) $(CFLAGS65) $< -o $@
@@ -100,7 +104,8 @@ $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/main.o: $(objdir)/title16.chr $(objdir)/resultfont16.chr
+$(objdir)/terom.o $(objdir)/tgrom.o: \
+  $(objdir)/title16.chr $(objdir)/resultfont16.chr
 
 # an example of how to call a lookup table generator at build time.
 $(objdir)/ntscPeriods.s: tools/mktables.py

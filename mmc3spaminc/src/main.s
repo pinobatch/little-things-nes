@@ -283,11 +283,3 @@ results_txt:
 HIT_MSG_ADDR = $207B
 hit_msg:
   .byte "Hit", $00
-
-; Include the CHR ROM data
-.segment "CHR"
-  .incbin "obj/nes/title16.chr"
-  ; empty page 4 before results on 5-7
-  ; first tile of page 4 must be transparent
-  .res 1024, $00
-  .incbin "obj/nes/resultfont16.chr"

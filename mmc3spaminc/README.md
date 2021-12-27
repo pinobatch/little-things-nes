@@ -43,6 +43,20 @@ PPU to turn on the sprite 0 hit flag, which the CPU can read.
 
 [perform an action]: https://en.wikipedia.org/wiki/Spam_(video_games)
 
+Building and running
+--------------------
+Install cc65, Python, Pillow, and Make, and run `make all` to build
+these ROM images in iNES format:
+
+- `mmc3spaminc.nes`  
+  32 KiB PRG ROM and 8 KiB CHR ROM or larger  
+  Fits most MMC3 boards (such as TEROM, TKROM, TLROM, or TSROM)
+- `mmc3spaminc-tg.nes`  
+  32 KiB PRG ROM and 8 KiB CHR RAM or larger  
+  Fits MMC3 boards with CHR RAM (TGROM and TNROM)
+
+Pre-built ROM images may also be available.
+
 Interpreting results
 --------------------
 The tests use an opaque 8x16-pixel sprite over a background whose
@@ -114,6 +128,9 @@ The method is not expected to apply as directly to these mappers:
 - The common variant of the Camerica mapper can't switch CHR.
 - MMC5 does not overlap ROM and registers, as it allows switching
   RAM into $8000-$DFFF.
+
+Special thanks to Myria, Quietust, and Fiskbit in the NESdev Discord
+server for helping define the requirements for this test.
 
 Copyright 2021 Damian Yerrick  
 (Insert zlib license here)
