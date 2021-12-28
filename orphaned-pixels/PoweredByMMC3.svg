@@ -1,0 +1,101 @@
+<svg height="320" width="768"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:schema="http://schema.org/">
+<title>Powered by MMC3</title>
+<metadata>
+  <rdf:RDF>
+    <rdf:Description rdf:about="">
+      <schema:license rdf:resource="https://creativecommons.org/licenses/by/4.0/" />
+    </rdf:Description>
+    <cc:Work rdf:about="">
+      <dc:title>Powered by MMC3</dc:title>
+      <cc:license rdf:resource="http://creativecommons.org/licenses/by/4.0/" />
+      <dc:date>2021-11-28</dc:date>
+      <dc:creator><cc:Agent><dc:title>Damian Yerrick</dc:title></cc:Agent></dc:creator>
+      <dc:description>Logo for use in an NES program that uses Nintendo MMC3 or a clone thereof</dc:description>
+    </cc:Work>
+    <cc:License rdf:about="http://creativecommons.org/licenses/by/4.0/">
+      <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+      <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+      <cc:requires rdf:resource="http://creativecommons.org/ns#Notice" />
+      <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution" />
+      <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+    </cc:License>
+  </rdf:RDF>
+</metadata>
+
+<rect height="320" width="768" stroke="none" fill="#000000" />
+<g stroke="none" fill="white">
+
+<!-- POWERED BY -->
+<path id="littleP" d="
+  M96 4 Q120 4 120 20 T96 36 L80 36 80 60 72 60 72 4 Z
+  M96 28 Q112 28 112 20 T96 12 L80 12 80 28 Z
+  "/>
+<path id="littleO" d="
+  M136 32 Q136 4 160 4 T184 32 160 60 136 32 Z
+  M144 32 Q144 52 160 52 T176 32 160 12 144 32 Z
+  "/>
+<path id="littleW" d="
+  M200 4 200 8 L217 60 226 60 240 22 254 60 263 60 280 8 280 4
+  L272 4 258 50 244 4 236 4 222 50 208 4
+  Z"/>
+<path id="littleE" d="
+  M296 4 L344 4 344 12 304 12 304 28 336 28 336 36 304 36 304 52 344 52 344 60 296 60
+  Z"/>
+<path id="littleR" d="
+  M384 4 Q408 4 408 20 408 28 396 34
+  L408 56 408 60 400 60 388 36 368 36 368 60 360 60 360 4 Z
+  M384 28 Q400 28 400 20 T384 12 L368 12 368 28 Z
+  "/>
+<use xlink:href="#littleE" x="128" />
+<path id="littleD" d="
+  M512 4 Q536 4 536 32 T512 60 L488 60 488 4 Z
+  M512 52 Q528 52 528 32 T512 12 L496 12 496 52 Z
+  "/>
+<path id="littleB" d="
+  M608 4 Q632 4 632 20 632 26 624 32 
+  Q632 38 632 44 632 60 608 60 L584 60 584 4 Z
+  M608 52 Q624 52 624 44 T608 36 L592 36 592 52 Z
+  M608 28 Q624 28 624 20 T608 12 L592 12 592 28 Z
+  "/>
+<path id="littleY" d="
+  M648 4 L656 4 672 24 688 4 696 4 696 8 676 32 676 60 668 60 668 32 648 8
+  Z"/>
+
+<!-- MMC3 logo based on the chip marking -->
+
+<path id="bigM" d="M8 136 L8 312 44 312 44 196 84 256 108 256 148 196 148 312 184 312 184 136 148 136 96 216 44 136Z"/>
+<use xlink:href="#bigM" x="192"/>
+<!-- C is a 184x184 circle minus a 112x112 circle minus a 24 tall rect -->
+<path id="bigC" d="
+  M572 235 Q566 268 545 289 Q518 316 480 316 T415 289
+  388 224 415 159 T480 132 545 159 Q566 180 571 212
+  L534 212 Q531 195 520 184 Q504 168 480 168 T440 184 424 224
+  T440 264 480 280 520 264 Q531 253 534 235
+  Z"/>
+<!-- left half of 3 is the left half of C minus 64 tall rect plus 16x24 rect
+     right half is two 184x112 ellipses minus half of two 112x44 ellipses -->
+<path id="big3" d="
+  M586 192 Q593 173 607 159 Q634 132 672 132
+  Q724 132 752 160 764 172 764 186
+  Q764 200 752 212 745 219 736 224
+  Q745 229 752 236 764 248 764 262
+  Q764 276 752 288 724 316 672 316
+  Q634 316 607 289 Q593 275 586 256
+  L626 256 Q629 261 632 264 Q650 280 672 280
+  Q710 280 724 266 728 262 728 258
+  Q728 254 724 250 710 236 672 236
+  L656 236 656 212 672 212
+  Q710 212 724 198 728 194 728 190
+  Q728 186 724 182 710 168 672 168
+  Q650 168 632 184 Q629 187 626 192
+  Z"/>
+</g>
+
+</svg>
