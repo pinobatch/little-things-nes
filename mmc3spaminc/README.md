@@ -103,7 +103,10 @@ the first three short spam tests.  If the MMC3 honors both writes,
 the screen will show a brief flickering or rolling pattern at the
 top, causing a hit where the pattern overlaps the sprite.
 
-None of these hit on FCEUX; all three hit on Mesen and PowerPak.
+None of these hit on FCEUX.  All three hit on Mesen, Nintendulator,
+PowerPak, and an authentic MMC3.  Thus the correct result is
+
+    --- --- Hit Hit Hit --- --- --- Hit Hit Hit Hit
 
 Future directions
 -----------------
@@ -130,7 +133,8 @@ The method is not expected to apply as directly to these mappers:
   RAM into $8000-$DFFF.
 
 Special thanks to Myria, Quietust, and Fiskbit in the NESdev Discord
-server for helping define the requirements for this test.
+server for helping define the requirements for this test and to
+plgDavid for testing it on MMC3 hardware.
 
 Copyright 2021 Damian Yerrick  
 (Insert zlib license here)
