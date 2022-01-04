@@ -28,8 +28,11 @@ binaries := \
   mathlib/mathlib.prg \
   meece/meece.nes \
   meta32/meta32.nes \
+  mmc1a/mmc1atest.nes \
+  mmc1a/mmc1atest-sn.nes \
   mmc3bigchrram/mmc3bigchrram.nes \
   mmc3save/mmc3save.nes \
+  mmc3spaminc/mmc3spaminc.nes \
   oam-reset/oam_reset.nes \
   palphase/palphase.nes \
   parallax/parallax.nes \
