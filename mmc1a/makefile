@@ -11,12 +11,12 @@
 
 # These are used in the title of the NES program and the zip file.
 title = mmc1atest
-version = wip
+version = 0.01
 
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
 # (the \ character) at the end of the line and continue on the next.
-objlist = main init pads ppuclear mmc1 chrram
+objlist = main init ppuclear mmc1 chrram
 
 AS65 = ca65
 LD65 = ld65
@@ -42,7 +42,6 @@ DOTEXE:=
 PY:=python3
 endif
 
-PILBMP2NES := $(PY) ../common/tools/pilbmp2nes.py
 
 # Pseudo-targets
 .PHONY: run runalt debug debugalt dist zip clean
@@ -51,24 +50,41 @@ run: $(title).nes
 	$(EMU) $<
 runalt: $(title)-sn.nes
 	$(EMU) $<
-all: $(title).nes $(title)-sn.nes
+all := $(title).nes $(title)-sn.nes
+all: $(all)
 
-# Rule to create or update the distribution zipfile.  Use changes to
-# the finished program, makefile, and README as a heuristic for when
-# something was changed.
+# Path of some tools depends on whether the project is built inside
+# little things or separately.  To detect which, use a file existence
+# test by holms <https://stackoverflow.com/a/20566812/2738262>
+LOCAL_PILBMP2NES := tools/pilbmp2nes.py
+COMMON_PILBMP2NES := ../common/tools/pilbmp2nes.py
+ifneq ("$(wildcard $(LOCAL_PILBMP2NES))","")
+    PILBMP2NES := $(PY) $(LOCAL_PILBMP2NES)
+else
+    PILBMP2NES := $(PY) $(COMMON_PILBMP2NES)
+endif
+
+# And when building the zipfile, include the test
+$(LOCAL_PILBMP2NES): $(COMMON_PILBMP2NES)
+	cp $< $@
+
 dist: zip
 zip: $(title)-$(version).zip
-$(title)-$(version).zip: $(title).nes $(title)-sn.nes \
-  zip.in README.md CHANGES.txt $(objdir)/index.txt
+$(title)-$(version).zip: zip.in
 	zip -9 -u $@ -@ < $<
 
-# Build zip.in from the list of files in the Git tree
-zip.in:
+# Build zip.in from the list of files in the Git tree.
+# Use changes to the finished program, makefile, and README
+# as a heuristic for when a new file was added to the repo.
+zip.in: $(all) \
+  README.md CHANGES.txt $(objdir)/index.txt $(LOCAL_PILBMP2NES)
 	git ls-files | grep -e "^[^.]" > $@
+	for f in $(all); do echo $$f >> $@; done
+	echo $(LOCAL_PILBMP2NES) >> $@
 	echo zip.in >> $@
 
 $(objdir)/index.txt: makefile
-	echo Files produced by build tools go here, but caulk goes where? > $@
+	echo Files produced by build tools go here > $@
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr
@@ -102,3 +118,4 @@ $(objdir)/%.chr: $(imgdir)/%.png
 
 $(objdir)/%1.chr: $(imgdir)/%.png
 	$(PILBMP2NES) -1 $< $@
+

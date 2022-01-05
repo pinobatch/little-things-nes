@@ -31,7 +31,6 @@ vwait1:
   ; Clear OAM and the zero page here.
   ; We don't copy the cleared OAM to the PPU until later.
   ldx #0
-  jsr ppu_clear_oam  ; clear out OAM from X to end and set X to 0
   txa
 clear_zp:
   sta $00,x

@@ -22,8 +22,9 @@ srchi = $01
   sta srchi
   lda #<chrdata
   sta srclo
+  lda #VBLANK_NMI
+  sta PPUCTRL
   ldy #$00
-  sty PPUCTRL
   sty PPUMASK
   bit PPUSTATUS
   sty PPUADDR

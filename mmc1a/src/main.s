@@ -15,9 +15,6 @@ OAM = $0200
 
 .segment "ZEROPAGE"
 nmis:          .res 1
-oam_used:      .res 1  ; starts at 0
-cur_keys:      .res 2
-new_keys:      .res 2
 
 test_80: .res 1
 test_E0: .res 1
@@ -29,26 +26,33 @@ vramdst: .res 2
 ; vblank-detect loop.
 .proc nmi_handler
   inc nmis
+return:
   rti
 .endproc
 
 ; Null IRQ handler good for BRKpoints
-.proc irq_handler
-  rti
-.endproc
+irq_handler := nmi_handler::return
 
 .proc main
   ; PPU just finished initing so it's safe to write palettes
   ; without making a rainbow streak
-  jsr load_main_palette
+  ; seek to the start of palette memory ($3F00-$3F1F)
+  lda #VBLANK_NMI
+  sta PPUCTRL
+  ldx #$3F
+  stx PPUADDR
+  ldx #$00
+  stx PPUADDR
+  lda #$10  ; light gray
+  sta PPUDATA
+  lda #$0F  ; black
+  sta PPUDATA
+
   jsr load_chrdata
   lda #0
   tay
   ldx #$20
   jsr ppu_clear_nt
-
-  lda #VBLANK_NMI
-  sta PPUCTRL
 
   lda #$20
   sta vramdst+1
@@ -129,15 +133,7 @@ vramdst: .res 2
     jmp loop80
   loop80done:
 
-
 forever:
-
-  ; Game logic
-  jsr read_pads
-
-;  ldx oam_used
-;  jsr ppu_clear_oam
-
 
   ; Good; we have the full screen ready.  Wait for a vertical blank
   ; and set the scroll registers to display it.
@@ -146,32 +142,15 @@ vw3:
   cmp nmis
   beq vw3
   
-  ; Copy the display list from main RAM to the PPU
-  lda #0
-  sta OAMADDR
-  lda #>OAM
-  sta OAM_DMA
-  
   ; Turn the screen on
-  ldx #0
-  ldy #0
-  lda #VBLANK_NMI|BG_0000|OBJ_1000
-  sec
-  jsr ppu_screen_on
+  lda #0
+  sta PPUSCROLL
+  sta PPUSCROLL
+  lda #VBLANK_NMI|BG_0000
+  sta PPUCTRL
+  lda #BG_ON
+  sta PPUMASK
   jmp forever
-.endproc
-
-.proc load_main_palette
-  ; seek to the start of palette memory ($3F00-$3F1F)
-  ldx #$3F
-  stx PPUADDR
-  ldx #$00
-  stx PPUADDR
-  lda #$10  ; light gray
-  sta PPUDATA
-  lda #$0F  ; black
-  sta PPUDATA
-  rts
 .endproc
 
 .proc start_line
