@@ -13,7 +13,7 @@ of licensed games for the Nintendo Entertainment System.  Its four
 5-bit registers control what parts of memory it makes available to
 the console.  The high bit of the program bank register ($E000 D4) is
 known to control different behavior on the MMC1A revision compared to
-later revisions.  On MMC1B and MMC1C, setting D4 to 1 prevents the
+later revisions.  On the later MMC1B, setting D4 to 1 prevents the
 MMC1 from asserting the battery RAM's chip select, whereas on MMC1A,
 D4 has no effect on the battery RAM's chip select.
 
@@ -44,9 +44,9 @@ MMC1A was determined to behave thus:
 
 Control ($8000): CPPMM
 
-- P=0, P=1: 32K mode (no fixed bank; CPU A14 controls PRG ROM A14)
-- P=2: 16K mode, $8000-$BFFF fixed (CPU A14 low selects bank 0)
-- P=3: 16K mode, $C000-$FFFF fixed (CPU A14 high selects bank 15)
+- P=0, P=1: 32K mode (no fixed bank; CPU A14 controls PRG ROM A14);  
+  P=2: 16K mode, $8000-$BFFF fixed (CPU A14 low selects bank 0);  
+  P=3: 16K mode, $C000-$FFFF fixed (CPU A14 high selects bank 15)
 - C and M: Related to the PPU bus, unrelated to this test
 
 PRG bank select ($E000): RPPPP
@@ -58,12 +58,15 @@ PRG bank select ($E000): RPPPP
 
 The test method
 ---------------
+Two ROMs are included: `mmc1a.nes` with 256 KiB PRG ROM and 8 KiB
+CHR ROM, and `mmc1a-sn.nes` with the same PRG ROM and CHR RAM.
 All sixteen banks of PRG ROM, each 16 KiB, contain the same code and
 data except for one byte, which stores the number of that bank.
+The code does the following:
 
 1. Reset MMC1
 2. Copy font to CHR RAM in case the included CHR ROM is not installed
-   (so that the same test works on CHR ROM and CHR RAM boards)
+   (so that the same program works on CHR ROM and CHR RAM boards)
 3. Clear the screen and write the title heading at the top
 4. Write all combinations of 0, 4, 8, C in $8000 and 00-1F in $E000,
    read which pair of PRG ROM banks is switched in for each case,
@@ -75,17 +78,23 @@ Results from an MMC1A:
      00  00 01 02 03 04 05 06 07
      08  08 09 0a 0b 0c 0d 0e 0f
      10  00 01 02 03 04 05 06 07
-     18  88 89 8a 8b 8c 8d 8e 8f  [differs from MMC1B/1C]
+     18  88 89 8a 8b 8c 8d 8e 8f  [differs from MMC1B]
     80:0C
      00  0f 1f 2f 3f 4f 5f 6f 7f
      08  8f 9f af bf cf df ef ff
-     10  07 17 27 37 47 57 67 77  [differs from MMC1B/1C]
+     10  07 17 27 37 47 57 67 77  [differs from MMC1B]
      18  8f 9f af bf cf df ef ff
 
-MMC1B and MMC1C do not have this bypassing behavior.  When the
-test is run on MMC1B or MMC1C, the 10 and 18 rows should match
-the corresponding 00 and 08 rows. The behavior of AX5904, a
-third-party clone of MMC1, has yet to be tested.
+MMC1B lacks this bypassing behavior.  When the test is run on
+MMC1B, the 10 and 18 rows should match the corresponding 00 and
+08 rows.  The behavior of AX5904, a third-party clone of MMC1,
+has yet to be tested.
+
+How to build it
+---------------
+Install Python 3, Pillow, cc65, and Make, then at a terminal type
+
+    make all
 
 Legal
 ---------------

@@ -3,8 +3,7 @@
 
 .segment "CODE"
 .proc reset_handler
-  ; The very first thing to do when powering on is to put all sources
-  ; of interrupts into a known state.
+  ; After powering on, put all interrupt sources into a known state.
   sei             ; Disable interrupts
   ldx #$00
   stx PPUCTRL     ; Disable NMI and set VRAM increment to 32
@@ -28,8 +27,7 @@ vwait1:
   ; First turn off BCD for famiclone compatibility
   cld
 
-  ; Clear OAM and the zero page here.
-  ; We don't copy the cleared OAM to the PPU until later.
+  ; Clear the zero page
   ldx #0
   txa
 clear_zp:
@@ -37,8 +35,18 @@ clear_zp:
   inx
   bne clear_zp
 
-  ; Do no mapper initialization because we want to test the
-  ; state at power-up
+  ; Initialize MMC1 CHR bank
+  inx  ; A=0, X=1
+  sta $8000  ; mirroring doesn't matter
+  sta $8000
+  stx $8000  ; begin in fixed $C000
+  stx $8000
+  sta $8000  ; and 8 KiB CHR switching mode
+  sta $A000  ; and CHR bank 0
+  sta $A000
+  sta $A000
+  sta $A000
+  sta $A000
 
 vwait2:
   bit PPUSTATUS  ; After the second vblank, we know the PPU has
