@@ -40,21 +40,23 @@ feature or planning ahead for large PRG RAM.
 
 What MMC1A does
 ---------------
-MMC1A was determined to behave thus:
+Difference in $E000 behavior between MMC1A and MMC1B can be observed
+only with some values of $8000.
 
-Control ($8000): CPPMM
+Control ($8000): `CPPMM`
 
-- P=0, P=1: 32K mode (no fixed bank; CPU A14 controls PRG ROM A14);  
-  P=2: 16K mode, $8000-$BFFF fixed (CPU A14 low selects bank 0);  
-  P=3: 16K mode, $C000-$FFFF fixed (CPU A14 high selects bank 15)
-- C and M: Related to the PPU bus, unrelated to this test
+- `P=0, P=1`: 32K mode (no fixed bank; CPU A14 controls PRG ROM A14);  
+  `P=2`: 16K mode, $8000-$BFFF fixed (CPU A14 low selects bank 0);  
+  `P=3`: 16K mode, $C000-$FFFF fixed (CPU A14 high selects bank 15)
+- `C` and `M`: Related to the PPU bus, unrelated to this test
 
-PRG bank select ($E000): RPPPP
+PRG bank select ($E000): `RPPPP`
 
-- P: Select PRG ROM A17-A14 when not in the fixed bank
-- R: Effect depends on MMC1 revision.  For MMC1A, R=0 means the fixed
-  bank affects PRG A17-A14 output, and when R=1, the fixed bank
-  affects PRG A16-A14 output, and D3 alone controls PRG A17.
+- `P`: Select PRG ROM A17-A14 when not in the fixed bank
+- `R`: Effect depends on MMC1 revision.  MMC1B disables PRG RAM while
+  `R=1`.  On MMC1A, `R=0` means the fixed bank affects PRG A17-A14
+  output, and when `R=1`, the fixed bank affects PRG A16-A14 output,
+  and D3 alone controls PRG A17.
 
 The test method
 ---------------
