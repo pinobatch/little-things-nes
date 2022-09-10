@@ -1,28 +1,119 @@
-Bet phase
----------
-If a column is open, player can key in a bet.
-Pressing Enter after keying in a bet changes the bet to the minimum of the bet and player's funds, deducts the bet from the player's funds, and makes the column active.
-Pressing Enter without keying in a bet puts the rest of the columns in busted state.
-Make double and split inactive and unavailable on each column.
-Deal one card to the dealer.
+Blackjack game states
+=====================
 
-Deal phase
+Approach
+--------
+A sign on the table indicates the variant:
+
+- Minimum bet is 10 cio
+- Four decks
+- Blackjack pays 3:2
+- Insurance: A up pays 2:1; 10 up pays 11:1
+- Dealer stands on 18 or hard 17
+- Hole card used
+- Surrender if no dealer blackjack
+- Split aces may be resplit as room allows and not hit
+
+Find a table with a minimum bet between 1/50 and 1/20 of player bankroll.
+
+Wager
+-----
+```
+If less than one-fourth of the shoe remains or the game uses one deck:
+    Reshuffle
+Choose a multiple of the ante no greater than bankroll
+Move this amount from bankroll to wager
+If not all bases are filled and ante does not exceed bankroll:
+    Offer another hand
+```
+
+Insure
+------
+```
+Each player draws two cards
+Dealer draws one upcard and one hole card
+If dealer upcard is A or 10 and ante does not exceed bankroll:
+    Offer "Insure"
+        Move the greater of half total wager and bankroll from bankroll to insurance
+```
+
+Insurance payout
+----------------
+In hole-card blackjack, insurance payout happens before player opening.  In no-hole blackjack, more common outside North America, insurance payout happens before dealer hit.
+```
+If insurance was taken:
+    Reveal hole card
+If dealer's total is 21:
+    Reveal hole card
+    For each player who does not have blackjack (10-A not resulting from split):
+        Discard hand and wager
+    If dealer upcard is A:
+        Add 2 times insurance to bankroll
+        Return insurance to bankroll
+    If dealer upcard is 10:
+        Add 11 times insurance to bankroll
+        Return insurance to bankroll
+Otherwise:
+    Discard insurance
+```
+
+Player opening
+--------------
+```
+If hand is 10 and A: Player has blackjack
+    End phase
+If hand value is 15-17 and upcard is high and either the hole card is not revealed or dealer's total is less than 21:
+    Offer "Surrender"
+        Add half hand's wager to bankroll
+        Discard hand and wager
+If wager exceeds bankroll:
+    End phase
+If hand is a pair, not 5-5 or 10-10, and a base is open:
+    Offer "Split"
+        Move 2nd card to hand at open base
+        Move wager's value from bankroll to new hand's wager
+        Draw one card on each
+        If moved card was A: Decline Hit
+        Disqualify both hands for blackjack
+Otherwise:
+    Offer "Double"
+        Move wager's value from bankroll and add it to wager
+        Draw one card
+        Decline Hit
+```
+
+Player hit
 ----------
-For each unbusted column with fewer than 2 cards, deal one card.
-When the second card is dealt, evaluate each column.
+```
+While total is less than 21 and hand has fewer than 7 cards and hit not declined:
+    Offer "Hit"
+        Draw one card
+If hand total exceeds 21:
+    Discard hand and wager
+```
 
-If upcard is A, ask for insurance now.
+Dealer hit
+----------
+```
+Reveal hole card
+If no player remains: End phase
+While total is less than 18 and hard total is less than 17 and hand has fewer than 7 cards:
+    Draw one card
+```
 
-If 21, stand.
-If 9, 10, 11, or soft, and the bet is no more than half the table limit, make double available.
-If a pair, make split available.
-
-If split is available, and the player's funds are no less than this column's bet, and at least one column is busted, show a question (Split)/(No).
-If chose Split, make double unavailable, move the second card to a new column, set the bet on that column, make split active on both columns, and return to deal phase.
-If chose No, make split unavailable.
-
-If double is available, and the player's funds are no less than this column's bet, show a question (Double)/(No).
-If chose Double, make double active.
-If chose No, make double unavailable.
-
-If chose Hit, or double is active, 
+Payout
+------
+```
+If player has blackjack and dealer does not: Win at 3:2
+If dealer total exceeds 21: Win at 1:1
+If player or dealer has 7 cards: Change total to 21
+If dealer total exceeds player total: Lose
+If player total exceeds dealer total: Win at 1:1
+Otherwise: Push at 0:1
+If win or push:
+    Add payout factor times hand's wager to bankroll
+    Return wager to bankroll
+    Discard hand
+Otherwise:
+    Discard hand and wager
+```
