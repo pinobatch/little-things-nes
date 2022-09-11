@@ -1,0 +1,10 @@
+A cheap calculator has four functions that we can separate into two
+pairs, each the opposite of the other.  Add and subtract, multiply
+and divide.
+
+Likewise, this character has two pairs of limbs: left and right arms,
+left and right legs. (show typical human boy)
+
+A 6502, on the other hand, can't multiply or divide, only add and
+subtract. It's like getting around with just your arms.
+(cut to nrom-template)
