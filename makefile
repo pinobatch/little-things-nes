@@ -22,6 +22,7 @@ binaries := \
   fded/cout02.nes \
   fme7acktest/fme7acktest.nes \
   fme7ramtest/fme7ramtest.nes \
+  gridfloor/gridfloor.nes \
   hello-world-ca65/hello.nes \
   iretiny/iretiny.nes \
   iretiny/iretiny218.nes \
