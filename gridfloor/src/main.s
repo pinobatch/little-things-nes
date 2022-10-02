@@ -51,21 +51,30 @@ new_keys:      .res 2
   ; blank (not vblank), it'll be visible as a rainbow streak.
   jsr load_main_palette
 
+  .ifdef ::CHRRAM
+    .import load_chrram_data
+    jsr load_chrram_data
+  .endif
+
   ; While in forced blank we have full access to VRAM.
   ; Load the nametable (background map).
   jsr draw_bg
   
   ; Set up game variables, as if it were the start of a new level.
-  jsr init_player
+  .ifndef ::CHRRAM
+    jsr init_player
+  .endif
   lda #0
   sta camera_zpos
   jsr calc_depths
 
 forever:
 
-  ; Game logic
-  jsr read_pads
-  jsr move_player
+  .ifndef ::CHRRAM
+    ; Game logic
+    jsr read_pads
+    jsr move_player
+  .endif
 
   ; The first entry in OAM (indices 0-3) is "sprite 0".  In games
   ; with a scrolling playfield and a still status bar, it's used to
@@ -81,15 +90,18 @@ forever:
   lda #8
   sta OAM+3
   ldx #4
-  stx oam_used
-  ; adds to oam_used
-  lda cur_keys
-  and #KEY_SELECT
-  bne :+
-    jsr draw_player_sprite
-  :
 
-  ldx oam_used
+  .ifndef ::CHRRAM
+    stx oam_used
+    ; adds to oam_used
+    lda cur_keys
+    and #KEY_SELECT
+    bne :+
+      jsr draw_player_sprite
+    :
+
+    ldx oam_used
+  .endif
   jsr ppu_clear_oam
 
   lda nmis
@@ -235,10 +247,3 @@ copypalloop:
 initial_palette:
   .byt $0f,$1A,$2A,$3A,$0f,$0f,$10,$0f,$0f,$0f,$0f,$0f,$0f,$0f,$26,$0f
   .byt $0F,$08,$22,$37,$0F,$06,$16,$26,$0F,$0A,$1A,$2A,$0F,$02,$12,$22
-
-; Include the CHR ROM data
-.segment "CHR"
-chrstart:
-  .incbin "obj/nes/grid.u.chr"
-  .res chrstart-*+4096
-  .incbin "obj/nes/spritegfx.chr"

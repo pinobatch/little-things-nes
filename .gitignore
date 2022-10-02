@@ -12,7 +12,6 @@
 */obj/nes/*.dmc
 */obj/nes/*.121
 */obj/nes/*.2bt
-gridfloor/obj/nes/*.ac8
 *.nes.deb
 *.nes.ram.nl
 *.cdl
@@ -25,6 +24,8 @@ gridfloor/obj/nes/*.ac8
 */mapalt.txt
 */map218.txt
 */nsfmap.txt
+gridfloor/obj/nes/*.ac8
+gridfloor/map-chrram.txt
 x816-things/nibbles/packbits
 x816-things/nibbles/packbits.exe
 x816-things/nibbles/mkpowers

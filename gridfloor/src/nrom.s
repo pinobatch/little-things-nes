@@ -10,4 +10,9 @@
 .segment "VECTORS"
 .addr nmi_handler, reset_handler, irq_handler
 
-
+; Include the CHR ROM data
+.segment "CHR"
+chrstart:
+  .incbin "obj/nes/grid.u.chr"
+  .res chrstart-*+4096
+  .incbin "obj/nes/spritegfx.chr"

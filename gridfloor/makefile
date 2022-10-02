@@ -16,7 +16,10 @@ version = wip
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
 # (the \ character) at the end of the line and continue on the next.
-objlist = nrom kernel init main bg player pads ppuclear
+objlist := \
+  kernel init bg player pads ppuclear main nrom
+objlistchrram := \
+  kernel init bg pads ppuclear main-chrram nrom-chrram
 
 
 AS65 = ca65
@@ -60,7 +63,7 @@ run: $(title).nes
 debug: $(title).nes
 	$(DEBUGEMU) $<
 
-all: $(title).nes
+all: $(title).nes $(title)-chrram.nes
 
 # Rule to create or update the distribution zipfile by adding all
 # files listed in zip.in.  Actually the zipfile depends on every
@@ -71,12 +74,13 @@ all: $(title).nes
 # makefile changes.
 dist: zip
 zip: $(title)-$(version).zip
-$(title)-$(version).zip: zip.in $(title).nes README.md CHANGES.txt $(objdir)/index.txt
+$(title)-$(version).zip: zip.in all README.md CHANGES.txt $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
 # Build zip.in from the list of files in the Git tree
 zip.in:
 	git ls-files | grep -e "^[^.]" > $@
+	echo $(title)-chrram.nes >> $@
 	echo $(title).nes >> $@
 	echo zip.in >> $@
 
@@ -85,24 +89,33 @@ $(objdir)/index.txt: makefile
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr $(objdir)/*.nam
-	-rm $(objdir)/*.sentinel
+	-rm $(objdir)/*.sentinel $(objdir)/*.pb53 $(objdir)/*.ac8
+	-rm map*.txt
 
 # Rules for PRG ROM
 
-objlistntsc = $(foreach o,$(objlist),$(objdir)/$(o).o)
-
-map.txt $(title).nes: nrom128.cfg $(objlistntsc)
+map.txt $(title).nes: \
+  nrom128.cfg $(foreach o,$(objlist),$(objdir)/$(o).o)
 	$(LD65) -o $(title).nes -m map.txt -C $^
+
+map-chrram.txt $(title)-chrram.nes: \
+  nrom128-chrram.cfg $(foreach o,$(objlistchrram),$(objdir)/$(o).o)
+	$(LD65) -o $(title)-chrram.nes -m map-chrram.txt -C $^
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 	$(AS65) $(CFLAGS65) $< -o $@
+
+$(objdir)/main-chrram.o: $(srcdir)/main.s $(srcdir)/nes.inc $(srcdir)/global.inc
+	$(AS65) $(CFLAGS65) -DCHRRAM=1 $< -o $@
 
 $(objdir)/%.o: $(objdir)/%.s
 	$(AS65) $(CFLAGS65) $< -o $@
 
 # Files that depend on .incbin'd files
-$(objdir)/main.o: \
+$(objdir)/nrom.o: \
   $(objdir)/spritegfx.chr $(objdir)/grid.u.chr
+$(objdir)/nrom-chrram.o: \
+  $(objdir)/spritegfx-trim5.chr.pb53 $(objdir)/grid.u.chr.pb53
 $(objdir)/bg.o: $(objdir)/grid.nam.ac8
 
 # Rules for CHR ROM
@@ -110,8 +123,11 @@ $(objdir)/bg.o: $(objdir)/grid.nam.ac8
 $(objdir)/%.chr: $(imgdir)/%.png
 	$(PY) tools/pilbmp2nes.py $< $@
 
-$(objdir)/%16.chr: $(imgdir)/%.png
-	$(PY) tools/pilbmp2nes.py -H 16 $< $@
+$(objdir)/%-trim5.chr: $(objdir)/%.chr
+	dd if=$< of=$@ bs=16 count=5
+
+$(objdir)/%.pb53: $(objdir)/%
+	$(PY) tools/pb53.py --raw --no-prev $< $@
 
 # Use a sentinel file to trick Make prior to version 4.3 into
 # doing grouped targets
