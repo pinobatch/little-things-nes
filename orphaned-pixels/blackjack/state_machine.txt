@@ -3,7 +3,7 @@ Blackjack game states
 
 Approach
 --------
-A sign on the table indicates the variant:
+A sign on the table indicates the rule variant in effect.
 
 - Minimum bet is 10 cio
 - Four decks
@@ -12,9 +12,11 @@ A sign on the table indicates the variant:
 - Dealer stands on 18 or hard 17
 - Hole card used
 - Surrender if no dealer blackjack
-- Split aces may be resplit as room allows and not hit
+- Resplit as space allows; split aces may not be hit
+- Double on any first 2 cards and after split non-aces
+- 7 cards without busting worth 21
 
-Find a table with a minimum bet between 1/50 and 1/20 of player bankroll.
+Find a table with a minimum bet between 1/50 and 1/20 of player bankroll.  Then the game proceeds through phases from wager through payout, repeating until the player declines wager or the minimum bet exceeds the bankroll.
 
 Wager
 -----
