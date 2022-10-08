@@ -144,6 +144,9 @@ forever:
     lda #64
     ldy #63
     jsr run_kernel
+    jsr waste12
+    jsr waste12
+    jsr waste12
     lda #OBJ_ON
     sta PPUMASK
 
@@ -205,12 +208,7 @@ forever:
     lda #64
     ldy #0
     jsr run_kernel
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+    jsr waste12
     nop
     nop
     nop
@@ -240,8 +238,11 @@ copypalloop:
   inx
   cpx #32
   bcc copypalloop
+waste12:
   rts
 .endproc
+
+waste12 = load_main_palette::waste12
 
 .segment "RODATA"
 initial_palette:
