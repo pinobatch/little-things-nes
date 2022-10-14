@@ -39,6 +39,7 @@ binaries := \
   parallax/parallax.nes \
   password-save/pwtest.nes \
   porttest/porttest.nes \
+  powerpadgesture/powerpadgesture.nes \
   pretendo/pretendo.nes \
   rgb121/rgb121.nes \
   roulette/roulette.nes \
