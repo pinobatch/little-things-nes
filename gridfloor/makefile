@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 #
 # Makefile for NES game
-# Copyright 2011-2014 Damian Yerrick
+# Copyright 2011-2022 Damian Yerrick
 #
 # Copying and distribution of this file, with or without
 # modification, are permitted in any medium without royalty
@@ -11,7 +11,7 @@
 
 # These are used in the title of the NES program and the zip file.
 title = gridfloor
-version = wip
+version = 0.02
 
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash

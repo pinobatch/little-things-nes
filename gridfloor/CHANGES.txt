@@ -1,2 +1,5 @@
+0.02 (2022-10-08)
+- make CHR RAM version to qualify as a 4K intro
+
 0.01 (2022-09-24)
 - initial_release
