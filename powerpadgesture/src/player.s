@@ -375,13 +375,13 @@ pressbits = $00
     ; If the centroid is showing, don't draw trail particles that
     ; are too close to it.  Use supercat's comparison idiom from
     ; https://forums.atariage.com/topic/71120-6502-killer-hacks/?do=findComment&comment=1054049
-    lda last_num_held
-    beq trail_not_close_to_centroid
     ; clc
     sbc last_centroid_y
     sbc #TRAIL_MIN_DISTANCE_FROM_CENTROID-1
     adc #TRAIL_MIN_DISTANCE_FROM_CENTROID*2+1
     bcc trail_not_close_to_centroid
+    lda last_num_held
+    beq trail_not_close_to_centroid
     clc
     lda trail_x,y
     sbc last_centroid_x
