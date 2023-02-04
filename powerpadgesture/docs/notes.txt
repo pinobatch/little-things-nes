@@ -1,0 +1,47 @@
+pad-mean
+========
+
+
+This demo is a tool to explore gestures on the Power Pad that could be useful for a game that isn't necessarily themed around track or dance.
+
+Components
+----------
+
+It shows these, from front to back:
+
+- Circles on currently pressed sensors
+- Current centroid position
+- Lerped trail behind centroid
+- Order of pressing and releasing
+
+### Circles on currently pressed sensors
+
+Color: white
+
+For each of the 12 sensors, while the sensor is held, draw one solid circle at the sensor's center.
+
+### Current centroid position
+
+Color: yellow
+
+During each frame in which at least one sensor is held, calculate the centroid of all pressed sensor positions.  If at least two sensors are pressed, draw a Secchi-Whipple circle, with quadrants 1 and 3 black, at this centroid.
+
+### Lerped trail behind centroid
+
+Color: white
+
+Each frame, move a lead ring 1/4 of the way to the centroid, or if no sensors are held, toward the centroid's most recent position.  If 8 frames have elapsed with no held, make the lead ring invisible and then move it directly to the centroid on next press.
+
+Draw the positions 0, 2, 4, 6, 8, and 10 frmaes old, using ring, small ring, and dot sprites.  To avoid crowding artifacts, do not draw positions within 3 pixels of a visible centroid.
+
+### Order of pressing and releasing
+
+Colors: blue and red
+
+Show a ticker in a 192x16-pixel stripe below the pad.
+
+- If a button is pressed, draw it in the bottom 8 pixels of the stripe.
+- If a button is released, draw it in the top 8 pixels of the stripe.
+- If at least one press or release has happened in the past 6 frames, move the ticker to the left by 4 pixels per frame.
+- Destroy a transition that reaches the left side.
+- Destroy more than 8 rises or 8 falls.
