@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
+Copyright 2014 Damian Yerrick
+license: zlib
 
 This program creates a lookup table for horizontally scaling a tile.
 bitfield, based on an algorithm suggested by psycopathicteen.
-http://forums.nesdev.com/viewtopic.php?p=134277#p134277
-
+https://forums.nesdev.org/viewtopic.php?p=134277#p134277
 """
 import sys
 
