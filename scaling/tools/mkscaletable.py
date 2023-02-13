@@ -3,9 +3,18 @@
 Copyright 2014 Damian Yerrick
 license: zlib
 
-This program creates a lookup table for horizontally scaling a tile.
-bitfield, based on an algorithm suggested by psycopathicteen.
+This program creates a lookup table for horizontally scaling a tile,
+for this NES tech demo.
+https://forums.nesdev.com/viewtopic.php?f=22&t=12055
+
+It calculates what each value from 0x00 to 0xFF would look like if a
+particular set of bit positions were deleted, based on an algorithm
+suggested by Drex/Aaendi/psycopathicteen.
 https://forums.nesdev.org/viewtopic.php?p=134277#p134277
+
+This resembles what Neo Geo's blitter does when horizontally
+shrinking sprites.
+https://wiki.neogeodev.org/index.php?title=Sprite_shrinking
 """
 import sys
 
