@@ -121,7 +121,7 @@ the unary code is the Golomb code with a divisor of 1.
         bits = BitBuilder()
         if bytes(bits) != b'':
             print("fail create")
-        for (i, testcase) in zip(range(len(testcases)), testcases):
+        for i, testcase in enumerate(testcases):
             (appendFunc, value, length, result) = testcase
             try:
                 appendFunc(bits, value, length)
