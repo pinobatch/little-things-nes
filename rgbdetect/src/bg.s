@@ -1,6 +1,90 @@
 .include "nes.inc"
 .include "global.inc"
 .segment "CODE"
+.proc draw_title_bg
+  ; Start by clearing the first nametable
+  lda #VBLANK_NMI
+  sta PPUCTRL
+  asl a
+  sta PPUMASK
+  bit PPUSTATUS
+  tay  ; attribute value
+  ldx #$20
+  jsr ppu_clear_nt
+
+  ; Draw a logo
+dstlo = $00
+dsthi = $01
+rowsleft = $03
+  lda #LOGO_NAM_HEIGHT
+  sta rowsleft
+  lda #<LOGO_NAM_TOPLEFT
+  sta dstlo
+  lda #>LOGO_NAM_TOPLEFT
+  sta dsthi
+  ldy #0
+  namloop:
+    lda dsthi
+    sta PPUADDR
+    lda dstlo
+    sta PPUADDR
+    clc
+    adc #32
+    bcc :+
+      inc dsthi
+    :
+    sta dstlo
+    ldx #LOGO_NAM_WIDTH
+    :
+      lda logo_nam,y
+      iny
+      sta PPUDATA
+      dex
+      bne :-
+    dec rowsleft
+    bne namloop
+
+  lda #>NOTICE_MSG_TOPLEFT
+  sta $03
+  lda #<NOTICE_MSG_TOPLEFT
+  sta $02
+  lda #>notice_msg
+  ldy #<notice_msg
+  jsr puts_multiline_16
+
+  ; Run open bus test
+open_bus_result = $0F
+  lda #VBLANK_NMI
+  sta PPUCTRL
+  lda PPUCTRL
+  sta open_bus_result
+  lda #>open_bus_result
+  sta $0005
+  lda #<open_bus_result
+  sta $0004
+  lda #>OPENBUS_RESULT_TOPLEFT
+  ldx #<OPENBUS_RESULT_TOPLEFT
+  ldy #1
+  jsr hexdump8
+
+  ; color the letters RGB
+  ldx #$CA
+  jsr oneattr
+  ldx #$D2
+oneattr:
+  lda #$23
+  sta PPUADDR
+  stx PPUADDR
+  lda #$55
+  sta PPUDATA
+  lda #$AA
+  sta PPUDATA
+  lda #$FF
+  sta PPUDATA
+  rts
+.endproc
+
+
 .proc cls_puts_multiline
   pha
   tya
@@ -19,7 +103,7 @@
 
   lda #$20
   sta $03
-  lda #$62
+  lda #$40
   sta $02
   pla
   tay
@@ -163,3 +247,26 @@ hdig:
   rts
 .endproc
 
+
+.rodata
+LOGO_NAM_WIDTH = 11
+LOGO_NAM_HEIGHT = 10
+LOGO_NAM_TOPLEFT = $2000 + 9 + 1*32
+logo_nam: .incbin "obj/nes/logo.nam"
+
+COPYRIGHT_SYMBOL = $7F
+LF = $0A
+NOTICE_MSG_TOPLEFT = $2000 + 0 + 12*32
+notice_msg:
+  .byte "v0.01  ", $7F, " 2023 Damian Yerrick",LF,LF
+  .byte "PPU open bus result:",LF
+  .byte "(80 normal; C0 interposed by",LF
+  .byte "NESRGB or Hi-Def NES)", $00
+OPENBUS_RESULT_TOPLEFT = $2000 + 20 + 16*32
+
+; Include the CHR ROM data
+.segment "CHR"
+chrstart:
+  .incbin "obj/nes/logo.u.chr"
+.res chrstart+1024-*, $FF
+  .incbin "obj/nes/fizzter16.chr"
