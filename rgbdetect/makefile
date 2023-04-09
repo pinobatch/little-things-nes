@@ -47,13 +47,19 @@ run: $(title).nes
 	$(EMU) $<
 debug: $(title).nes
 	$(DEBUGEMU) $<
-
 all: $(title).nes
-
 dist: zip
 zip: $(title)-$(version).zip
+
+# Packaging #########################################################
+
 $(title)-$(version).zip: zip.in $(title).nes README.md CHANGES.txt $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
+
+$(title).prg: $(title).nes
+	dd if=$< of=$@ bs=16 skip=1 count=1024
+$(title).chr: $(title).nes
+	dd if=$< of=$@ bs=16 skip=1025 count=512
 
 # Build zip.in from the list of files in the Git tree
 zip.in:
@@ -61,17 +67,14 @@ zip.in:
 	echo zip.in >> $@
 
 $(objdir)/index.txt: makefile
-	echo Files produced by build tools go here, but caulk goes where? > $@
+	mkdir -p $(objdir)
+	echo Files produced by build tools go here > $@
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.nam $(objdir)/*.chr
+	-rm $(title).prg $(title).chr
 
-# Rules for PRG ROM
-
-objlisto = $(foreach o,$(objlist),$(objdir)/$(o).o)
-
-map.txt $(title).nes: nrom128.cfg $(objlisto)
-	$(LD65) -o $(title).nes -m map.txt -C $^
+# Program ###########################################################
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 	$(AS65) $(CFLAGS65) $< -o $@
@@ -83,7 +86,12 @@ $(objdir)/%.o: $(objdir)/%.s
 $(objdir)/bg.o: $(objdir)/logo.u.chr $(objdir)/logo.nam \
   $(objdir)/fizzter16.chr 
 
-# Graphics conversion
+objlisto := $(foreach o,$(objlist),$(objdir)/$(o).o)
+
+map.txt $(title).nes: nrom128.cfg $(objlisto)
+	$(LD65) -o $(title).nes -m map.txt -C $^
+
+# Graphics conversion ###############################################
 
 $(objdir)/%.chr: $(imgdir)/%.png
 	$(PNGTOCHR) $< $@

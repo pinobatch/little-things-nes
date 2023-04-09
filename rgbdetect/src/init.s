@@ -1,7 +1,7 @@
 .include "nes.inc"
 .include "global.inc"
 
-.segment "CODE"
+.segment "STARTUP"
 .proc reset_handler
   ; The very first thing to do when powering on is to put all sources
   ; of interrupts into a known state.
@@ -23,55 +23,50 @@ vwait1:
   bit PPUSTATUS   ; It takes one full frame for the PPU to become
   bpl vwait1      ; stable.  Wait for the first frame's vblank.
 
-  ; We have about 29700 cycles to burn until the second frame's
-  ; vblank.  Use this time to get most of the rest of the chipset
-  ; into a known state.
-
-  ; Most versions of the 6502 support a mode where ADC and SBC work
-  ; with binary-coded decimal.  Some 6502-based platforms, such as
-  ; Atari 2600, use this for scorekeeping.  The second-source 6502 in
-  ; the NES ignores the mode setting because its decimal circuit is
-  ; dummied out to save on patent royalties, and games either use
-  ; software BCD routines or convert numbers to decimal every time
-  ; they are displayed.  But some post-patent famiclones have a
-  ; working decimal mode, so turn it off for best compatibility.
+  ; improve compatibility with debuggers and certain famiclones
   cld
 
-  ; Clear OAM and the zero page here.
-  ldx #0
-  jsr ppu_clear_oam  ; clear out OAM from X to end and set X to 0
+  ; During 29700 cycles to burn until the second frame's vblank,
+  ; put the hardware in a known state.  Start with the mapper.
+  ; This is a polyglot for MMC1 and MMC3, as requested by TmEE
+  ; in <https://forums.nesdev.org/viewtopic.php?p=287479#p287479>
 
-  ; There are "holy wars" (perennial disagreements) on nesdev over
-  ; whether it's appropriate to zero out RAM in the init code.  Some
-  ; anti-zeroing people say it hides programming errors with reading
-  ; uninitialized memory, and memory will need to be initialized
-  ; again anyway at the start of each level.  Others in favor of
-  ; clearing say that a lot more variables need set to 0 than to any
-  ; other value, and a clear loop like this saves code size.  Still
-  ; others point to the C language, whose specification requires that
-  ; uninitialized variables be set to 0 before main() begins.
-  txa
+  ; $80-$87 (MMC1): continuously reset shift register
+  ; $80-$87 (MMC3): select window and temporarily swap CHR ROM pages
+  ldx #$87  ; continuously reset MMC1 shift register during this
+  mmc3loop:
+    stx $8000
+    lda mmc3_init_values-128,x
+    sta $8001
+    dex
+    bmi mmc3loop
+
+  ; init MMC1 without affecting MMC3
+  lda #$80
+  sta $E000  ; MMC1: reset shift register; MMC3: IRQ off
+  asl a
+  sta $8000  ; MMC1: 1-screen mirroring, 32K PRG banks, 8K CHR banks
+  sta $8000  ; MMC3: unswap CHR ROM pages and select window 0
+  sta $8000
+  sta $8000
+  sta $8000
+
+  ; Clear OAM and the zero page here.  Comporomise between "clear
+  ; everything for reproducibility" and "clear nothing for runtime
+  ; detection of uninitialized variables" camps.
+  tax
 clear_zp:
   sta $00,x
   inx
   bne clear_zp
-  
-  ; Other things that can be done here (not shown):
-  ; Set up PRG RAM
-  ; Copy initial high scores, bankswitching trampolines, etc. to RAM
-  ; Set up initial CHR banks
-  ; Set up your sound engine
+  jsr ppu_clear_oam  ; clear OAM from X to end and set X to 0
 
 vwait2:
   bit PPUSTATUS  ; After the second vblank, we know the PPU has
-  bpl vwait2     ; fully stabilized.
-  
-  ; There are two ways to wait for vertical blanking: spinning on
-  ; bit 7 of PPUSTATUS (as seen above) and waiting for the NMI
-  ; handler to run.  Before the PPU has stabilized, you want to use
-  ; the PPUSTATUS method because NMI might not be reliable.  But
-  ; afterward, you want to use the NMI method because if you read
-  ; PPUSTATUS at the exact moment that the bit turns on, it'll flip
-  ; from off to on to off faster than the CPU can see.
-  jmp main
+  bpl vwait2     ; fully stabilized.  Henceforth wait for vblank
+                 ; via NMI instead of $2002.
+  jmp main       ; main is entered at the start of vblank
 .endproc
+
+mmc3_init_values:
+  .byte 0, 2, 4, 5, 6, 7, 0, 1

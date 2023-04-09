@@ -1,6 +1,9 @@
 .ifndef GLOBAL_INC
 .define GLOBAL_INC
 
+; supported values: 0, 1, 4
+MAPPER = 4
+
 ; init.s
 .global reset_handler
 
