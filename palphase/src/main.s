@@ -8,8 +8,15 @@
 ; code copies.  This file is offered as-is, without any warranty.
 ;
 
-.include "nes.h"
-.include "ram.h"
+.include "nes.inc"
+.include "global.inc"
+.include "nes2header.inc"
+
+nes2mapper 0
+nes2prg 16384
+nes2chr 8192
+nes2tv 'P'
+nes2end
 
 .segment "ZEROPAGE"
 nmis:          .res 1
@@ -21,13 +28,6 @@ new_keys:      .res 2
 bgcolor: .res 1
 xfer_palette: .res 1
 xfer_digits: .res 2
-
-.segment "INESHDR"
-  .byt "NES",$1A  ; magic signature
-  .byt 1          ; PRG ROM size in 16384 byte units
-  .byt 1          ; CHR ROM size in 8192 byte units
-  .byt $00        ; mirroring type and mapper number lower nibble
-  .byt $00        ; mapper number upper nibble
 
 .segment "VECTORS"
 .addr nmi, reset, irq

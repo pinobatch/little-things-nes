@@ -26,9 +26,7 @@ objdir := obj/nes
 srcdir := src
 imgdir := tilesets
 
-#EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
-EMU := fceux
-# other options for EMU are start (Windows) or gnome-open (GNOME)
+EMU := Mesen
 
 # Windows needs .exe suffixed to the names of executables; UNIX does
 # not.  COMSPEC will be set to the name of the shell on Windows and
@@ -59,7 +57,7 @@ $(title)-$(version).zip: zip.in $(title).nes README.txt $(objdir)/index.txt
 	zip -9 -u $@ -@ < $<
 
 $(objdir)/index.txt: makefile
-	echo Files produced by build tools go here, but caulk goes where? > $@
+	echo "Files produced by build tools go here" > $@
 
 clean:
 	-rm $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr
@@ -71,7 +69,7 @@ objlistntsc := $(foreach o,$(objlist),$(objdir)/$(o).o)
 map.txt $(title).nes: nrom128.ini $(objlistntsc)
 	$(LD65) -o $(title).nes -m map.txt -C $^
 
-$(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.h $(srcdir)/ram.h
+$(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
 	$(AS65) $(CFLAGS65) $< -o $@
 
 $(objdir)/%.o: $(objdir)/%.s
