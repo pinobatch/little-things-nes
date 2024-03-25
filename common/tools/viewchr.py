@@ -95,7 +95,10 @@ def main(argv=None):
     if outfilename:
         tiles.save(outfilename, bits=planes)
     else:
-        tiles.show()
+        try:
+            tiles.show()
+        except Exception:
+            tiles.convert("RGB").show()
 
 if __name__=='__main__':
     in_IDLE = 'idlelib.__main__' in sys.modules or 'idlelib.run' in sys.modules
