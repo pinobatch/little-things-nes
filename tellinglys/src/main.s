@@ -69,9 +69,9 @@ test_progress: .res 1
   ldy #$00
   ldx #8
   jsr unpb53_xtiles_to_ay
-  lda #$21  ; copyright
+  lda #$21  ; input test, copyright
   ldy #$C0
-  ldx #4
+  ldx #8
   jsr unpb53_xtiles_to_ay
   lda #$22  ; press button
   ldy #$80
@@ -89,7 +89,7 @@ test_progress: .res 1
   sta ciSrc+1
   ldy #$00
   tya
-  ldx #163
+  ldx #176
   jsr unpb53_xtiles_to_ay
   lda #<convo_chr
   sta ciSrc+0
