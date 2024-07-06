@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+zipup.py
+Make a zip or tar archive from a manifest file, without zip bombing
+
+Copyright 2019 Damian Yerrick
+SPDX-License-Identifier: Zlib
+"""
 import sys
 import os
 import argparse

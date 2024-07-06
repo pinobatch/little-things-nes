@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+viewchr.py
+Convert character (tile) data from NES format
+
+Copyright 2019, 2021 Damian Yerrick
+SPDX-License-Identifier: Zlib
+"""
 import sys
 import os
 import argparse
