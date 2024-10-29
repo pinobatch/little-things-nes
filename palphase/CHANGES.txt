@@ -1,3 +1,6 @@
+Future release
+* use NES 2.0 header to set TV system to PAL
+
 0.02 (2014-09-08)
 * press Left or Right to change the background color
 
