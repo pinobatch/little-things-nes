@@ -1,6 +1,9 @@
 Spam Inc
 ========
 
+![Spam Inc: test how MMC3 handles read modify write on registers. Press A Button](docs/titlemockup.png)
+![Test in progress. Rolling white horizontal lines on a blue background with a red rectangle](docs/mmc3spaminc_test.png)
+
 - **spam:** repeatedly and rapidly [perform an action]
 - **inc:** a CPU instruction that increments a value in memory
 

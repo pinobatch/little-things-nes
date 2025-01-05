@@ -2,6 +2,8 @@ BxROM/AxROM function tester
 ===========================
 By Damian Yerrick
 
+![bntest result showing vertical arrangement and 512 KiB available](docs/bntest-screenshot.png)
+
 Background
 ----------
 Because the NES could see only about 32 KiB of ROM at once, NES Game

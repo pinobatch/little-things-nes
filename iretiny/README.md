@@ -1,3 +1,8 @@
+IRE tiny
+========
+
+![A rectangle at level 10 on a backdrop of level 2d](docs/iretiny-screenshot)
+
 This is a very simple brightness tester, intended for measuring
 the IRE levels of the NES composite video output.
 

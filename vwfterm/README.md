@@ -1,3 +1,8 @@
+vwfterm
+=======
+
+![Status bar in black on green at top, more text in green on black at bottom](docs/vwfterm-screenshot.png)
+
 This is a very basic terminal emulator useful for BASIC interpreters,
 interactive fiction, and other programs for the Nintendo
 Entertainment System using the keyboard adapter designed by

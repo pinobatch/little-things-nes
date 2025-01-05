@@ -3,6 +3,10 @@ Vaus Test
 A test ROM for the Arkanoid controller  
 By Damian Yerrick
 
+![Main screen: the character follows a ball controlled with the knob](docs/vaus-test_main.png)
+![Poll rate test: set poll period (default 17 ms) and view displacement reading](docs/vaus-test_rate.png)
+![Derivatives test, showing displacement, instantaneous and peak velocity, and instantaneous and peak acceleration](docs/vaus-test_derivatives.png)
+
 A highly maneuverable mining spacecraft was developed, called Vaus.
 It could shoot a plasma ball at high velocity to break up space
 debris and extract minerals useful to the space program.  It doubled

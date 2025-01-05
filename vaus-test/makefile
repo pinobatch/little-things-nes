@@ -23,12 +23,8 @@ objdir := obj/nes
 srcdir := src
 imgdir := tilesets
 
-# FCEUX for Windows has a better GUI for choosing alternate
-# controllers than FCEUX for SDL.
-#EMU := "/C/Program Files/Nintendulator/Nintendulator.exe"
-#EMU := fceux
-EMU := "$(HOME)/.wine/drive_c/Program Files (x86)/FCEUX/fceux.exe"
-# other options for EMU are start (Windows) or gnome-open (GNOME)
+EMU := Mesen
+# other options for EMU are start "" (Windows) or xdg-open (*n?x)
 PY := python3
 
 .PHONY: run dist zip all clean 

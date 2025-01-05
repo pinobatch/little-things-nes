@@ -1,18 +1,23 @@
+scaling
+=======
+
+![Character at normal size on bottom, at fraction of double size above](docs/scaling-screenshot)
+
 This NES program illustrates scaling a sprite down in real time.
 It can shrink 8 tiles every vertical blank, allowing 15 fps
 for (say) a 32x64 pixel character if nothing else is being scaled.
-Horizontal shrinking is performed  by putting each bit plane of
+It performs horizontal shrinking by putting each bit plane of
 each row of pixels in a tile through a lookup table, and vertical
-shrinking just skips rows that aren't used using a DDA algorithm.
+shrinking  skips rows that aren't used using a DDA algorithm.
 
 Press Left or Right on the Control Pad to move the character.
 Press Up or Down to change the size of the scaled preview in the
 center.
 
 Building
-========
+--------
 
-Building requires Python 2, Pillow, ca65, and ld65.
+Building requires Python, Pillow, ca65, and ld65.
 
 These Python programs are in the `tools` folder:
 
@@ -20,11 +25,12 @@ These Python programs are in the `tools` folder:
   BMP format into tile data usable by several classic video game
   consoles.  It has several options to control the data format; use
   `pilbmp2nes.py --help` from the command prompt to see them all.
+  In particular, it uses Game Boy format for images to be scaled.
 * `mkscaletable.py` generates lookup tables from an 8x1 pixel sliver
   to the same sliver scaled to 8x1, 7x1, 6x1, 5x1, and 4x1 pixels.
 
 Legal
-=====
+-----
 
 The demo is distributed under the following license, based on the
 GNU All-Permissive License:

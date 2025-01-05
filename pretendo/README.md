@@ -2,6 +2,8 @@ Pretendo
 ========
 a random intro for the NES
 
+!["Pretendo" and six other patterns that this demo can produce](docs/pretendo-screenshot.png)
+
 This program has two goals:
 
 1. demonstrate different riffs on the Nintendo logo, and
@@ -51,10 +53,10 @@ of showing the user whether the Game Pak's edge connector is dirty.
 Game Boy and Game Boy Pocket use the animation seen here, while
 Game Boy Color uses the same logo with a different animation,
 and Game Boy Advance Game Paks carry a higher detail logo.
-The Sega Master System, Sega Genesis, and Game Gear have a more
-primitive "Trademark Security System" (TMSS) that just looks for the
-name "SEGA" in the cartridge header and displays a predefined message
-if it matches.
+The Sega Master System (export), Mega Drive/Genesis (since model 1
+VA6), and Game Gear (later units) have a more primitive "Trademark
+Security System" (TMSS) that looks for the name "SEGA" in the
+cartridge header and displays a predefined message if it matches.
 
 Legal
 -----

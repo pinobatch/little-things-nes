@@ -1,10 +1,12 @@
 PAL phase test
 ==============
 
-In September 2014, were *finally* reverse-engineering the composite
-video output of the PAL Nintendo Entertainment System and PAL
-famiclones. It had been known for a couple months that the PAL NES
-PPU does strange things with the PAL color subcarrier, producing
+![background 00 and thin horizontal stripes of colors 11-1C](docs/palphase-screenshot.png)
+
+In September 2014, NESdev users were  reverse-engineering the
+composite video output of the PAL Nintendo Entertainment System and
+PAL famiclones. It had been known for a couple months that the PAL
+NES PPU does strange things with the PAL color subcarrier, producing
 different colors for the same palette index depending on whether it
 appears on an even scanline or an odd one.  This method of producing
 a signal relies on the TV to combine adjacent lines' chroma (hue and
