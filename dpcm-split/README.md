@@ -1,6 +1,8 @@
 DPCM Letterbox
 ==============
 
+![Some light green text on a dark green background with gray top and bottom borders](docs/dpcmletterbox-screenshot.png)
+
 This NES program demonstrates abusing the NTSC NES's sampled sound
 playback hardware as a scanline timer to split the screen twice
 without needing to use a mapper-generated IRQ.

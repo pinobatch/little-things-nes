@@ -241,7 +241,7 @@ time_overflow_msg:
 time_underflow_msg:
   .byt "Pointed at a light bulb?",0
 millisecs_msg:
-  .byt "  x ms of lag"
+  .byt "  x ms of lag",0
 
 .segment "CODE"
 

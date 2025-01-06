@@ -1,11 +1,13 @@
 Convergence test
 ================
 
+![Gray grid with white dot in center and controls list at bottom left](docs/convergence-screenshot.png)
+
 Use this ROM to test the convergence of your monitor.
 
 The test is 1.25 KiB, which iNES format rounds up to 16 KiB.
-It may run on a minimalist devcart with 8K PRG RAM and no CHR
-(mapper 218) but hasn't been tested in that configuration.
+It may run on a minimalist devcart with 8K PRG memory and no CHR
+memory (mapper 218) but hasn't been tested in that configuration.
 
 Controls
 

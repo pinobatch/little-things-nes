@@ -1,8 +1,10 @@
 FME-7 IRQ acknowledge test
 ==========================
 
-Here's another test specifically for the acknowledgment behaviors
-I'm seeing.  No unofficial opcodes.
+![Result: all 0D writes acked, 0E and 0F did not](docs/fme7acktest-screenshot.png)
+
+A test for IRQ acknowledgment behaviors seen during development of
+[vwfterm](../vwfterm/README.md).  No unofficial opcodes.
 
 As of February 2015, NES emulators disagreed on what value to
 write to register $0D to acknowledge an interrupt request (IRQ)
@@ -18,7 +20,7 @@ work.
 Nestopia and Mednafen, on the other hand, won't acknowledge the IRQ
 unless the program stops the counter using bit 7 and restarts it.
 This would change the usable periods for multiple IRQs in a frame
-from 256*n cycles to 256*n+6 cycles.
+from 256×n cycles to 256×n+6 cycles.
 
 The demo tries to acknowledge the interrupt in one of six ways:
 

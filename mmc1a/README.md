@@ -1,6 +1,8 @@
 MMC1A test
 ==========
 
+![MMC1B-like test result from Mesen](docs/mmc1atest-screenshot.png)
+
 This program tests an obscure behavior of MMC1A, an early version of
 a support chip found in NES games.  It shows that setting bit 4 of
 the program bank register ($E000) causes bit 3 to bypass the fixed

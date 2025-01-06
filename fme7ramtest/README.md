@@ -1,5 +1,7 @@
-Big RAM test
-============
+FME-7 big work RAM test
+=======================
+![Result is 00 01 02 03 repeating, meaning 32 KiB](docs/fme7ramtest-screenshot.png)
+
 As of March 2015, NES emulators disagree on how much RAM at $6000 a
 game using Sunsoft's FME-7 mapper IC can see.
 

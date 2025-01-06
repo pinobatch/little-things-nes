@@ -1,6 +1,8 @@
 Action 53 CHR bank test
 =======================
 
+![Screenshot of expected result. RAM size: 32K; FCEUX bug: No](docs/a53bigchrram-screenshot.png)
+
 *Action 53* is an anthology of small video games for NES developed by
 the devoted hobbyists in the NESdev community.  The cartridges use a
 custom mapper that can simulate common discrete logic mappers, such

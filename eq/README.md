@@ -1,6 +1,8 @@
 EQ Test
 =======
 
+![Menu: Press Left for pink noise or Right for sweep](docs/eq-screenshot.png)
+
 This is a program for NES to generate pink noise and sine sweeps
 through $4011.
 

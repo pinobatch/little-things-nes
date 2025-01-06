@@ -3,6 +3,8 @@ Password save
 
 By Damian Yerrick on 2010-07-21
 
+![Entering a password](docs/pwtest-screenshot.png)
+
 Because nonvolatile solid-state memory was expensive in the NES days,
 a lot of NES games would store their state in a password.  Even as
 of 2010, nonvolatile memory is still expensive at the low volumes

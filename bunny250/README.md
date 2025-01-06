@@ -15,8 +15,10 @@ enough camera.
 zapperlag
 ---------
 
+![Result: 7 ms of lag](docs/zapperlag-screenshot.png)
+
 To be used with a photosensor that follows the Zapper protocol.
 The Zapper itself doesn't work with LCDs, so you'll need one
-that doesn't have a 15.7 kHz bandpass, such as the Zapp Gun.
+that doesn't have a 15.7 kHz bandpass, such as Tomee's Zapp Gun.
 
 [contest]: https://forums.nesdev.com/viewtopic.php?f=9&t=10198

@@ -2,6 +2,8 @@ Eighty
 ======
 A test program for the NES Four Score
 
+![Up held on controller 1, and a robot in the middle showing that a sample is playing](docs/eighty-screenshot.png)
+
 You MUST have an NES Four Score or compatible accessory for this
 program to work.  Famicom expansion controllers will not work.
 An NES Four Score on an AV Famicom has not been tested but will

@@ -1,11 +1,13 @@
 # CHR compression through pixel RLE
 
+![CHR ROM of a discontinued block game](docs/chrpress-screenshot.png)
+
 This tile codec from February 2010 operated by applying run length
 encoding (RLE) to horizontal runs of pixels within 32x8-pixel or
 16x16-pixel units.  It was vaguely inspired by the image codec that
 Codemasters used in Bee 52 and other NES games.  It was used for the
 menu of the limited-run Midwest Gaming Classic multicart menu and
-prototypes of the 2011 NESdev compo menu from before the switch to
+prototypes of the 2011 NESdev compo menu before the switch to
 Action 53.
 
 It was dropped as of _Who's Cuter_ in favor of PB8 for the same

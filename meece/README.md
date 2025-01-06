@@ -3,6 +3,8 @@ Meece
 A test rom for the Super NES Mouse  
 By Damian Yerrick
 
+![Mouse pointer in front of character on ground, raw bytes above](docs/meece-screenshot.png)
+
 The Super NES Mouse (SNS-016) is a peripheral for the Super NES that
 was originally bundled with Mario Paint.  It can be used with an NES
 through an adapter, made from an NES controller extension cord and a
