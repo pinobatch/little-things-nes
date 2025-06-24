@@ -95,6 +95,8 @@ const char *Reader_gme(Reader *self,
 }
 
 // DUMB adapter /////////////////////////////////////////////////////
+// dynamic universal music bibliotheque by Ben Davis, dumb.sf.net
+// (new projects should probably use libopenmpt instead)
 
 static void Reader_dumb_destroy(Reader *self) {
   if (self->sig.dumb_sig) {
@@ -202,11 +204,25 @@ const char *Reader_dumb_s3m(Reader *self,
   return Reader_dumb(self, dumb_load_s3m_quick, filename, sample_rate);
 }
 
-const char *Reader_dumb_mod(Reader *self,
-                            const char *filename, unsigned long sample_rate) {
-  return Reader_dumb(self, dumb_load_mod_quick, filename, sample_rate);
+// As of June 2025, Debian and Ubuntu ship DUMB 0.9.3, the last
+// version by original maintainer Ben Davis.  sylvie (aka zlago)
+// reports that Arch Linux ships DUMB fork version 2.0.3 by kode54,
+// which adds a way to restrict misdetection of 31-sample MOD files.
+// This is a breaking API change.
+// https://github.com/kode54/dumb/commit/4e1db2adb05e53c50fe38102676889c22a4f2e66
+static DUH *dumb_load_mod_quick_norestrict(const char *filename) {
+  #if DUMB_MAJOR_VERSION > 0
+    return dumb_load_mod_quick(filename, 0);
+  #else
+    return dumb_load_mod_quick(filename);
+  #endif
 }
 
+const char *Reader_dumb_mod(Reader *self,
+                            const char *filename, unsigned long sample_rate) {
+  return Reader_dumb(self, dumb_load_mod_quick_norestrict,
+                     filename, sample_rate);
+}
 
 // File extension detection /////////////////////////////////////////
 
