@@ -24,6 +24,8 @@
 */mapalt.txt
 */map218.txt
 */nsfmap.txt
+*/*.dbg
+*/*.fdb
 gridfloor/obj/nes/*.ac8
 gridfloor/map-chrram.txt
 x816-things/nibbles/packbits
@@ -45,6 +47,8 @@ sound-drivers/balance/tools/81
 sound-drivers/balance/tools/81.exe
 common/tools/pngtochr
 common/tools/pngtochr.exe
+mmc1a/tools/pilbmp2nes.py
+mmc3o/tools/pilbmp2nes.py
 fded/fded
 fded/fded.exe
 gmewav/gmewav
