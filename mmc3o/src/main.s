@@ -22,6 +22,11 @@ bank_results_buffer: .res 12
 
 NUM_CTRL_REGS = 9
 
+; Allow editing the high digit of ctrl register but not the low digit
+; because editing the low digit can cause not all registers to get
+; overwritten, which confuses the user.
+CURSOR_X_MAX = NUM_CTRL_REGS*2-2
+
 COLOR_PAPER = $02
 COLOR_INK = $38
 
@@ -234,24 +239,50 @@ forever:
   sty $8001  ; BG bank 0
 
   ; Vblank tasks finished! Move the cursor
+  lda #$C0
+  sta $4017  ; clock the APU frame counter manually
   jsr read_pad_1
   lda new_keys
   lsr a
   bcc not_right
-    ; Allow editing the high digit of ctrl reg but not the low digit
     lda cursor_x
-    cmp #NUM_CTRL_REGS*2-2
-    bcs keys_done
+    cmp #CURSOR_X_MAX
+    bcs right_wrap_if_not_das
     inc cursor_x
+    bcc play_shift_sound
+  right_wrap_if_not_das:
+    lda das_timer
+    cmp #DAS_DELAY
     bcc keys_done
+    lda #0
+    sta cursor_x
+    bcs play_shift_sound
   not_right:
+
   lsr a
   bcc not_left
     lda cursor_x
-    beq keys_done
+    beq left_wrap_if_not_das
     dec cursor_x
-    bcs keys_done
+  play_shift_sound:
+    lda #$40
+    sta $4000
+    asl a
+    sta $4001
+    lda #126
+    sta $4002
+    lda #$28
+    sta $4003
+    jmp keys_done
+  left_wrap_if_not_das:
+    lda das_timer
+    cmp #DAS_DELAY
+    bcc keys_done
+    lda #CURSOR_X_MAX
+    sta cursor_x
+    bcs play_shift_sound
   not_left:
+
   lsr a
   bcc not_down
     lda cursor_x
@@ -274,6 +305,12 @@ forever:
     clc
     adc mmc3_reg_values,x
     sta mmc3_reg_values,x
+    lda #$00
+    sta $400C
+    lda #$03
+    sta $400E
+    lda #$28
+    sta $400F
   not_up:
   keys_done:
 
@@ -341,7 +378,7 @@ CURSOR_TILE = '^'
 
 headings:
   .dbyt $2102
-  .byte "MMC3 OVERSIZE TEST", $FF
+  .byte "MMC3 OVERSIZE TEST 0.02", $FF
   .dbyt $2122
   .byte $25," 2025 DAMIAN YERRICK",$FF
   .dbyt REG_VALUES_NT_ADDR-64

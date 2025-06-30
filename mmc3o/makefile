@@ -19,12 +19,12 @@ else
   PY:=python3
 endif
 
+.PHONY: run default clean dist
+default: $(title).nes
+
 # And when building the zipfile, include the test
 $(LOCAL_PILBMP2NES): $(COMMON_PILBMP2NES)
 	cp $< $@
-
-.PHONY: run default clean dist
-default: $(title).nes
 
 obj/nes/%.chr: tilesets/*.png
 	mkdir -p $(dir $@)

@@ -6,6 +6,7 @@
 .globalzp mmc3_reg_values, mmc3_ctrl_value
 .globalzp cur_keys, new_keys, das_keys, das_timer
 .global autorepeat, read_pad_1
+.globalzp DAS_DELAY
 
 .repeat 10, I
   .charmap $30+I,$00+I  ; map 0-9 at $00

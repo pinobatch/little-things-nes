@@ -5,6 +5,7 @@
 ;
 
 .export read_pad_1
+.exportzp DAS_DELAY
 .importzp cur_keys, new_keys, das_keys, das_timer
 
 JOY1      = $4016

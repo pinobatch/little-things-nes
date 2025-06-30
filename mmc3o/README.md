@@ -76,7 +76,9 @@ How to use
     00 01 7E 7F
 
 Press Left or Right on the Control Pad to choose a digit.  Press Up
-or Down to change the digit's value by 1 unit.
+or Down to change the digit's value by 1 unit.  The second digit of
+CR cannot be edited because it would cause some bank registers not
+to get written.
 
 Normally on MMC3, window C0 selects CHR banks in 00 and 04, C2
 selects CHR banks in 08 and 0C, and C4-C7 each select one CHR bank in
