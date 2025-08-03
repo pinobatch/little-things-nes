@@ -36,6 +36,7 @@ x816-things/asm6
 x816-things/asm6.exe
 x816-things/*/*.pkb
 x816-things/nibbles/nibb_tab.bin
+twobitclones/obj/nes/*.w2b
 sound-drivers/*/*.nes
 sound-drivers/*/map.txt
 sound-drivers/*/obj/nes/*.s
