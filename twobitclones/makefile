@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 #
 # Makefile for NES game
-# Copyright 2011-2024 Damian Yerrick
+# Copyright 2011-2025 Damian Yerrick
 #
 # Copying and distribution of this file, with or without
 # modification, are permitted in any medium without royalty
@@ -11,38 +11,32 @@
 
 # These are used in the title of the NES program and the zip file.
 title := twobit
-version := wip
+version := 0.01
 
-# Space-separated list of assembly language files that make up the
-# PRG ROM.  If it gets too long for one line, you can add a backslash
-# (the \ character) at the end of the line and continue on the next.
-objlist := \
-  play2b pads init main bg ppuclear
+# Translation units to be linked
+objlist :=  play2b pads init main bg ppuclear
 
-# Some commands differ on Windows vs. POSIX (Linux, BSD, macOS)
-# systems.  Windows needs .exe suffixed to the names of executables;
-# UNIX does not.  Windows starts Python via the PEP 397 launcher
-# (py.exe); UNIX usually starts it via `python3`.
+# Things differing between Windows and POSIX (Linux, BSD, macOS)
+# environments
 ifeq ($(OS), Windows_NT)
-  EXE_SUFFIX := .exe
   PY := py -3
 else
-  EXE_SUFFIX :=
   PY := python3
 endif
 
-# cc65 build scripts detect Windows via "ECHO is on" message from
-# `echo` without arguments.  This template doesn't use this method
-# because its correlation with a working Python command is untested.
-#    ifneq ($(shell echo),)
-# It used to be common to detect Windows via the COMSPEC variable
-# prior to Windows 11.
+# Allow building either in or out of little things
+# test by holms <https://stackoverflow.com/a/20566812/2738262>
+COMMON_PILBMP2NES:=../common/tools/pilbmp2nes.py
+LOCAL_PILBMP2NES:=tools/pilbmp2nes.py
+ifneq ("$(wildcard $(COMMON_PILBMP2NES))","")
+  PILBMP2NES:=$(COMMON_PILBMP2NES)
+else
+  PILBMP2NES:=$(LOCAL_PILBMP2NES)
+endif
 
 # Use cc65 conventions for variable names where practicable
 CA65FLAGS := -g
-CC65FLAGS := -g -Or -W error
 CA65 := $(if $(wildcard $(CC65_HOME)/bin/ca65*),$(CC65_HOME)/bin/ca65,ca65)
-CC65 := $(if $(wildcard $(CC65_HOME)/bin/cc65*),$(CC65_HOME)/bin/cc65,cc65)
 LD65 := $(if $(wildcard $(CC65_HOME)/bin/ld65*),$(CC65_HOME)/bin/ld65,ld65)
 
 objdir := obj/nes
@@ -53,29 +47,6 @@ EMU := fceux
 DEBUGEMU := Mesen
 # other options for EMU are start "" (Windows) or xdg-open (UNIX)
 
-# Occasionally, you need to make "build tools", or programs that run
-# on a PC that convert, compress, or otherwise translate PC data
-# files into the format that the NES program expects.  Some people
-# write build tools in C, C++, or Rust; others prefer to write them
-# in Perl, PHP, or Python.  This program doesn't use any C build
-# tools, but if yours does, it might include definitions of variables
-# that Make uses to call a C compiler.
-CC := gcc
-CFLAGS := -std=gnu17 -Wall -DNDEBUG -Og
-
-# Windows needs .exe suffixed to the names of executables; UNIX does
-# not.  COMSPEC will be set to the name of the shell on Windows and
-# not defined on UNIX.  Also the Windows Python installer puts
-# py.exe in the path, but not python3.exe, which confuses MSYS Make.
-ifeq ($(OS), Windows_NT)
-  EXE_SUFFIX:=.exe
-  PY:=py
-else
-  EXE_SUFFIX:=
-  PY:=python3
-endif
-
-# Phony targets are those not associated with an output file.
 .PHONY: run debug all dist zip clean
 
 # Running `make` without arguments builds the target of the first
@@ -97,15 +68,12 @@ obj/nes/%.w2b: tools/w2bencode.py audio/%.wav
 # convert or generate other data
 
 $(objdir)/%.chr: $(imgdir)/%.png
-	$(PY) ../common/tools/pilbmp2nes.py $< $@
+	$(PY) $(PILBMP2NES) $< $@
 
 # Generic rules for assembling, or converting assembly language
 # source code to object code
 
 $(objdir)/%.o: $(srcdir)/%.s $(srcdir)/nes.inc $(srcdir)/global.inc
-	$(CA65) $(CA65FLAGS) $< -o $@
-
-$(objdir)/%.o: $(objdir)/%.s
 	$(CA65) $(CA65FLAGS) $< -o $@
 
 # List files that include other files.  This instructs Make to
@@ -116,10 +84,7 @@ $(objdir)/main.o: \
   $(objdir)/bggfx.chr \
   $(objdir)/intro.w2b $(objdir)/swapped.w2b $(objdir)/authentic.w2b
 
-# Rules for linking, or combining several object code files into an
-# executable program.  This uses a linker configuration file
-# (sometimes called a linker script), which specifies in what memory
-# each segment should go.
+# Rules for linking TUs together
 
 all: $(title).nes
 
@@ -129,22 +94,24 @@ map.txt $(title).nes: nrom128.cfg $(objlisto)
 	$(LD65) -o $(title).nes --dbgfile $(title).dbg -m map.txt -C $^
 
 # Rule to create or update the distribution zipfile by adding all
-# files listed in zip.in.  Though the zipfile depends on every file
-# listed in zip.in, Make can't see all dependencies.  Use changes to
-# the ROMs, makefile, and README as a heuristic for when something
-# was changed.  Tool changes usually imply makefile changes, and
-# docs changes usually imply README or CHANGES changes.
+# files listed in zip.in.  Use changes to the ROM, makefile, and
+# README as a heuristic for when something was changed.
 dist: zip
 zip: $(title)-$(version).zip
 $(title)-$(version).zip: \
-  zip.in all README.md CHANGES.txt $(objdir)/index.txt
+  zip.in all README.md $(objdir)/index.txt # CHANGES.txt
 	zip -9 -u $@ -@ < $<
 
 # Build zip.in from the list of files in the Git tree.
-zip.in:
+zip.in: makefile README.md $(title).nes $(LOCAL_PILBMP2NES)
 	git ls-files | grep -e "^[^.]" > $@
 	echo $(title).nes >> $@
 	echo zip.in >> $@
+	echo $(LOCAL_PILBMP2NES) >> $@
+
+# When building the zipfile, include common scripts from little things
+$(LOCAL_PILBMP2NES): $(COMMON_PILBMP2NES)
+	cp $< $@
 
 $(objdir)/index.txt: makefile
 	echo Files produced by build tools go here > $@
@@ -154,4 +121,3 @@ $(objdir)/index.txt: makefile
 clean:
 	$(RM) $(objdir)/*.o $(objdir)/*.s $(objdir)/*.chr
 	$(RM) $(objdir)/*.w2b
-

@@ -22,7 +22,7 @@ endif
 .PHONY: run default clean dist
 default: $(title).nes
 
-# And when building the zipfile, include the test
+# When building the zipfile, include common scripts from little things
 $(LOCAL_PILBMP2NES): $(COMMON_PILBMP2NES)
 	cp $< $@
 
@@ -54,7 +54,7 @@ zip.in: makefile README.md $(specialized).nes $(LOCAL_PILBMP2NES)
 	git ls-files > $@
 	echo zip.in >> $@
 	echo $(title).nes >> $@
-	echo $(title)_1M_CR32.nes >> $@
+	echo $(specialized).nes >> $@
 	echo $(LOCAL_PILBMP2NES) >> $@
 
 $(title)-$(version).zip: zip.in makefile
