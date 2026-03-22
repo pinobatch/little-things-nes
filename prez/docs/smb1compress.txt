@@ -1,0 +1,35 @@
+SMB1 levels consist of at least four layers. They are decoded to metatiles in MetatileBuffer, and then the metatiles are decoded to nametable tiles through MetatileGraphics.
+
+== BackScenery ==
+There are three 48-tile-wide repeating background patterns, and each locale selects one of them into BackgroundScenery. Each pattern is stored as 48 bytes: top nibble setting the Y coordinate and bottom nibble storing the offset into a table of up to 16 patterns of 1x3 metatiles. (SMB1 uses only the first 12.)
+
+The three patterns:
+#clouds
+#clouds, hills, and bushes (that is, green clouds)
+#trees and fences
+
+== ForeScenery ==
+There are three 13-tile-tall vertical columns; the variable ForegroundScenery controrls which one applies to each column.
+#water at row 0 and below (used in water levels)
+#wall in background (used in 8-3 and world 8 levels marked "water")
+#water at row 11 and below (used in castle levels)
+
+== TerrainRenderBits ==
+All of these are in the palette 1 metatile table.
+# underwater block ($69)
+# cracked block ($54)
+# breakable brick ($52)
+# castle interior brick ($62)
+Water levels in world 8 (fourth map of 8-4) override this with castle interior brick.
+Cloud levels override this with clouds.
+Underground levels override the last two rows with cracked blocks.
+
+There are 16 bitfields, each with one bit for each row, specifying which rows get replaced with the metatile value.  TerrainControl controls which bitfield gets used for this column.
+Cloud levels apparently force row 4 off.
+
+== Area data ==
+See [[SMB1 area data]].
+
+== Metatiles ==
+The upper 2 bits of the metatile number control which metatile table is used, and they also control which palette is used.  For each upper 2 bits, there is also a maximum that gets stored in the working block buffer; anything else doesn't get used by the engine after it is drawn to the nametables.
+

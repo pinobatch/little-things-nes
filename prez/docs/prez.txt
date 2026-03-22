@@ -1,0 +1,79 @@
+President is a free platformer engine for Nintendo Entertainment System in the style of the Super Mario Bros. series.
+
+
+President stands for "Another Side Scroller Hosted On a Limited Environment". (See [http://en.wikipedia.org/wiki/President_(game) President card game on Wikipedia].) Yes, you could make Super Obama Bros. with President, but that's by far not the only envisioned use. It's intended to provide a platform for ROM hacks that's more capable and more Free than the original Super Mario Bros.
+
+President is more expandable than SMB1 but has a higher system requirement: UNROM or SGROM, based on a compile-time option. I ruled out MMC3 because it doesn't fit on RetroZone's CPLD, and I ruled out CHR ROM mappers because they can't do some effects that I want to get working such as high-motion character animations. I ruled out SNROM because the 6264 SRAM costs money.
+
+== Animation ==
+Sprite cels are streamed to the PPU. Tiles are 8x16 pixels, and up to 5 of them can be sent to the PPU per 60 Hz frame as long as a scroll update isn't in progress.  These are double buffered in VRAM $1000-$1FFF, which has space for at least each sprite's current and next frame.
+
+<pre>
+.proc copyChr
+  ldx chrxfercount
+  bne @notDone
+  rts
+@notDone:
+  dex
+  stx copyChrCount
+  lda copyChrDstHi,x
+  sta PPUADDR
+  lda copyChrDstLo,x
+  sta PPUADDR
+  lda copyChrSrc,x
+  tax
+  .repeat 32,i
+  lda copyChrBuf+i,x
+  sta PPUDATA
+  .endrepeat
+  jmp copyChr
+.endproc
+</pre>
+
+== Memory map ==
+
+The stack and the copy buffers share page $0100.
+
+0000-00FF: zero page
+0100-01BF: copy buffers
+01C0-01FF: stack
+0200-02FF: display list to be copied to OAM
+0300-03FF: unknown
+0400-05FF: object state variables
+0600-07FF: decompressed map screens
+
+actor_xlo       = $400
+actor_xhi       = $420
+actor_ylo       = $440
+actor_yhi       = $460
+actor_dxlo      = $480
+actor_dxhi      = $4A0
+actor_dylo      = $4C0
+actor_dyhi      = $4E0
+actor_type      = $500
+actor_state0    = $520
+actor_state1    = $540
+actor_state2    = $560
+actor_anitype   = $580
+actor_aniframe  = $5A0
+actor_anisubf   = $5C0
+actor_anispeed  = $5E0
+
+== Map compression ==
+Super Mario Bros. has about 32 maps, each 10 to 16 screens long, where one screen is 16 m wide and 12 m high. So we need to store up to 512 screens worth of data. But uncompressed, each screen takes 192 bytes, or a total of 70 KiB. The COUT compression developed for FDED appears to packs each level into roughly 1/2 KB. But a small ROM can't spare even this much data; SMB1 uses "object-oriented" compression to pack the levels into about 100 bytes each.
+
+=== Column decoding ===
+This is the only part I haven't mapped out completely.  If I had cart WRAM, I could use 3 KiB of it to decompress the current map and scroll back and forth over it like in SMB2 or SMB3.  But because UNROM and SGROM lack extra RAM, I have to use streaming compression.  Games without SRAM typically either don't have backtracking or use large metatiles (e.g. 32 or 64 pixels on a side).
+
+
+The map is divided into "half screens", each 8 m wide and 12 m high.
+Each screen consists of 8 KB of data: an 8x12 bitmap of which spaces are the starts of runs, a pointer to the level data, and a pointer to the sprite data.
+
+=== RLE compression ===
+The innermost compression is run-length encoding, which allows horizontal runs of identical tiles.
+
+=== Vertical Markov chaining ===
+Each locale has a table from a tile to the most common tile below it. For example, the most common tile below sky or a ? block is sky, and the most common block below the top of a pipe is the body of a pipe.  After the previous stage, any tile with value 0 gets replaced with the most common tile below the tile above it.
+
+=== Metatile unpacking ===
+From left to right, each tile gets 

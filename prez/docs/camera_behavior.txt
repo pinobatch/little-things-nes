@@ -1,0 +1,54 @@
+camera behavior:
+
+1. An actor can move the sliding window (SW) only by stepping into
+   the left or right fourth of the SW.
+2. An actor can move the camera within the SW by facing a direction.
+   Try to keep three-fourths of the screen ahead of the actor.
+3. Not all maps allow the SW to move to the left.
+4. We want scrolling to be smooth, not jumpy.
+   Sliding windows move in 16 pixel jumps.  If the logic quickly
+   alternates between sliding window logic and face ahead logic,
+   the desired position jerks back and forth, and even a low-pass
+   post-process doesn't keep the scroll smooth.
+
+Phase 1 (find target position) has four inputs:
+* actor X position (16-bit)
+* actor facing direction
+* SW position (16-bit)
+* SW facing state
+and two outputs:
+* Camera target X position
+* New SW facing state
+
+Phase 2 (smooth target position) has two inputs:
+* Camera X position
+* Camera target X position
+
+and one output:
+* New camera X position
+
+"Goto" is a tail call.
+
+Steps:
+1. Let ARX (actor relative X position) be the position of the actor relative to the SW.
+2. If the SW facing state is the same as the actor facing direction, goto Move SW.
+3. If ARX is out of the range 120-360 pixels, goto Move SW.
+4. Do Move Within.
+
+Move SW:
+1. If the sliding window and the actor are at the edge of the map, goto Move Within.
+2. Let CRX (camera relative X position) = 120 pixels to the left of ARX.
+3. Set the SW facing state to the actor's facing direction.
+4. Goto Move Camera.
+
+Move Within:
+1. Set CRX such that its center is 1/4 of a screen ahead of the ARP in the actor's facing direction.
+2. Clip CRX to (0, 240).
+3. Set the SW facing state to a value that does not match any facing direction.
+4. Goto Move Camera.
+
+Move Camera:
+1. Let CTX = camera target X.
+2. Compute delta = (CTX - camera X) / 4, rounding away from zero.
+3. Set camera X = CTX + delta.
+

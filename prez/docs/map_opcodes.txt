@@ -1,0 +1,13 @@
+map opcodes
+
+00-03: 1, 2, 4, 8 floor
+04-07: 1, 2, 4, 8 blocks
+08: up slope (right 2, up 1)
+09: up slope (right 4, up 2)
+0A: up slope (right 8, up 4)
+0B: up slope (right 16, up 8)
+0C: down slope (right 2, down 1)
+0d: down slope (right 4, down 2)
+0e: down slope (right 8, down 4)
+0f: down slope (right 16, down 8)
+
