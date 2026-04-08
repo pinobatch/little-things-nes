@@ -406,7 +406,7 @@ control_type_handlers:
   .addr control_type_fcvaus-1, control_type_nesvaus-1
 .popseg
 .endproc
-  
+
 ; constants used by move_player
 ; PAL frames are about 20% longer than NTSC frames.  So if you make
 ; dual NTSC and PAL versions, or you auto-adapt to the TV system,
@@ -569,7 +569,6 @@ doneWallCollision:
   sta player_frame
   rts
 .endproc
-
 
 ;;
 ; Draws the player's character to the display list as six sprites.

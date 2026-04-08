@@ -55,7 +55,7 @@ endif
 run: $(title).nes
 	$(EMU) $<
 
-all: $(title).nes $(title)-8Mbit.nes
+all: $(title).nes $(title)-8Mbit.nes $(title)-16Mbit.nes
 
 # Rule to create or update the distribution zipfile by adding all
 # files listed in zip.in.  Actually the zipfile depends on every
@@ -66,16 +66,18 @@ all: $(title).nes $(title)-8Mbit.nes
 # makefile changes.
 dist: zip
 zip: $(title)-$(version).zip
-$(title)-$(version).zip: zip.in $(title).nes $(title)-8Mbit.nes README.md CHANGES.txt $(objdir)/index.txt
+$(title)-$(version).zip: zip.in $(title).nes $(title)-8Mbit.nes $(title)-16Mbit.nes README.md CHANGES.txt $(objdir)/.gitkeep
 	zip -9 -u $@ -@ < $<
 
 %.nes: tools/bankdupe.py %.prg
 	$^ $@ 32
 %-8Mbit.nes: tools/bankdupe.py %.prg
 	$^ $@ 64
+%-16Mbit.nes: tools/bankdupe.py %.prg
+	$^ $@ 128
 
-$(objdir)/index.txt: makefile
-	echo Files produced by build tools go here > $@
+$(objdir)/.gitkeep: makefile
+	echo https://www.freecodecamp.org/news/what-is-gitkeep/ > $@
 
 clean: 
 	-rm obj/nes/*.chr obj/nes/*.bin obj/nes/*.o
