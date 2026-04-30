@@ -12,6 +12,7 @@
 */obj/nes/*.dmc
 */obj/nes/*.121
 */obj/nes/*.2bt
+*/obj/nes/.gitkeep
 *.nes.deb
 *.nes.ram.nl
 *.cdl
@@ -50,6 +51,7 @@ common/tools/pngtochr
 common/tools/pngtochr.exe
 mmc1a/tools/pilbmp2nes.py
 mmc3o/tools/pilbmp2nes.py
+oekakids/tools/pilbmp2nes.py
 fded/fded
 fded/fded.exe
 gmewav/gmewav
