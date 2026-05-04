@@ -23,15 +23,23 @@ oam_used:      .res 1  ; starts at 0
 cur_keys:      .res 2
 new_keys:      .res 2
 
-SIZEOF_TABLET_BITS = 3
-tablet_bits: .res SIZEOF_TABLET_BITS
+tablet_x: .res 1
+tablet_y: .res 1
+tablet_buttons: .res 1
 
-advance_mode:        .res 1
 draw_andmask:        .res 1
 draw_ormask_plane_0: .res 1
 draw_ormask_plane_1: .res 1
 draw_addr_lo:        .res 1
 draw_addr_hi:        .res 1
+
+.bss
+
+SIZEOF_TABLET_BITS = 18
+tablet_bits_read: .res 1
+tablet_bits: .res SIZEOF_TABLET_BITS
+ack_1_time:  .res SIZEOF_TABLET_BITS
+ack_3_time:  .res SIZEOF_TABLET_BITS
 
 .segment "CODE"
 ;;
@@ -85,8 +93,6 @@ draw_addr_hi:        .res 1
     beq press_start_loop
 
   jsr init_canvas
-  lda #3
-  sta advance_mode
 
 forever:
 
@@ -94,45 +100,10 @@ forever:
   ; read the controllers.  (To see why these are done together,
   ; read pads.s.)
   jsr run_dma_and_read_pads
+  jsr read_oeka_kids_tablet
 
-  lda new_keys+0
-  bpl no_toggle_advance_mode
-    ; advance mode 1: advance bit on then off then read
-    ; advance mode 3: advance bit on then read then off
-    lda #2
-    eor advance_mode
-    sta advance_mode
-  no_toggle_advance_mode:
-
-  ; Read the tablet
-  ; Bit 0 chooses between readable (1) and latch (0).
-  ; I don't know how long bit 0 has to be in a particular state
-  ; before the values become valid.  There could be some required
-  ; minimum delay like with the Arkanoid controller.
-  lda #$01  ; bit 0: select tablet for reading
-  sta $4016
-  .repeat ::SIZEOF_TABLET_BITS, I
-    sta tablet_bits+I
-  .endrepeat
-  ldx #0
-  read_bitloop:
-    lda #$03  ; posedge bit 1 : advance to next bit
-    sta $4016
-    lda advance_mode
-    sta $4016
-    lda #$08
-    and $4017
-    eor #$08
-    cmp #$01
-    lda #$01
-    sta $4016
-    rol tablet_bits,x
-    bcc read_bitloop
-    inx
-    cpx #SIZEOF_TABLET_BITS
-    bcc read_bitloop
-
-  ; find what address to modify
+  ; If the pen is down, find the address of the pixel at the
+  ; pen's X, Y coordinates on the drawing surface.
   ; 0000 YYYY XXXX 0yyy
   ; bit to modify is $80 >> ((X >> 1) & $07)
   lda #$FF
@@ -142,16 +113,16 @@ forever:
   sta OAM+1
   sta draw_ormask_plane_1
   sta OAM+2
-  lda tablet_bits+2
+  lda tablet_buttons
   bpl no_draw_address  ; status bit 7: pen contact
 
     ; Draw a sprite while in contact
-    lda tablet_bits+0
+    lda tablet_x
     lsr a
     clc
     adc #60
     sta OAM+3
-    lda tablet_bits+1
+    lda tablet_y
     lsr a
     clc
     adc #59
@@ -159,7 +130,7 @@ forever:
 
     ; If below $20 (boundary between toolbar and client area),
     ; draw into the pattern table
-    lda tablet_bits+1
+    lda tablet_y
     cmp #$20
     bcc no_draw_address
 
@@ -168,20 +139,20 @@ forever:
     lsr a
     lsr a
     sta draw_addr_hi
-    lda tablet_bits+1
+    lda tablet_y
     and #$0E
     lsr a
-    eor tablet_bits+0
+    eor tablet_x
     and #$0F
-    eor tablet_bits+0
+    eor tablet_x
     sta draw_addr_lo
-    lda tablet_bits+0
+    lda tablet_x
     and #$0E
     lsr a
     tay
     lda one_shl_7_minus_x,y
     sta draw_ormask_plane_0
-    bit tablet_bits+2  ; is the space bar held?
+    bit tablet_buttons  ; is the space bar held?
     bvc :+
       sta draw_ormask_plane_1
       inc OAM+2
@@ -198,22 +169,18 @@ vw3:
 
   lda #$20
   sta PPUADDR
-  lda #$E8
+  lda #$EC
   sta PPUADDR
-  lda advance_mode
-  ora #$10
-  sta PPUDATA
   ldx #0
-  stx PPUDATA
   disp_xyloop:
-    lda tablet_bits,x
+    lda tablet_x,x
     lsr a
     lsr a
     lsr a
     lsr a
     ora #$10
     sta PPUDATA
-    lda tablet_bits,x
+    lda tablet_x,x
     and #$0F
     ora #$10
     sta PPUDATA
@@ -223,17 +190,19 @@ vw3:
     cpx #2
     bne disp_xyloop
   
-  lda tablet_bits+2
-  sec
-  rol a
-  disp_bitloop:
-    ldy #$10
-    bcc :+
-      iny
-    :
-    sty PPUDATA
-    asl a
-    bne disp_bitloop
+  lda tablet_buttons
+  asl a
+  ldy #$10
+  bcc :+
+    iny
+  :
+  sty PPUDATA
+  asl a
+  ldy #$10
+  bcc :+
+    iny
+  :
+  sty PPUDATA
 
   ; Drawing:
   ldy draw_addr_hi
@@ -262,6 +231,32 @@ vw3:
     sta PPUDATA
   no_draw:
 
+  ; Draw the timeouts
+  lda #$23
+  sta PPUADDR
+  lda #$27
+  sta PPUADDR
+  ldx #0
+  :
+    lda ack_1_time,x
+    ora #$10
+    sta PPUDATA
+    inx
+    cpx #SIZEOF_TABLET_BITS
+    bcc :-
+  lda #$23
+  sta PPUADDR
+  lda #$47
+  sta PPUADDR
+  ldx #0
+  :
+    lda ack_3_time,x
+    ora #$10
+    sta PPUDATA
+    inx
+    cpx #SIZEOF_TABLET_BITS
+    bcc :-
+
   ; Turn the screen on
   ldx #0
   ldy #0
@@ -285,6 +280,93 @@ copypalloop:
   inx
   cpx #32
   bcc copypalloop
+  rts
+.endproc
+
+.proc read_oeka_kids_tablet
+  ldx #0
+  ; The tablet calculates a new report when $4016 changes from
+  ; $01 to $00.
+  ; To read each bit of the report:
+  ; 1. Write $01 to $4016.
+  ; 2. Wait for the tablet to acknowledge: $4017 & #$04 becomes 0.
+  ; 3. Write $03 to $4016.
+  ; 4. Wait for the tablet to acknowledge: $4017 & #$04 becomes 0.
+  ; 5. Read a report bit from $4017 & #$08.
+  ; $08 means 0, $00 means 1, MSB first.
+  ; Before May 2026, NESdev Wiki did not mention a requirement to
+  ; wait for the tablet to acknowledge each $4016 edge.
+  ; Thanks to Zorchenhimer for helping figure this out
+  ; <https://github.com/zorchenhimer/keytest/blob/master/tablet.asm>
+  bitloop:
+    ldy #0
+    lda #$01
+    sta $4016
+    lda #$04
+    wait_for_ack_1:  ; Tablet acknowledges 1 with xxxx x0xx in $4017
+      bit $4017
+      bne acked_1
+      iny
+      bne wait_for_ack_1
+      .assert >*=>wait_for_ack_1, error, "page crossing makes timing wrong"
+    timeout:
+      stx tablet_bits_read
+      sec
+      rts
+    acked_1:
+    tya
+    sta ack_1_time,x
+    
+    ldy #0
+    lda #$03
+    sta $4016
+    lda #$04
+    wait_for_ack_3:  ; Tablet acknowledges 3 with xxxx x1xx in $4017
+      bit $4017
+      beq acked_3
+      iny
+      bne wait_for_ack_3
+      .assert >*=>wait_for_ack_3, error, "page crossing makes timing wrong"
+      jmp timeout
+    acked_3:
+    tya
+    sta ack_3_time,x
+
+    lda $4017  ; Data is in bit 3 in $4017, inverted, MSB first
+    eor #$FF
+    and #$08
+    sta tablet_bits,x
+    inx
+    cpx #SIZEOF_TABLET_BITS
+    bcc bitloop
+  
+  ; Successful read!
+  stx tablet_bits_read
+
+  ; Leave $4016 at $01 so that the next call to read_pads requests
+  ; a position read ($01 to $00).
+  ldx #1
+  stx $4016
+
+  ; Pack tablet bits to bytes
+  ldx #7
+  convertloop:
+    lda tablet_bits+0,x
+    cmp #1
+    ror tablet_x
+    lda tablet_bits+8,x
+    cmp #1
+    ror tablet_y
+    dex
+    bpl convertloop
+  lda tablet_bits+16
+  asl a
+  ora tablet_bits+17
+  .repeat 3
+    asl a
+  .endrepeat
+  ; clc
+  sta tablet_buttons
   rts
 .endproc
 

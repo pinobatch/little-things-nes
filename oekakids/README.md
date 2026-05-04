@@ -16,15 +16,12 @@ I've identified these research objectives:
 1. Get a feel for pen-down and the space-bar-shaped button at the
    bottom of the tablet, to inform how emulators on PC should
    translate mouse input to touch
-2. Measure roughly how much of the pad the pen can reach with a
+2. Measure roughly how much of the surface the pen can reach with a
    coordinate display, moving sprite, and drawing canvas
-3. Measure whether a particular order between turning off
-   "Advance to each bit" and reading the bit is required
+3. Measure how long it takes for the tablet to acknowledge
+   each clock edge on $4016
 4. Measure whether the tablet samples the pen position on the
    falling or rising edge of strobe
-5. Measure any required delays in the protocol
-6. Develop a procedure for automatically detecting the tablet's
-   presence
 
 This version of the test is suitable for objectives 1 through 3.
 
@@ -49,9 +46,6 @@ within the drawing surface draws gray pixels into the canvas.  Moving
 the pen while holding the space bar draws white pixels.  Tapping
 toolbar buttons moves the reticle but does not draw into the canvas.
 
-The A Button on controller 1 toggles between advance mode 1 and
-advance mode 3.  This controls one detail of the protocol.
-
 Protocol
 --------
 
@@ -67,14 +61,12 @@ $4016 bit 1 (advance) becomes 1.
 
     7654 3210  Tablet data ($4017 read)
          || +- Controller 2 data (A Button if strobe is 1)
-         |+--- 1 if strobe is 0, 0 otherwise
+         |+--- 1 if strobe is 0 or advance is 1, 0 otherwise
          +---- 0 if strobe is 0, inverted report bit otherwise
 
-There's disagreement between NESdev Wiki and popular emulators
-as to the relative timing of $4016 writes and $4017 reads.  FCEUX and
-Mesen expect the advance to fall ($03 to $01) after the $4017 read.
-NESdev Wiki as of 2025-12-24 doesn't mention that as a requirement,
-only that advance rises before each read.
+The microcontroller in the tablet is slow.  The program must wait for
+the tablet to acknowledge each clock edge on $4016 by reading $4017:
+write $01, wait for $00, write $03, wait for $04, read report bit.
 
 The report read from $4017 bit 3 is 18 bits long.  All fields of the
 report are MSB first, and all bits are inverted such that $08 means 0
@@ -84,11 +76,10 @@ and $00 means 1.
 2. 8 bits Y position (incabove $20)
 3. 1 bit for stylus touching tablet (XY unspecified if not)
 4. 1 bit for whether the space bar is held
-5. 6 unused bits that read as $3F in FCEUX and Mesen
 
-It is unknown whether the strobe has particular timing constraints,
-such as strobe having to be 0 for some time before becoming 1, or
-some minimum time between bits in the report.
+It is unknown how long the strobe has to be 0 between strobes.
+We assume it's no longer than how long it takes to read a pair of
+standard controllers.
 
 Legal
 -----

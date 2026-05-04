@@ -1,2 +1,7 @@
+0.02 (2026-05-03)
+* wait for tablet to acknowledge each edge on $4016 (reported by
+  Zorchenhimer)
+* display time to acknowledge each edge in 11-cycle units
+
 0.01 (2026-04-30)
 * initial release
