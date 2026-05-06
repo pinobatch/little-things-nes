@@ -17,8 +17,8 @@
   jsr copy_gfx_pages
 
   ; clear the first nametable
-  lda #0
-  tay
+  lda #$17
+  ldy #$00
   ldx #$20
   jsr ppu_clear_nt
 
@@ -65,17 +65,42 @@
     bne :-
 
   ; clear nametable
-  lda #0
-  tay
+  lda #$17
+  ldy #$00
   ldx #$20
   jsr ppu_clear_nt
 
+  ; draw ruler
+  lda #VBLANK_NMI|VRAM_DOWN
+  sta PPUCTRL
+  lda #$20
+  sta PPUADDR
+  lda #$23
+  sta PPUADDR
+  ldx #0  ; Digits half
+  :
+    inx
+    stx PPUDATA
+    cpx #$0F
+    bcc :-
+  lda #$20
+  sta PPUADDR
+  lda #$22
+  sta PPUADDR
+  lda #$1E  ; markings half
+  :
+    sta PPUDATA
+    dex
+    bne :-
+  lda #VBLANK_NMI
+  sta PPUCTRL
+
   ; draw border
-  ldy #$08
+  ldy #$18
   lda #$21
   ldx #$27
   jsr draw_top_or_bottom_row
-  ldy #$0D
+  ldy #$1D
   lda #$23
   ldx #$07
   jsr draw_top_or_bottom_row
@@ -100,7 +125,7 @@ dsthi = $01
     bcc :+
       inc dsthi
     :
-    lda #$0B
+    lda #$1b
     sta PPUDATA
     ldx #16
     :
@@ -108,13 +133,11 @@ dsthi = $01
       iny
       dex
       bne :-
-    lda #$0C
+    lda #$1c
     sta PPUDATA
     tya
     bne border_rowloop
-  
   rts
-
 
 draw_top_or_bottom_row:
   sta PPUADDR
@@ -162,10 +185,10 @@ gfx:
   .incbin "obj/nes/gfx.chr"
 
 .repeat 10, I
-  .charmap $30+I,$10+I  ; 0-9
+  .charmap $30+I,I  ; 0-9
 .endrepeat
 .repeat 6, I
-  .charmap $61+I,$1A+I  ; a-f
+  .charmap $61+I,$0A+I  ; a-f
 .endrepeat
 .charmap $43,$27  ; copyright
 .charmap $6b,$28  ; k
@@ -176,8 +199,8 @@ gfx:
 .charmap $79,$2d  ; y
 .charmap $2e,$2e  ; .
 .charmap $70,$2f  ; p
-.charmap $20,$00  ; space
-.charmap $4F,$10  ; O
+.charmap $20,$17  ; space
+.charmap $4F,$00  ; O
 
 title_text:
   .dbyt $2089

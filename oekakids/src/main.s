@@ -72,7 +72,11 @@ ack_3_time:  .res SIZEOF_TABLET_BITS
   jsr load_main_palette
   jsr draw_title
   ldx #0
-  jsr ppu_clear_oam
+  lda #$EF  ; $EF ensures 9 sprites bit turns on
+  :
+    sta OAM,x
+    inx
+    bne :-
   dex
   stx cur_keys+0  ; ensure variables are initialized before first loop
   stx cur_keys+1
@@ -93,6 +97,15 @@ ack_3_time:  .res SIZEOF_TABLET_BITS
     beq press_start_loop
 
   jsr init_canvas
+  lda nmis
+  :
+    cmp nmis
+    beq :-
+  ldx #0
+  ldy #0
+  lda #VBLANK_NMI
+  clc
+  jsr ppu_screen_on
 
 forever:
 
@@ -100,7 +113,16 @@ forever:
   ; read the controllers.  (To see why these are done together,
   ; read pads.s.)
   jsr run_dma_and_read_pads
+
+  lda #$20  ; wait for 9 sprites bit to turn off (end of frame)
+  :
+    bit PPUSTATUS
+    bne :-
+  lda #BG_ON|OBJ_ON|LIGHTGRAY
+  sta PPUMASK
   jsr read_oeka_kids_tablet
+  lda #BG_ON|OBJ_ON
+  sta PPUMASK
 
   ; If the pen is down, find the address of the pixel at the
   ; pen's X, Y coordinates on the drawing surface.
@@ -178,33 +200,29 @@ vw3:
     lsr a
     lsr a
     lsr a
-    ora #$10
     sta PPUDATA
     lda tablet_x,x
     and #$0F
-    ora #$10
     sta PPUDATA
-    lda #0
-    sta PPUDATA
+    lda PPUDATA
     inx
     cpx #2
     bne disp_xyloop
   
+  ldy #$00
   lda tablet_buttons
-  asl a
-  ldy #$10
-  bcc :+
+  bpl :+
     iny
   :
   sty PPUDATA
+  ldy #$00
   asl a
-  ldy #$10
-  bcc :+
+  bpl :+
     iny
   :
   sty PPUDATA
 
-  ; Drawing:
+  ; Draw a pixel to the canvas
   ldy draw_addr_hi
   bmi no_draw
     sty PPUADDR
@@ -239,7 +257,6 @@ vw3:
   ldx #0
   :
     lda ack_1_time,x
-    ora #$10
     sta PPUDATA
     inx
     cpx #SIZEOF_TABLET_BITS
@@ -251,7 +268,6 @@ vw3:
   ldx #0
   :
     lda ack_3_time,x
-    ora #$10
     sta PPUDATA
     inx
     cpx #SIZEOF_TABLET_BITS
@@ -284,7 +300,10 @@ copypalloop:
 .endproc
 
 .proc read_oeka_kids_tablet
-  ldx #0
+  ldx #$01
+  stx $4016
+  dex  ; X = offset into raw tablet_bits
+
   ; The tablet calculates a new report when $4016 changes from
   ; $01 to $00.
   ; To read each bit of the report:
@@ -300,8 +319,6 @@ copypalloop:
   ; <https://github.com/zorchenhimer/keytest/blob/master/tablet.asm>
   bitloop:
     ldy #0
-    lda #$01
-    sta $4016
     lda #$04
     wait_for_ack_1:  ; Tablet acknowledges 1 with xxxx x0xx in $4017
       bit $4017
@@ -314,12 +331,12 @@ copypalloop:
       sec
       rts
     acked_1:
+
+    lda #$03  ; begin second half of bit clock
+    sta $4016
     tya
     sta ack_1_time,x
-    
     ldy #0
-    lda #$03
-    sta $4016
     lda #$04
     wait_for_ack_3:  ; Tablet acknowledges 3 with xxxx x1xx in $4017
       bit $4017
@@ -329,10 +346,12 @@ copypalloop:
       .assert >*=>wait_for_ack_3, error, "page crossing makes timing wrong"
       jmp timeout
     acked_3:
+
     tya
     sta ack_3_time,x
-
     lda $4017  ; Data is in bit 3 in $4017, inverted, MSB first
+    ldy #$01   ; begin first half of next bit clock
+    sty $4016
     eor #$FF
     and #$08
     sta tablet_bits,x
@@ -345,9 +364,6 @@ copypalloop:
 
   ; Leave $4016 at $01 so that the next call to read_pads requests
   ; a position read ($01 to $00).
-  ldx #1
-  stx $4016
-
   ; Pack tablet bits to bytes
   ldx #7
   convertloop:

@@ -35,11 +35,15 @@ big rectangular drawing surface.
 At the title screen, press the Start Button on controller 1 to
 show a canvas.
 
-Above the canvas are four groups of numbers: the chosen advance mode,
+Above the canvas are three groups of numbers: the chosen advance mode,
 the horizontal (X) and vertical (Y) coordinates of the pen position,
-and the status bits sent after the coordinates.  The first status bit
+and the two bits sent after the coordinates.  The first status bit
 becomes 1 while the pen is on the tablet, and the second reflects the
 space bar.
+
+At the top of the screen is a gray bar.  Its height is proportional
+to how long the program took to read the position from the tablet.
+A ruler at top left helps measure how tall the gray bar is.
 
 A reticle appears while the pen is on the tablet.  Moving the pen
 within the drawing surface draws gray pixels into the canvas.  Moving
@@ -67,17 +71,18 @@ $4016 bit 1 (advance) becomes 1.
 The microcontroller in the tablet is slow.  The program must wait for
 the tablet to acknowledge each clock edge on $4016 by reading $4017:
 write $01, wait for $00, write $03, wait for $04, read report bit.
+The wait after each write can take anywhere from 40 to 180 cycles.
 
 The report read from $4017 bit 3 is 18 bits long.  All fields of the
 report are MSB first, and all bits are inverted such that $08 means 0
 and $00 means 1.
 
 1. 8 bits X position (increasing to right)
-2. 8 bits Y position (incabove $20)
+2. 8 bits Y position (increasing downward; toolbar lies above $20)
 3. 1 bit for stylus touching tablet (XY unspecified if not)
 4. 1 bit for whether the space bar is held
 
-It is unknown how long the strobe has to be 0 between strobes.
+It is unknown how long the strobe has to be 0 before it turns 1.
 We assume it's no longer than how long it takes to read a pair of
 standard controllers.
 
