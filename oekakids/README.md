@@ -41,6 +41,11 @@ and the two bits sent after the coordinates.  The first status bit
 becomes 1 while the pen is on the tablet, and the second reflects the
 space bar.
 
+Below the canvas are two rows of digits indicating how long the
+driver spent waiting for the tablet to acknowledge each half-bit,
+in 11-cycle units.  These are hexadecimal $0 to $16, then space
+meaning $17, then various canvas border tiles meaning $18 to $1F.
+
 At the top of the screen is a gray bar.  Its height is proportional
 to how long the program took to read the position from the tablet.
 A ruler at top left helps measure how tall the gray bar is.
@@ -71,7 +76,6 @@ $4016 bit 1 (advance) becomes 1.
 The microcontroller in the tablet is slow.  The program must wait for
 the tablet to acknowledge each clock edge on $4016 by reading $4017:
 write $01, wait for $00, write $03, wait for $04, read report bit.
-The wait after each write can take anywhere from 40 to 180 cycles.
 
 The report read from $4017 bit 3 is 18 bits long.  All fields of the
 report are MSB first, and all bits are inverted such that $08 means 0
@@ -81,6 +85,24 @@ and $00 means 1.
 2. 8 bits Y position (increasing downward; toolbar lies above $20)
 3. 1 bit for stylus touching tablet (XY unspecified if not)
 4. 1 bit for whether the space bar is held
+
+Timing results
+--------------
+
+This controller is slow to read.  It takes about 67 scanlines' worth
+of CPU time, starting at prerender line and ending at the bottom of
+the "8" mark on the ruler, averaging about 423 cycles per bit.
+However, the individual bit times are anything but even.
+
+The first digit in the top row, time to acknowledge a transition from
+1 to 3, is usually $B through $10, occasionally $13.  Other digits in
+the top row are mostly $7 and $8 with about two randomly placed $D
+and $E.  The bottom row, time to acknowledge a transition from 3 to
+1, is mostly $14 and $15 with about five $1A (lower left dot) and $1B
+(right line).
+
+A developer might consider interleaving reading the tablet with
+other game logic or clocking each half-bit in a DMC IRQ handler.
 
 It is unknown how long the strobe has to be 0 before it turns 1.
 We assume it's no longer than how long it takes to read a pair of
