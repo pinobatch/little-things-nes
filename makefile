@@ -12,6 +12,7 @@ binaries := \
   bunny250/zapperlag.nes \
   bunny250/a-white.nes \
   chrpress/chrpress.nes \
+  cjpc-102/cjpc-102.nes \
   convergence/convergence.nes \
   croom-try2/emblem.nes \
   dacnonlinear/dacnonlinear.nes \
@@ -35,6 +36,7 @@ binaries := \
   mmc3save/mmc3save.nes \
   mmc3spaminc/mmc3spaminc.nes \
   oam-reset/oam_reset.nes \
+  oekakids/oekakids.nes \
   palphase/palphase.nes \
   parallax/parallax.nes \
   password-save/pwtest.nes \

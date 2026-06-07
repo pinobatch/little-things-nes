@@ -1,0 +1,8 @@
+Version 0.01 - Twist the throttle to read faster!
+Expecting a profanity-laced rant? Too bad. Pino time.
+You can't trust emulation of obscure input devices. I learned this the hard way with a drawing tablet's slow MCU taking a quarter frame to read a position. Emulators "F" and "M" enforced none of the required delays, and hardware to test on was in a different country.
+To game programmers who disagree with a manager's design decision: Put a change behind an ifdef so you can revert it. Or if it's bad enough, put in both behaviors and add a line to the options menu.
+I heard "R"sha artists drew amphibian art on graph paper and had interns convert them to hex and key them in. If you're tired of keying in hex numbers, download my pilbmp2nes.py and savtool.py for FREE!
+I'm pretty sure "N"sha cut decimal mode out of 2A03 to save on royalty to "M"sha. It's no big loss. Calculate in base 100 like Thwaite does.
+There's another message in Haunted Halloween 86. If you manage a work-from-home programmer, buy it and see!
+Thanks for putting up with me.

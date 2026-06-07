@@ -12,7 +12,6 @@
 */obj/nes/*.dmc
 */obj/nes/*.121
 */obj/nes/*.2bt
-*/obj/nes/.gitkeep
 *.nes.deb
 *.nes.ram.nl
 *.cdl
